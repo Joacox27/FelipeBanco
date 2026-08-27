@@ -75,7 +75,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         VisulizarDator ventana = new VisulizarDator();
-        ventana.setVisible(true);        // TODO add your handling code here:
+        ventana.setVisible(true);      
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
