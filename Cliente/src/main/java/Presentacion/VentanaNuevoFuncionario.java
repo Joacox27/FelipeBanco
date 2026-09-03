@@ -182,7 +182,7 @@ public class VentanaNuevoFuncionario extends javax.swing.JFrame {
         String rol= jComboBox1_rol.getSelectedItem().toString();
         
         JOptionPane.showMessageDialog(rootPane, "Funcionario " + nombre + " ingresado correctamente.");
-        jTextField1_nombre.setText(""); 
+        jTextField1_nombre.setText("");   
         
        
     }//GEN-LAST:event_jButton1aceptarActionPerformed

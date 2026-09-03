@@ -23,6 +23,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null); // Centra la ventana en pantalla
         this.setTitle("FelipeBanco - CLIENTE"); // Pone título
+        
+        setLocation(100, 50); // Consulta N02 con IA
+        setSize(800, 600);
     }
 
     /**

@@ -22,7 +22,7 @@ public class Clientes {
 
         lista.add(new Cliente(
                 "58089064",
-                5678,
+                2345,
                 "Joaquín Salazar",
                 LocalDate.of(1998, 10, 22),
                 "Avenida Brasil 2456",
