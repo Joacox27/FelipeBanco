@@ -77,4 +77,20 @@ public class Fachada {
     }
      
      
+     
+    public Cliente login(String documento, int password) {
+
+    for (Cliente c : clientes.mostrarClientes()) {
+
+        if (c.getDocumento().equals(documento)
+                && c.getPassword() == password) {
+
+            return c;
+        }
+    }
+
+    return null;
+}
+     
+     
 }

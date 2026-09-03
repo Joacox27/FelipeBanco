@@ -5,6 +5,7 @@
 package Presentacion;
 
 import Logico.Fachada;
+import com.formdev.flatlaf.FlatDarkLaf;
 import javax.swing.JOptionPane;
 
 /**
@@ -19,6 +20,7 @@ public class VentanaNuevoFuncionario extends javax.swing.JFrame {
      * Creates new form VentanaNuevoFuncionario
      */
     public VentanaNuevoFuncionario() {
+        FlatDarkLaf.setup();
         initComponents();
     }
 

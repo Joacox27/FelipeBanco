@@ -12,6 +12,7 @@ Logico/Sucursal.class
 Presentacion/VisualizarClientes.class
 Logico/Fachada.class
 Logico/Sucursales.class
+Presentacion/login.class
 Logico/Funcionarios.class
 Logico/Operacion.class
 Logico/Cliente.class

@@ -4,6 +4,7 @@
  */
 package Presentacion;
 
+import com.formdev.flatlaf.FlatDarkLaf;
 import javax.swing.UnsupportedLookAndFeelException;
 
 /**
@@ -18,6 +19,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
      * Creates new form VentanaPrincipal
      */
     public VentanaPrincipal() {
+        FlatDarkLaf.setup();
         initComponents();
         this.setLocationRelativeTo(null); // Centra la ventana en pantalla
         this.setTitle("FelipeBanco - CLIENTE"); // Pone título

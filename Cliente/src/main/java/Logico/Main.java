@@ -4,7 +4,7 @@
 
 package Logico;
 
-import Presentacion.VentanaPrincipal;
+import Presentacion.Login;
 import java.time.LocalDate;
 
 /**
@@ -14,7 +14,7 @@ import java.time.LocalDate;
 public class Main {
 
     public static void main(String[] args) {
-        VentanaPrincipal ppal= new VentanaPrincipal();
+        Login ppal= new Login();
         ppal.setVisible(true);
         
    //  Funcionario f = new Funcionario("F001", "Juan Pérez","Gerente",LocalDate.now(),sucursal );
