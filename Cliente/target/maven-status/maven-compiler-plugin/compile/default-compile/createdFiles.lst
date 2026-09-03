@@ -3,6 +3,7 @@ Presentacion/VentanaPrincipal.class
 Logico/Transferencia.class
 Logico/Deposito.class
 Logico/CuentaCorriente.class
+Presentacion/Login.class
 red/ClienteSocket.class
 Logico/CuentaBancaria.class
 Logico/Main.class
@@ -12,7 +13,6 @@ Logico/Sucursal.class
 Presentacion/VisualizarClientes.class
 Logico/Fachada.class
 Logico/Sucursales.class
-Presentacion/login.class
 Logico/Funcionarios.class
 Logico/Operacion.class
 Logico/Cliente.class

@@ -5,6 +5,7 @@
 package Logico;
 
 import Presentacion.Login;
+
 import java.time.LocalDate;
 
 /**
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 public class Main {
 
     public static void main(String[] args) {
+        
         Login ppal= new Login();
         ppal.setVisible(true);
         
