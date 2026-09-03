@@ -12,18 +12,18 @@ public class Clientes {
 
         // Clientes preestablecidos para pruebas
         lista.add(new Cliente(
-                "51234567",
-                1234,
-                "Juan Pérez",
+                "58501563",
+                555,
+                "Agustín Aguirre",
                 LocalDate.of(2000, 5, 15),
                 "18 de Julio 1234",
                 "099123456"
         ));
 
         lista.add(new Cliente(
-                "47890123",
+                "58089064",
                 5678,
-                "María González",
+                "Joaquín Salazar",
                 LocalDate.of(1998, 10, 22),
                 "Avenida Brasil 2456",
                 "098234567"
@@ -32,7 +32,7 @@ public class Clientes {
         lista.add(new Cliente(
                 "53456789",
                 9012,
-                "Pedro Rodríguez",
+                "Juan perro",
                 LocalDate.of(2002, 3, 8),
                 "8 de Octubre 1876",
                 "097345678"
