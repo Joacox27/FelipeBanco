@@ -26,7 +26,7 @@ public class Cliente {
         this.prestamos = new ArrayList<>();
     }
 
-    // Getters y Setters
+    // los Getters y los Setters
     public String getDocumento() { return documento; }
     public String getNombreCompleto() { return nombreCompleto; }
     public LocalDate getFechaNacimiento() { return fechaNacimiento; }
@@ -35,26 +35,11 @@ public class Cliente {
     public int getPassword() { return password; }
     
 
-    public void setDocumento(String documento) {
-        this.documento = documento;
-    }
-
-    public void setPassword(int password) {
-        this.password = password;
-    }
-    
-    
-
-    public void setNombreCompleto(String nombreCompleto) {
-        this.nombreCompleto = nombreCompleto;
-    }
-
-    public void setFechaNacimiento(LocalDate fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
-    }
-
+    public void setDocumento(String documento) { this.documento = documento; }
+    public void setPassword(int password) { this.password = password; }
+    public void setNombreCompleto(String nombreCompleto) { this.nombreCompleto = nombreCompleto; }
+    public void setFechaNacimiento(LocalDate fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }
     public void setDireccion(String direccion) { this.direccion = direccion; }
-
     public void setTelefono(String telefono) { this.telefono = telefono; }
     public void agregarCuenta(CuentaBancaria cuenta) { cuentas.add(cuenta); }
     public void agregarPrestamo(Prestamo prestamo) { prestamos.add(prestamo); }

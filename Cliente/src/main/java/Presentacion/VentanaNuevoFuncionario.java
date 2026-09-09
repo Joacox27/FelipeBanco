@@ -33,7 +33,6 @@ public class VentanaNuevoFuncionario extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel2_fondo = new javax.swing.JPanel();
         jButton1aceptar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1_nombre = new javax.swing.JLabel();
@@ -50,19 +49,6 @@ public class VentanaNuevoFuncionario extends javax.swing.JFrame {
         setLocation(new java.awt.Point(0, 0));
         setName("NuevoFuncionario"); // NOI18N
         setSize(new java.awt.Dimension(0, 0));
-
-        jPanel2_fondo.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout jPanel2_fondoLayout = new javax.swing.GroupLayout(jPanel2_fondo);
-        jPanel2_fondo.setLayout(jPanel2_fondoLayout);
-        jPanel2_fondoLayout.setHorizontalGroup(
-            jPanel2_fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 308, Short.MAX_VALUE)
-        );
-        jPanel2_fondoLayout.setVerticalGroup(
-            jPanel2_fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 212, Short.MAX_VALUE)
-        );
 
         jButton1aceptar.setBackground(new java.awt.Color(255, 255, 255));
         jButton1aceptar.setIcon(new javax.swing.ImageIcon("/home/joaco/Desktop/ITI 2026/Programación Avanzada/FelipeBanco/Cliente/images/next-button.png")); // NOI18N
@@ -151,8 +137,6 @@ public class VentanaNuevoFuncionario extends javax.swing.JFrame {
                         .addGap(50, 50, 50)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(50, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel2_fondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -162,8 +146,6 @@ public class VentanaNuevoFuncionario extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jButton1aceptar)
                 .addContainerGap(25, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel2_fondo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -222,7 +204,6 @@ public class VentanaNuevoFuncionario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2_rol;
     private javax.swing.JLabel jLabel3_sucursal;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2_fondo;
     private javax.swing.JTextField jTextField1_nombre;
     // End of variables declaration//GEN-END:variables
 }
