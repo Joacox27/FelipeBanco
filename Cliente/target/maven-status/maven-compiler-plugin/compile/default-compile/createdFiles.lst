@@ -9,6 +9,7 @@ Logico/CuentaBancaria.class
 Logico/Main.class
 Logico/Funcionario.class
 Logico/Clientes.class
+Presentacion/VentanaNuevoCliente.class
 Logico/Sucursal.class
 Presentacion/VisualizarClientes.class
 Logico/Fachada.class

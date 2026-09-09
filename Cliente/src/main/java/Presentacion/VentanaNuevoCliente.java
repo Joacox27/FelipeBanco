@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import javax.swing.JOptionPane;
 
 /**
@@ -32,7 +33,7 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
         this.setTitle("FelipeBanco - Nuevo Cliente");
         
         setLocation(100, 50); // Consulta N02 con IA
-        setSize(680, 430);
+        setSize(460, 430);
     }
 
     /**
@@ -101,10 +102,6 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
         jLabel3_Pass.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3_Pass.setText("Contraseña");
 
-        jPasswordField2_con2.setText("jPasswordField1");
-
-        jPasswordField1_con1.setText("jPasswordField1");
-
         jLabel1_nombre2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1_nombre2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1_nombre2.setText("Confirmar Contraseña");
@@ -151,25 +148,22 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
                                 .addComponent(jLabel5_FechaNac)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jTextField3_fechanac, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(144, 144, 144)
-                                        .addComponent(jPasswordField1_con1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel3_Pass, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel1_nombre2)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jPasswordField2_con2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel1_Nombrecompleto)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                                        .addComponent(jTextField1_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel2_CI)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jTextField2_CI, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel3_Pass)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jPasswordField1_con1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1_nombre2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jPasswordField2_con2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1_Nombrecompleto)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jTextField1_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2_CI)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jTextField2_CI, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -235,15 +229,15 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
 
     private void jButton1aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1aceptarActionPerformed
         
-        String nombrecompleto = jTextField1_nombre.getText().trim();
-        String CI = jTextField2_CI.getText().trim();
-        String PSW1 = jPasswordField1_con1.getText().trim();
-        String PSW2 = jPasswordField2_con2.getText().trim();
-        String FechaNac = jTextField3_fechanac.getText().trim();
-        String direccion = jTextField4_Dir.getText().trim();
-        String telefono = jTextField5_tel.getText().trim();
-        
-        // se comprueba que todos los campos NO esten vacios
+      String nombrecompleto = jTextField1_nombre.getText().trim();
+      String CI = jTextField2_CI.getText().trim(); 
+      String PSW1 = jPasswordField1_con1.getText().trim();
+      String PSW2 = jPasswordField2_con2.getText().trim();
+      String FechaNac = jTextField3_fechanac.getText().trim();
+      String direccion = jTextField4_Dir.getText().trim();
+      String telefono = jTextField5_tel.getText().trim();
+      
+        // Comprobar que todos los campos NO estén vacíos
         if (nombrecompleto.isEmpty() 
                 || CI.isEmpty() 
                 || PSW1.isEmpty() 
@@ -254,49 +248,79 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
         { 
             JOptionPane.showMessageDialog( rootPane, "Todos los campos son obligatorios." );
             return; 
-        }
+        } 
+
+        // Comprobar que la CI contenga solamente números
+        if (!CI.matches("\\d+")) { 
+            JOptionPane.showMessageDialog( rootPane, "La CI debe contener solamente números." );
+            return; }
         
         // Comprobar que las contraseñas coincidan 
-        if (!PSW1.equals(PSW2) ) { 
-            
+        if (!PSW1.equals(PSW2)) { 
             JOptionPane.showMessageDialog( rootPane, "Las contraseñas no coinciden." );
-            return; 
-        }
-        
-        int password;
+            return; } 
 
-        try {
-           password = Integer.parseInt(PSW1);
-           
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(
-            rootPane,
-            "La contraseña debe contener solamente números."
-         );
-         return;
-        }
-        
-        // Comprobar y convertir la fecha
-        LocalDate fechaNacimiento;
+        // Convertir contraseña de String a int
+        int password; 
         try { 
             
-            DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy"); 
-            fechaNacimiento = LocalDate.parse(FechaNac, formato); 
-            
-        } catch (DateTimeParseException e) { 
-            JOptionPane.showMessageDialog( rootPane, "La fecha debe tener el formato dd/MM/yyyy." ); 
-            return; 
-        }
+            password = Integer.parseInt(PSW1);
         
-        // Crear el cliente
-        Cliente cliente = new Cliente( CI, password, nombrecompleto, fechaNacimiento, direccion, telefono ); 
+        } catch (NumberFormatException e) { 
+            JOptionPane.showMessageDialog( rootPane, "La contraseña debe contener solamente números." );
+            return; 
+        } 
 
+
+        // Comprobar que el teléfono contenga solamente números
+        
+        if (!telefono.matches("\\d+")) { 
+            
+            JOptionPane.showMessageDialog( rootPane, "El teléfono debe contener solamente números." ); 
+            return; } 
+
+        // Comprobar y convertir la fecha
+        LocalDate fechaNacimiento; 
+        
+        try {
+            DateTimeFormatter formato = DateTimeFormatter 
+                    .ofPattern("dd/MM/uuuu") 
+                    .withResolverStyle(ResolverStyle.STRICT);
+            fechaNacimiento = LocalDate.parse(FechaNac, formato); 
+        } catch (DateTimeParseException e) { 
+            
+            JOptionPane.showMessageDialog( rootPane, "La fecha no es válida. Use el formato dd/MM/yyyy." );
+            return; 
+        } 
+
+        // La fecha de nacimiento no puede ser una fecha futura
+        
+        LocalDate hoy = LocalDate.now();
+
+        if (fechaNacimiento.isAfter(hoy)) {
+            JOptionPane.showMessageDialog(
+            rootPane,
+            "La fecha de nacimiento no puede ser futura."
+          );
+          return;
+            }
+
+        if (fechaNacimiento.isBefore(hoy.minusYears(100))) {
+            JOptionPane.showMessageDialog(
+            rootPane,
+            "El cliente ingresado no puede haber nacido en esa fecha"
+        );
+        return;
+}
+
+        // Crear el cliente
+        Cliente cliente = new Cliente( CI, password, nombrecompleto, fechaNacimiento, direccion, telefono );
+        
         // Enviar el cliente a la lógica
         Fachada.getInstancia().nuevoCliente(cliente);
-        JOptionPane.showMessageDialog( rootPane, "Cliente " + nombrecompleto + " ingresado correctamente." ); 
-
-
-        // Limpiar campos
+        JOptionPane.showMessageDialog( rootPane, "Cliente " + nombrecompleto + " ingresado correctamente." );
+        
+        // Limpiar campos 
         jTextField1_nombre.setText("");
         jTextField2_CI.setText("");
         jPasswordField1_con1.setText("");
@@ -304,9 +328,6 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
         jTextField3_fechanac.setText("");
         jTextField4_Dir.setText("");
         jTextField5_tel.setText("");
-        
-        
-       
     }//GEN-LAST:event_jButton1aceptarActionPerformed
 
     /**

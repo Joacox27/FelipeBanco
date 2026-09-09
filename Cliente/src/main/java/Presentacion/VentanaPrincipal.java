@@ -47,6 +47,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jMenuItem5_Sucursales = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
@@ -115,7 +116,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jMenu1.setText("Ingresar");
 
         jMenuItem1.setText("Cliente");
+        jMenuItem1.addActionListener(this::jMenuItem1ActionPerformed);
         jMenu1.add(jMenuItem1);
+
+        jMenuItem5.setText("Funcionario");
+        jMenuItem5.addActionListener(this::jMenuItem5ActionPerformed);
+        jMenu1.add(jMenuItem5);
 
         jMenuBar1.add(jMenu1);
 
@@ -168,6 +174,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       
     }//GEN-LAST:event_jMenu2_ClientesMouseClicked
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        VentanaNuevoCliente c = new VentanaNuevoCliente();
+        c.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+      VentanaNuevoFuncionario c = new VentanaNuevoFuncionario();
+      c.setVisible(true);
+      this.dispose();
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -195,6 +213,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem5_Sucursales;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
