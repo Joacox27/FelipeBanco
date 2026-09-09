@@ -27,6 +27,12 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
     public VentanaNuevoCliente() {
         FlatDarkLaf.setup();
         initComponents();
+        
+        this.setLocationRelativeTo(null); 
+        this.setTitle("FelipeBanco - Nuevo Cliente");
+        
+        setLocation(100, 50); // Consulta N02 con IA
+        setSize(680, 430);
     }
 
     /**

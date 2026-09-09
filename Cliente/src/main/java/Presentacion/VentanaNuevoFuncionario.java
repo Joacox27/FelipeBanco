@@ -22,6 +22,12 @@ public class VentanaNuevoFuncionario extends javax.swing.JFrame {
     public VentanaNuevoFuncionario() {
         FlatDarkLaf.setup();
         initComponents();
+        
+        this.setLocationRelativeTo(null); 
+        this.setTitle("FelipeBanco - Nuevo Funcionario");
+        
+        setLocation(100, 50); // Consulta N02 con IA
+        setSize(1280, 720);
     }
 
     /**
