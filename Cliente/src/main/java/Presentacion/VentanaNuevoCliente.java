@@ -49,6 +49,7 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
         jTextPane1 = new javax.swing.JTextPane();
         jTextField1 = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
+        jButton2 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel2_CI = new javax.swing.JLabel();
         jLabel1_Nombrecompleto = new javax.swing.JLabel();
@@ -79,6 +80,12 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(0, 0));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        jButton2.setIcon(new javax.swing.ImageIcon("/home/joaco/Desktop/ITI 2026/Programación Avanzada/FelipeBanco/Cliente/images/volver.png")); // NOI18N
+        jButton2.setBorder(null);
+        jButton2.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jButton2.addActionListener(this::jButton2ActionPerformed);
 
         jPanel1.setBackground(new java.awt.Color(0, 204, 204));
 
@@ -212,20 +219,21 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(30, 30, 30)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton2)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(185, 185, 185)
-                        .addComponent(jButton1aceptar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(153, 153, 153)))
-                .addGap(30, 30, 30))
+                        .addGap(180, 180, 180)
+                        .addComponent(jButton1aceptar)))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jButton1aceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -407,6 +415,12 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton1aceptarActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        VentanaPrincipal ventana = new VentanaPrincipal();
+        ventana.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -434,6 +448,7 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1aceptar;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1_Nombrecompleto;
     private javax.swing.JLabel jLabel1_nombre2;
     private javax.swing.JLabel jLabel2_CI;

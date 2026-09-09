@@ -16,6 +16,7 @@ Logico/Fachada.class
 Logico/Sucursales.class
 Logico/Funcionarios.class
 Logico/Operacion.class
+Presentacion/VisualizarClientes$1.class
 Logico/Cliente.class
 Logico/CuentaAhorro.class
 Presentacion/VentanaNuevoFuncionario.class
