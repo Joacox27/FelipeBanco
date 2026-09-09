@@ -236,6 +236,20 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
         String direccion = jTextField4_Dir.getText().trim();
         String telefono = jTextField5_tel.getText().trim();
         
+        // se comprueba que todos los campos NO esten vacios
+        if (nombrecompleto.isEmpty() 
+                || CI.isEmpty() 
+                || PSW1.isEmpty() 
+                || PSW2.isEmpty() 
+                || FechaNac.isEmpty() 
+                || direccion.isEmpty() 
+                || telefono.isEmpty()) 
+        { 
+            JOptionPane.showMessageDialog( rootPane, "Todos los campos son obligatorios." );
+            return; 
+        }
+        
+        
         
         
         
