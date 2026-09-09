@@ -256,6 +256,17 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
             return; 
         }
         
+        // Comprobar y convertir la fecha
+        LocalDate fechaNacimiento;
+        try { 
+            
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy"); 
+            fechaNacimiento = LocalDate.parse(FechaNac, formato); 
+            
+        } catch (DateTimeParseException e) { 
+            JOptionPane.showMessageDialog( rootPane, "La fecha debe tener el formato dd/MM/yyyy." ); 
+            return; 
+        }
         
         
        
