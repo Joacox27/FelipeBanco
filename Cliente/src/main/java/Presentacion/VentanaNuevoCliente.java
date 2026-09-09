@@ -249,7 +249,12 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
             return; 
         }
         
-        
+        // Comprobar que las contraseñas coincidan 
+        if (!PSW1.equals(PSW2) ) { 
+            
+            JOptionPane.showMessageDialog( rootPane, "Las contraseñas no coinciden." );
+            return; 
+        }
         
         
         
