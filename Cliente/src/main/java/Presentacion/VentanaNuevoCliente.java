@@ -4,6 +4,7 @@
  */
 package Presentacion;
 
+import Logico.Cliente;
 import Logico.Fachada;
 import com.formdev.flatlaf.FlatDarkLaf;
 import javax.swing.JOptionPane;
@@ -256,6 +257,19 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
             return; 
         }
         
+        int password;
+
+        try {
+           password = Integer.parseInt(PSW1);
+           
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(
+            rootPane,
+            "La contraseña debe contener solamente números."
+         );
+         return;
+        }
+        
         // Comprobar y convertir la fecha
         LocalDate fechaNacimiento;
         try { 
@@ -267,6 +281,23 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog( rootPane, "La fecha debe tener el formato dd/MM/yyyy." ); 
             return; 
         }
+        
+        // Crear el cliente
+        Cliente cliente = new Cliente( CI, password, nombrecompleto, fechaNacimiento, direccion, telefono ); 
+
+        // Enviar el cliente a la lógica
+        Fachada.getInstancia().nuevoCliente(cliente);
+        JOptionPane.showMessageDialog( rootPane, "Cliente " + nombrecompleto + " ingresado correctamente." ); 
+
+
+        // Limpiar campos
+        jTextField1_nombre.setText("");
+        jTextField2_CI.setText("");
+        jPasswordField1_con1.setText("");
+        jPasswordField2_con2.setText("");
+        jTextField3_fechanac.setText("");
+        jTextField4_Dir.setText("");
+        jTextField5_tel.setText("");
         
         
        
