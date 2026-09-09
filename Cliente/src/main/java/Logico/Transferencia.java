@@ -41,6 +41,9 @@ public class Transferencia {
 
         cuentaOrigen.retirar(monto);
         cuentaDestino.depositar(monto);
+        
+        //practicamente se retira el monto de la cuenta origen y se 
+       // deposita el mismo monto en la cuenta destino, simulando una transferencia como tal
     }
 
     public CuentaBancaria getCuentaOrigen() {

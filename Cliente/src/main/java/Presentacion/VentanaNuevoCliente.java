@@ -7,6 +7,10 @@ package Presentacion;
 import Logico.Fachada;
 import com.formdev.flatlaf.FlatDarkLaf;
 import javax.swing.JOptionPane;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -33,18 +37,22 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextPane1 = new javax.swing.JTextPane();
         jButton1aceptar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1_nombre = new javax.swing.JLabel();
         jLabel3_sucursal = new javax.swing.JLabel();
         jTextField1_nombre = new javax.swing.JTextField();
-        jTextField1_nombre1 = new javax.swing.JTextField();
+        jTextField1_CI = new javax.swing.JTextField();
         jLabel1_nombre1 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jPasswordField2 = new javax.swing.JPasswordField();
+        jPasswordField2_con2 = new javax.swing.JPasswordField();
+        jPasswordField1_con1 = new javax.swing.JPasswordField();
         jLabel1_nombre2 = new javax.swing.JLabel();
         jLabel1_nombre3 = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        jTextField1_fechanac = new javax.swing.JTextField();
+
+        jScrollPane1.setViewportView(jTextPane1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("  ");
@@ -72,16 +80,16 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
         jTextField1_nombre.setBackground(new java.awt.Color(255, 255, 255));
         jTextField1_nombre.setForeground(new java.awt.Color(0, 0, 0));
 
-        jTextField1_nombre1.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField1_nombre1.setForeground(new java.awt.Color(0, 0, 0));
+        jTextField1_CI.setBackground(new java.awt.Color(255, 255, 255));
+        jTextField1_CI.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel1_nombre1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1_nombre1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1_nombre1.setText("Contraseña");
 
-        jPasswordField1.setText("jPasswordField1");
+        jPasswordField2_con2.setText("jPasswordField1");
 
-        jPasswordField2.setText("jPasswordField1");
+        jPasswordField1_con1.setText("jPasswordField1");
 
         jLabel1_nombre2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1_nombre2.setForeground(new java.awt.Color(0, 0, 0));
@@ -91,7 +99,8 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
         jLabel1_nombre3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1_nombre3.setText("Fecha Nacimiento");
 
-        jFormattedTextField1.setText("jFormattedTextField1");
+        jTextField1_fechanac.setBackground(new java.awt.Color(255, 255, 255));
+        jTextField1_fechanac.setForeground(new java.awt.Color(0, 0, 0));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -104,12 +113,12 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(144, 144, 144)
-                                .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jPasswordField1_con1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel1_nombre1, javax.swing.GroupLayout.Alignment.LEADING))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                             .addComponent(jLabel1_nombre2)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPasswordField2_con2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel3_sucursal)
@@ -118,11 +127,11 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel1_nombre)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextField1_nombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jTextField1_CI, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1_nombre3)
-                        .addGap(37, 37, 37)
-                        .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTextField1_fechanac, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -134,21 +143,21 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
                     .addComponent(jLabel3_sucursal))
                 .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1_nombre1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField1_CI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1_nombre))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1_nombre1)
-                    .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPasswordField1_con1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPasswordField2_con2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1_nombre2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1_nombre3)
-                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1_fechanac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1_nombre3))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -170,7 +179,7 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addComponent(jButton1aceptar)
                 .addGap(21, 21, 21))
         );
@@ -214,16 +223,18 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1aceptar;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel1_nombre;
     private javax.swing.JLabel jLabel1_nombre1;
     private javax.swing.JLabel jLabel1_nombre2;
     private javax.swing.JLabel jLabel1_nombre3;
     private javax.swing.JLabel jLabel3_sucursal;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JPasswordField jPasswordField2;
+    private javax.swing.JPasswordField jPasswordField1_con1;
+    private javax.swing.JPasswordField jPasswordField2_con2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextField1_CI;
+    private javax.swing.JTextField jTextField1_fechanac;
     private javax.swing.JTextField jTextField1_nombre;
-    private javax.swing.JTextField jTextField1_nombre1;
+    private javax.swing.JTextPane jTextPane1;
     // End of variables declaration//GEN-END:variables
 }
