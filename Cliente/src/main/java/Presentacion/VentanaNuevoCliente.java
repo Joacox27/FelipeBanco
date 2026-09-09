@@ -229,98 +229,158 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
 
     private void jButton1aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1aceptarActionPerformed
         
-      String nombrecompleto = jTextField1_nombre.getText().trim();
-      String CI = jTextField2_CI.getText().trim(); 
-      String PSW1 = jPasswordField1_con1.getText().trim();
-      String PSW2 = jPasswordField2_con2.getText().trim();
-      String FechaNac = jTextField3_fechanac.getText().trim();
-      String direccion = jTextField4_Dir.getText().trim();
-      String telefono = jTextField5_tel.getText().trim();
-      
-        // Comprobar que todos los campos NO estén vacíos
-        if (nombrecompleto.isEmpty() 
-                || CI.isEmpty() 
-                || PSW1.isEmpty() 
-                || PSW2.isEmpty() 
-                || FechaNac.isEmpty() 
-                || direccion.isEmpty() 
-                || telefono.isEmpty()) 
-        { 
-            JOptionPane.showMessageDialog( rootPane, "Todos los campos son obligatorios." );
-            return; 
-        } 
+        String nombrecompleto = jTextField1_nombre.getText().trim();
+        String CI = jTextField2_CI.getText().trim();
+        String PSW1 = jPasswordField1_con1.getText().trim();
+        String PSW2 = jPasswordField2_con2.getText().trim();
+        String FechaNac = jTextField3_fechanac.getText().trim();
+        String direccion = jTextField4_Dir.getText().trim();
+        String telefono = jTextField5_tel.getText().trim();
 
-        // Comprobar que la CI contenga solamente números
-        if (!CI.matches("\\d+")) { 
-            JOptionPane.showMessageDialog( rootPane, "La CI debe contener solamente números." );
-            return; }
-        
-        // Comprobar que las contraseñas coincidan 
-        if (!PSW1.equals(PSW2)) { 
-            JOptionPane.showMessageDialog( rootPane, "Las contraseñas no coinciden." );
-            return; } 
+            // Comprobar que todos los campos NO estén vacíos
+        if (nombrecompleto.isEmpty()
+            || CI.isEmpty()
+            || PSW1.isEmpty()
+            || PSW2.isEmpty()
+            || FechaNac.isEmpty()
+            || direccion.isEmpty()
+            || telefono.isEmpty()) {
 
-        // Convertir contraseña de String a int
-        int password; 
-        try { 
-            
-            password = Integer.parseInt(PSW1);
-        
-        } catch (NumberFormatException e) { 
-            JOptionPane.showMessageDialog( rootPane, "La contraseña debe contener solamente números." );
-            return; 
-        } 
+    JOptionPane.showMessageDialog(
+            rootPane,
+            "Todos los campos son obligatorios."
+    );
+    return;
+}
 
+        // Comprobar que el nombre solamente contenga letras y espacios
+            if (!nombrecompleto.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
 
-        // Comprobar que el teléfono contenga solamente números
-        
-        if (!telefono.matches("\\d+")) { 
-            
-            JOptionPane.showMessageDialog( rootPane, "El teléfono debe contener solamente números." ); 
-            return; } 
+    JOptionPane.showMessageDialog(
+            rootPane,
+            "El nombre completo solo puede contener letras y espacios."
+    );
+    return;
+}
 
-        // Comprobar y convertir la fecha
-        LocalDate fechaNacimiento; 
-        
+            // se comprueba que la cedula tenga exactamente 8 digitos
+        if (!CI.matches("\\d{8}")) {
+
+            JOptionPane.showMessageDialog(
+                    rootPane,
+                    "La CI debe tener exactamente 8 dígitos y no puede contener guiones."
+            );
+            return;
+        }
+
+            // se comprueva que las contraseñas coincidan
+        if (!PSW1.equals(PSW2)) {
+
+            JOptionPane.showMessageDialog(
+                    rootPane,
+                    "Las contraseñas no coinciden."
+            );
+            return;
+        }
+
+            // se convierte la contraseña de String a int
+        int password;
+
         try {
-            DateTimeFormatter formato = DateTimeFormatter 
-                    .ofPattern("dd/MM/uuuu") 
-                    .withResolverStyle(ResolverStyle.STRICT);
-            fechaNacimiento = LocalDate.parse(FechaNac, formato); 
-        } catch (DateTimeParseException e) { 
-            
-            JOptionPane.showMessageDialog( rootPane, "La fecha no es válida. Use el formato dd/MM/yyyy." );
-            return; 
-        } 
 
-        // La fecha de nacimiento no puede ser una fecha futura
-        
+            password = Integer.parseInt(PSW1);
+
+        } catch (NumberFormatException e) {
+
+            JOptionPane.showMessageDialog(
+                    rootPane,
+                    "La contraseña debe contener solamente números."
+            );
+            return;
+}
+
+            // se comprueba que el telefono tenga 9 digitos
+        if (!telefono.matches("\\d{9}")) {
+
+            JOptionPane.showMessageDialog(
+                    rootPane,
+                    "El teléfono debe tener exactamente 9 dígitos."
+            );
+            return;
+        }
+
+        // se comprueba y se convierte la fecha
+        LocalDate fechaNacimiento;
+
+        try {
+
+            DateTimeFormatter formato = DateTimeFormatter
+                    .ofPattern("dd/MM/uuuu")
+                    .withResolverStyle(ResolverStyle.STRICT);
+
+            fechaNacimiento = LocalDate.parse(FechaNac, formato);
+
+        } catch (DateTimeParseException e) {
+
+            JOptionPane.showMessageDialog(
+                    rootPane,
+                    "La fecha no es válida. Use el formato dd/MM/yyyy."
+            );
+            return;
+        }
+
+            // la fecha de nacimiento no puede ser futura
         LocalDate hoy = LocalDate.now();
 
         if (fechaNacimiento.isAfter(hoy)) {
-            JOptionPane.showMessageDialog(
-            rootPane,
-            "La fecha de nacimiento no puede ser futura."
-          );
-          return;
-            }
 
-        if (fechaNacimiento.isBefore(hoy.minusYears(100))) {
             JOptionPane.showMessageDialog(
+                    rootPane,
+                    "La fecha de nacimiento no puede ser futura."
+            );
+            return;
+        }
+
+        
+            // La fecha no puede corresponder a una persona mayor de 100 años
+            
+        if (fechaNacimiento.isBefore(hoy.minusYears(100))) {
+
+            JOptionPane.showMessageDialog(
+                    rootPane,
+                    "El cliente ingresado no puede haber nacido en esa fecha."
+            );
+            return;
+        }
+        
+         if (!direccion.matches("^(?=.*[A-Za-zÁÉÍÓÚáéíóúÑñ])(?=.*\\d)[A-Za-zÁÉÍÓÚáéíóúÑñ0-9 .,/\\-]{5,100}$")) {
+
+    JOptionPane.showMessageDialog(
             rootPane,
-            "El cliente ingresado no puede haber nacido en esa fecha"
-        );
-        return;
+            "La dirección ingresada no es válida."
+    );
+    return;
 }
 
         // Crear el cliente
-        Cliente cliente = new Cliente( CI, password, nombrecompleto, fechaNacimiento, direccion, telefono );
-        
+        Cliente cliente = new Cliente(
+                CI,
+                password,
+                nombrecompleto,
+                fechaNacimiento,
+                direccion,
+                telefono
+        );
+
         // Enviar el cliente a la lógica
         Fachada.getInstancia().nuevoCliente(cliente);
-        JOptionPane.showMessageDialog( rootPane, "Cliente " + nombrecompleto + " ingresado correctamente." );
-        
-        // Limpiar campos 
+
+        JOptionPane.showMessageDialog(
+                rootPane,
+                "Cliente " + nombrecompleto + " ingresado correctamente."
+        );
+
+        // Limpiar campos
         jTextField1_nombre.setText("");
         jTextField2_CI.setText("");
         jPasswordField1_con1.setText("");
@@ -328,6 +388,8 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
         jTextField3_fechanac.setText("");
         jTextField4_Dir.setText("");
         jTextField5_tel.setText("");
+
+
     }//GEN-LAST:event_jButton1aceptarActionPerformed
 
     /**
