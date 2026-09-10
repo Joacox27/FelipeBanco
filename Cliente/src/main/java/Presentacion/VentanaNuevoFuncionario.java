@@ -166,7 +166,8 @@ public class VentanaNuevoFuncionario extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1_rolActionPerformed
 
     private void jButton1aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1aceptarActionPerformed
-
+        
+        
         String nombre = jTextField1_nombre.getText();
         String sucursal = jComboBox1_sucursales.getSelectedItem().toString();
         String rol= jComboBox1_rol.getSelectedItem().toString();

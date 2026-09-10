@@ -25,14 +25,11 @@ public class Fachada {
 
     // Funcionarios
 
-    public void nuevoFuncionario(String nombre, String nombreSucursal, String cargo) {
-
+    public void nuevoFuncionario(String nombre, String nombreSucursal, String rol) {
     Sucursal sucursal = null;
 
     for (Sucursal s : sucursales.mostrarSucursales()) {
-        
         if (s.getNombre().equals(nombreSucursal)) {
-            
             sucursal = s;
             break;
         }
@@ -42,12 +39,13 @@ public class Fachada {
         throw new IllegalArgumentException("La sucursal no existe.");
     }
 
-    String idFuncionario = "F" + (funcionarios.mostrarFuncionarios().size() + 1);
+    String idFuncionario =
+            "F" + (funcionarios.mostrarFuncionarios().size() + 1);
 
     Funcionario f = new Funcionario(
             idFuncionario,
             nombre,
-            cargo,
+            rol,
             LocalDate.now(),
             sucursal
     );
