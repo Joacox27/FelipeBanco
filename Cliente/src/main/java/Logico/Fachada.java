@@ -14,6 +14,7 @@ public class Fachada {
     private Fachada() {
         funcionarios = new Funcionarios();
         clientes = new Clientes();
+        sucursales = new Sucursales();
     }
 
     public static Fachada getInstancia() {

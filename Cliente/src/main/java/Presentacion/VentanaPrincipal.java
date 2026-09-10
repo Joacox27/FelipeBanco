@@ -42,12 +42,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2_Clientes = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem1_Funcionarios = new javax.swing.JMenuItem();
+        jMenuItem4_verclientes = new javax.swing.JMenuItem();
+        jMenuItem1_verfuncionarios = new javax.swing.JMenuItem();
         jMenuItem5_Sucursales = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem1_ingresarCliente = new javax.swing.JMenuItem();
+        jMenuItem5_ingresarFuncionario = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
@@ -101,12 +101,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
         jMenu2_Clientes.addActionListener(this::jMenu2_ClientesActionPerformed);
 
-        jMenuItem4.setText("Clientes");
-        jMenuItem4.addActionListener(this::jMenuItem4ActionPerformed);
-        jMenu2_Clientes.add(jMenuItem4);
+        jMenuItem4_verclientes.setText("Clientes");
+        jMenuItem4_verclientes.addActionListener(this::jMenuItem4_verclientesActionPerformed);
+        jMenu2_Clientes.add(jMenuItem4_verclientes);
 
-        jMenuItem1_Funcionarios.setText("Funcionarios");
-        jMenu2_Clientes.add(jMenuItem1_Funcionarios);
+        jMenuItem1_verfuncionarios.setText("Funcionarios");
+        jMenuItem1_verfuncionarios.addActionListener(this::jMenuItem1_verfuncionariosActionPerformed);
+        jMenu2_Clientes.add(jMenuItem1_verfuncionarios);
 
         jMenuItem5_Sucursales.setText("Sucursales");
         jMenu2_Clientes.add(jMenuItem5_Sucursales);
@@ -115,13 +116,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jMenu1.setText("Ingresar");
 
-        jMenuItem1.setText("Cliente");
-        jMenuItem1.addActionListener(this::jMenuItem1ActionPerformed);
-        jMenu1.add(jMenuItem1);
+        jMenuItem1_ingresarCliente.setText("Cliente");
+        jMenuItem1_ingresarCliente.addActionListener(this::jMenuItem1_ingresarClienteActionPerformed);
+        jMenu1.add(jMenuItem1_ingresarCliente);
 
-        jMenuItem5.setText("Funcionario");
-        jMenuItem5.addActionListener(this::jMenuItem5ActionPerformed);
-        jMenu1.add(jMenuItem5);
+        jMenuItem5_ingresarFuncionario.setText("Funcionario");
+        jMenuItem5_ingresarFuncionario.addActionListener(this::jMenuItem5_ingresarFuncionarioActionPerformed);
+        jMenu1.add(jMenuItem5_ingresarFuncionario);
 
         jMenuBar1.add(jMenu1);
 
@@ -160,11 +161,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+    private void jMenuItem4_verclientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4_verclientesActionPerformed
        VisualizarClientes c = new VisualizarClientes();
     c.setVisible(true);
     this.dispose();
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+    }//GEN-LAST:event_jMenuItem4_verclientesActionPerformed
 
     private void jMenu2_ClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu2_ClientesActionPerformed
        
@@ -174,17 +175,23 @@ public class VentanaPrincipal extends javax.swing.JFrame {
       
     }//GEN-LAST:event_jMenu2_ClientesMouseClicked
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void jMenuItem1_ingresarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1_ingresarClienteActionPerformed
         VentanaNuevoCliente c = new VentanaNuevoCliente();
         c.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_jMenuItem1_ingresarClienteActionPerformed
 
-    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-      VentanaNuevoFuncionario c = new VentanaNuevoFuncionario();
-      c.setVisible(true);
-      this.dispose();
-    }//GEN-LAST:event_jMenuItem5ActionPerformed
+    private void jMenuItem5_ingresarFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5_ingresarFuncionarioActionPerformed
+        VentanaNuevoFuncionario c = new VentanaNuevoFuncionario();
+        c.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem5_ingresarFuncionarioActionPerformed
+
+    private void jMenuItem1_verfuncionariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1_verfuncionariosActionPerformed
+        VisualizarFuncionarios c = new VisualizarFuncionarios();
+        c.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem1_verfuncionariosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -208,13 +215,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem1_Funcionarios;
+    private javax.swing.JMenuItem jMenuItem1_ingresarCliente;
+    private javax.swing.JMenuItem jMenuItem1_verfuncionarios;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem4_verclientes;
     private javax.swing.JMenuItem jMenuItem5_Sucursales;
+    private javax.swing.JMenuItem jMenuItem5_ingresarFuncionario;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     // End of variables declaration//GEN-END:variables

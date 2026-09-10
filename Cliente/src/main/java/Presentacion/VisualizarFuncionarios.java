@@ -151,8 +151,9 @@ public class VisualizarFuncionarios extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenu3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu3MouseClicked
-        
-           
+            VentanaPrincipal ventana = new VentanaPrincipal();
+            ventana.setVisible(true);
+            this.dispose();
     }//GEN-LAST:event_jMenu3MouseClicked
 
     /**

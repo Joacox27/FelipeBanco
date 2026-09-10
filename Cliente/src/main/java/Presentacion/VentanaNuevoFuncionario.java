@@ -166,25 +166,34 @@ public class VentanaNuevoFuncionario extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1_rolActionPerformed
 
     private void jButton1aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1aceptarActionPerformed
-        
-        
-        String nombre = jTextField1_nombre.getText();
-        String sucursal = jComboBox1_sucursales.getSelectedItem().toString();
-        String rol= jComboBox1_rol.getSelectedItem().toString();
-        
-        if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+            String nombre = jTextField1_nombre.getText().trim();
+            String sucursal = jComboBox1_sucursales.getSelectedItem().toString();
+            String rol = jComboBox1_rol.getSelectedItem().toString();
 
-    JOptionPane.showMessageDialog(
-            rootPane,
-            "El nombre completo solo puede contener letras y espacios."
-    );
-    return;
+                if (nombre.isEmpty()) {
+                JOptionPane.showMessageDialog(
+                        rootPane,
+                        "El nombre es obligatorio."
+                );
+                return;
+            }   
+
+        if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+            JOptionPane.showMessageDialog(
+                    rootPane,
+                    "El nombre solo puede contener letras y espacios."
+            );
+            return;
 }
-        
-        JOptionPane.showMessageDialog(rootPane, "Funcionario " + nombre + " ingresado correctamente.");
-        jTextField1_nombre.setText("");   
-        
-       
+
+                Fachada.getInstancia().nuevoFuncionario(nombre, sucursal, rol);
+
+                JOptionPane.showMessageDialog(
+                        rootPane,
+                        "Funcionari@ " + nombre + " ingresado correctamente."
+                );
+
+                jTextField1_nombre.setText("");
     }//GEN-LAST:event_jButton1aceptarActionPerformed
 
     private void jComboBox1_sucursalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1_sucursalesActionPerformed
