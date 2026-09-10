@@ -27,7 +27,7 @@ public class VentanaNuevoFuncionario extends javax.swing.JFrame {
         this.setTitle("FelipeBanco - Nuevo Funcionario");
         
         setLocation(100, 50); // Consulta N02 con IA
-        setSize(1280, 720);
+        setSize(280, 300);
     }
 
     /**
@@ -86,7 +86,7 @@ public class VentanaNuevoFuncionario extends javax.swing.JFrame {
 
         jComboBox1_sucursales.setBackground(new java.awt.Color(255, 255, 255));
         jComboBox1_sucursales.setForeground(new java.awt.Color(0, 0, 0));
-        jComboBox1_sucursales.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sucursal Centro", "Sucursal Pocitos", "Sucursal Cordón", " " }));
+        jComboBox1_sucursales.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sucursal Centro", "Sucursal Pocitos", "Sucursal Cordón" }));
         jComboBox1_sucursales.addActionListener(this::jComboBox1_sucursalesActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -170,6 +170,15 @@ public class VentanaNuevoFuncionario extends javax.swing.JFrame {
         String nombre = jTextField1_nombre.getText();
         String sucursal = jComboBox1_sucursales.getSelectedItem().toString();
         String rol= jComboBox1_rol.getSelectedItem().toString();
+        
+        if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+
+    JOptionPane.showMessageDialog(
+            rootPane,
+            "El nombre completo solo puede contener letras y espacios."
+    );
+    return;
+}
         
         JOptionPane.showMessageDialog(rootPane, "Funcionario " + nombre + " ingresado correctamente.");
         jTextField1_nombre.setText("");   
