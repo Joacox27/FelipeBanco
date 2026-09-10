@@ -6,7 +6,7 @@ package Presentacion;
 
 import Logico.Fachada;
 import Logico.Cliente;
-import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLightLaf;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -24,7 +24,7 @@ public class VisualizarClientes extends javax.swing.JFrame {
      * Creates new form VisulizarDator
      */
     public VisualizarClientes() {
-        FlatDarkLaf.setup();
+        FlatLightLaf.setup();
         initComponents();
         this.setLocationRelativeTo(null); // Centra la ventana en pantalla
         this.setTitle("FelipeBanco - Visualizar Clientes"); // Pone título

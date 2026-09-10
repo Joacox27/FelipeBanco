@@ -6,7 +6,7 @@ package Presentacion;
 
 import Logico.Cliente;
 import Logico.Fachada;
-import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLightLaf;
 import javax.swing.JOptionPane;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -26,7 +26,7 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
      * Creates new form VentanaNuevoFuncionario
      */
     public VentanaNuevoCliente() {
-        FlatDarkLaf.setup();
+        FlatLightLaf.setup();
         initComponents();
         
         this.setLocationRelativeTo(null); 
@@ -352,7 +352,7 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
             return;
         }
 
-            // la fecha de nacimiento no puede ser futura
+        // la fecha de nacimiento no puede ser futura
         LocalDate hoy = LocalDate.now();
 
         if (fechaNacimiento.isAfter(hoy)) {
@@ -385,7 +385,7 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
     return;
 }
 
-        // Crear el cliente
+        // se crea el cliente
         Cliente cliente = new Cliente(
                 CI,
                 password,
@@ -395,23 +395,30 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
                 telefono
         );
 
-        // Enviar el cliente a la lógica
-        Fachada.getInstancia().nuevoCliente(cliente);
+                    // se envia el cliente a la lógica
+                    try {
 
-        JOptionPane.showMessageDialog(
-                rootPane,
-                "Cliente " + nombrecompleto + " ingresado correctamente."
-        );
+                Fachada.getInstancia().nuevoCliente(cliente);
 
-        // Limpiar campos
-        jTextField1_nombre.setText("");
-        jTextField2_CI.setText("");
-        jPasswordField1_con1.setText("");
-        jPasswordField2_con2.setText("");
-        jTextField3_fechanac.setText("");
-        jTextField4_Dir.setText("");
-        jTextField5_tel.setText("");
+                JOptionPane.showMessageDialog(
+                        rootPane,
+                        "Cliente " + nombrecompleto + " ingresado correctamente."
+                );
 
+                // se limpian los campos
+                jTextField1_nombre.setText("");
+                jTextField2_CI.setText("");
+                jPasswordField1_con1.setText("");
+                jPasswordField2_con2.setText("");
+                jTextField3_fechanac.setText("");
+                jTextField4_Dir.setText("");
+                jTextField5_tel.setText("");
+
+            } catch (IllegalArgumentException e) {
+
+                JOptionPane.showMessageDialog( rootPane, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
     }//GEN-LAST:event_jButton1aceptarActionPerformed
 

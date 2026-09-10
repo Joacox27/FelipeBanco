@@ -11,85 +11,109 @@ public class Fachada {
     private Clientes clientes;
     private Sucursales sucursales;
 
-    private Fachada() {
+    private Fachada()  {
         funcionarios = new Funcionarios();
         clientes = new Clientes();
         sucursales = new Sucursales();
     }
 
     public static Fachada getInstancia() {
-        if (singleton == null) {
+
+            if (singleton == null) {
             singleton = new Fachada();
-        }
+         }
+
         return singleton;
     }
 
-    // Funcionarios
+
 
     public void nuevoFuncionario(String nombre, String nombreSucursal, String rol) {
-    Sucursal sucursal = null;
 
-    for (Sucursal s : sucursales.mostrarSucursales()) {
-        if (s.getNombre().equals(nombreSucursal)) {
-            sucursal = s;
-            break;
+      
+        Sucursal sucursal = null;
+
+        for (Sucursal s : sucursales.mostrarSucursales()) {
+
+            if (s.getNombre().equals(nombreSucursal)) {
+                sucursal = s;
+                break;
+            }
         }
+
+        // se comprueba que la sucursal exista
+        if (sucursal == null) {
+            throw new IllegalArgumentException(
+                    "La sucursal no existe."
+            );
+        }
+
+      
+        String idFuncionario = "F" + (funcionarios.mostrarFuncionarios().size() + 1);
+
+        // Crear funcionario
+        Funcionario f = new Funcionario(
+                idFuncionario,
+                nombre,
+                rol,
+                LocalDate.now(),
+                sucursal
+        );
+
+        // se guarda en la lista de funcionarios
+        funcionarios.nuevoFuncionario(f);
+
+        // se asocia a la sucursal
+        sucursal.agregarFuncionario(f);
     }
-
-    if (sucursal == null) {
-        throw new IllegalArgumentException("La sucursal no existe.");
-    }
-
-    String idFuncionario =
-            "F" + (funcionarios.mostrarFuncionarios().size() + 1);
-
-    Funcionario f = new Funcionario(
-            idFuncionario,
-            nombre,
-            rol,
-            LocalDate.now(),
-            sucursal
-    );
-
-    funcionarios.nuevoFuncionario(f);
-    sucursal.agregarFuncionario(f);
-}
 
     public ArrayList<Funcionario> mostrarFuncionarios() {
-        return this.funcionarios.mostrarFuncionarios();
+        return funcionarios.mostrarFuncionarios();
     }
 
-    // Clientes
 
-    public void nuevoCliente(Cliente c) {
-        this.clientes.nuevoCliente(c);
+        public void nuevoCliente(Cliente c) {
+
+    
+          for (Cliente cliente : clientes.mostrarClientes()) {
+
+            if (cliente.getDocumento().equals(c.getDocumento())) {
+                 throw new IllegalArgumentException(
+                        "Ya existe un cliente con esa CI."
+                );
+            }
+        }
+
+        clientes.nuevoCliente(c);
     }
 
+        
+        
     public ArrayList<Cliente> mostrarClientes() {
-        return this.clientes.mostrarClientes();
+        return clientes.mostrarClientes();
     }
+
     
-    //sucursales
     
-     public ArrayList<Sucursal> mostrarSucursales() {
-        return this.sucursales.mostrarSucursales();
+    public ArrayList<Sucursal> mostrarSucursales() {
+        return sucursales.mostrarSucursales();
     }
-     
-     
-     
+
+
+    
+    
     public Cliente login(String documento, int password) {
 
-    for (Cliente c : clientes.mostrarClientes()) {
+        for (Cliente c : clientes.mostrarClientes()) {
 
-        if (c.getDocumento().equals(documento)
-                && c.getPassword() == password) {
+            if (c.getDocumento().equals(documento)
+                     && c.getPassword() == password) {
 
-            return c;
-        }
+                 return c;
+            }
+         }
+
+        return null;
     }
+}
 
-    return null;
-}
-     
-     
-}
