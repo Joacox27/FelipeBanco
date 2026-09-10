@@ -7,6 +7,7 @@ package Presentacion;
 import com.formdev.flatlaf.FlatDarkLaf;
 import Logico.Cliente;
 import Logico.Fachada;
+import com.formdev.flatlaf.FlatLightLaf;
 import javax.swing.JOptionPane;
 /**
  *
@@ -17,10 +18,10 @@ public class Login extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Login.class.getName());
 
     /**
-     * Creates new form loginJoacox4517
+     * Creates new form login
      */
     public Login() {
-        FlatDarkLaf.setup();
+        FlatLightLaf.setup();
         initComponents();
         this.setLocationRelativeTo(null); 
         this.setTitle("FelipeBanco - Login");

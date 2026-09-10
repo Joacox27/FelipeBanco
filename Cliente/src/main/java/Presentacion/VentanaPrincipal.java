@@ -22,7 +22,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         FlatLightLaf.setup();
         initComponents();
         this.setLocationRelativeTo(null); // Centra la ventana en pantalla
-        this.setTitle("FelipeBanco - CLIENTE"); // Pone título
+        this.setTitle("FelipeBanco - Home"); // Pone título
         
         setLocation(100, 50); // Consulta N02 con IA
         setSize(800, 600);

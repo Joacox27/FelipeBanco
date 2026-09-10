@@ -28,7 +28,7 @@ public class VisualizarFuncionarios extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null); // Centra la ventana en pantalla
         this.setTitle("FelipeBanco - Visualizar Funcionarios"); // Pone título
-        //insertarDatosTabla
+        //insertarDatosTabla con un modelo
         DefaultTableModel modeloTablaFuncionarios = new DefaultTableModel();
         modeloTablaFuncionarios.addColumn("ID");
         modeloTablaFuncionarios.addColumn("Nombre");
