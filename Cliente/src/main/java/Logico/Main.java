@@ -14,10 +14,7 @@ public class Main {
         Login ppal= new Login();
         ppal.setVisible(true);
         
-   //  Funcionario f = new Funcionario("F001", "Juan Pérez","Gerente",LocalDate.now(),sucursal );
-    // Fachada.getInstancia().nuevoFuncionario(f);
-        
-        
+ 
         
         
     }

@@ -68,10 +68,13 @@ public class Sucursal {
     public void setCuentas(List<CuentaBancaria> cuentas) {
         this.cuentas = cuentas;
     }
-
+    
+    public void agregarFuncionario(Funcionario f) { 
+        funcionarios.add(f);
+    }
     
     
-    
-    public void agregarFuncionario(Funcionario f) { funcionarios.add(f); }
-    public void agregarCuenta(CuentaBancaria c) { cuentas.add(c); }
+    public void agregarCuenta(CuentaBancaria c) { 
+        cuentas.add(c); 
+    }
 }
