@@ -8,9 +8,9 @@ public class Cliente {
 
     private String documento;
     private int password; // Luego esto estará en la base de datos, no acá en el programa mismo
-    private String nombreCompleto;
+    private String nombreCompleto; // separar en nombre y apellido
     private LocalDate fechaNacimiento;
-    private String direccion;
+    private String direccion; // separar tambien
     private String telefono;
 
     private List<CuentaBancaria> cuentas;
