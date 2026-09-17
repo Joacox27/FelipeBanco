@@ -28,6 +28,8 @@ public class Login extends javax.swing.JFrame {
         
         setLocation(100, 50); // Consulta N02 con IA
         setSize(296, 180);
+        
+        this.getRootPane().setDefaultButton(jButton1); 
     }
 
     /**
@@ -63,6 +65,7 @@ public class Login extends javax.swing.JFrame {
 
         jTextField1_CI.setBackground(new java.awt.Color(255, 255, 255));
         jTextField1_CI.setForeground(new java.awt.Color(0, 0, 0));
+        jTextField1_CI.addActionListener(this::jTextField1_CIActionPerformed);
 
         jTextField2_password.setBackground(new java.awt.Color(255, 255, 255));
         jTextField2_password.setForeground(new java.awt.Color(0, 0, 0));
@@ -118,7 +121,7 @@ public class Login extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(129, 129, 129)
                         .addComponent(jButton1)))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -134,7 +137,7 @@ public class Login extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,6 +153,7 @@ public class Login extends javax.swing.JFrame {
         String documento = jTextField1_CI.getText();
 
     try {
+        
         int password = Integer.parseInt(jTextField2_password.getText());
 
         Cliente cliente = Fachada.getInstancia().login(documento, password);
@@ -191,8 +195,12 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField2_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2_passwordActionPerformed
-        // TODO add your handling code here:
+        jButton1ActionPerformed(evt);
     }//GEN-LAST:event_jTextField2_passwordActionPerformed
+
+    private void jTextField1_CIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1_CIActionPerformed
+        jButton1ActionPerformed(evt);
+    }//GEN-LAST:event_jTextField1_CIActionPerformed
 
     /**
      * @param args the command line arguments

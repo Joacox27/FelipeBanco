@@ -6,6 +6,8 @@ package Presentacion;
 
 import Logico.Fachada;
 import com.formdev.flatlaf.FlatLightLaf;
+import java.awt.Color;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -33,24 +35,23 @@ public class ConfirmarPrestamo extends javax.swing.JFrame {
         
 
         double tasa = Fachada.getInstancia().calcularTasaInteres(cuotas);
-
+        
+    
         jTextArea1.setText(
             "CONFIRMAR PRÉSTAMO\n\n"
-            + "Monto: $" + monto + "\n"
-            + "Cuotas: " + cuotas + "\n"
-            + "Tasa de interés: " + tasa + "%\n\n"
-            + "¿Desea confirmar el préstamo?"
+             + "Monto: $" + monto + "\n"
+             + "Cuotas: " + cuotas + "\n"
+             + "Tasa de interés: " + tasa + "%\n\n"
+             + "¿Desea confirmar el préstamo?"
         );
         
+        
+        
         this.setLocationRelativeTo(null); 
-        this.setTitle("FelipeBanco - Solicitar Prestamo");
+        this.setTitle("FelipeBanco - Confirmar Prestamo");
         
         setLocation(100, 50); // Consulta N02 con IA
         setSize(415, 430);
-    }
-
-    private ConfirmarPrestamo() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     /**
@@ -73,7 +74,7 @@ public class ConfirmarPrestamo extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel2.setBackground(new java.awt.Color(51, 51, 51));
         jPanel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -82,6 +83,7 @@ public class ConfirmarPrestamo extends javax.swing.JFrame {
         jLabel1_monto1.setText("Detalles de la solicitud:");
 
         jButton1.setText("Solicitar");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
 
         jCheckBox2.setText("Acepto las condiciones");
         jCheckBox2.addActionListener(this::jCheckBox2ActionPerformed);
@@ -147,6 +149,11 @@ public class ConfirmarPrestamo extends javax.swing.JFrame {
         );
 
         jMenu1.setText("Volver");
+        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu1MouseClicked(evt);
+            }
+        });
         jMenuBar1.add(jMenu1);
 
         setJMenuBar(jMenuBar1);
@@ -159,40 +166,46 @@ public class ConfirmarPrestamo extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
-        // TODO add your handling code here:
+        jButton1.setBackground(Color.green);
     }//GEN-LAST:event_jCheckBox2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       
+        
+        if ( !jCheckBox2.isSelected() ) {
+            
+          JOptionPane.showMessageDialog(rootPane,"Debe aceptar las condiciones del préstamo.");
+       
+          return;
+           
+         }
+        
+                Fachada.getInstancia().solicitarPrestamo(monto, cuotas);
+
+                 JOptionPane.showMessageDialog(
+                rootPane,
+                "Prestamo solicitado correctamente."
+            );
+
+            this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
+        SolicitarPrestamo p = new SolicitarPrestamo();
+        p.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jMenu1MouseClicked
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new ConfirmarPrestamo().setVisible(true));
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

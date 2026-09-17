@@ -10,11 +10,14 @@
 /home/joaco/Desktop/ITI 2026/Programación Avanzada/FelipeBanco/Cliente/src/main/java/Logico/Main.java
 /home/joaco/Desktop/ITI 2026/Programación Avanzada/FelipeBanco/Cliente/src/main/java/Logico/Operacion.java
 /home/joaco/Desktop/ITI 2026/Programación Avanzada/FelipeBanco/Cliente/src/main/java/Logico/Prestamo.java
+/home/joaco/Desktop/ITI 2026/Programación Avanzada/FelipeBanco/Cliente/src/main/java/Logico/Prestamos.java
 /home/joaco/Desktop/ITI 2026/Programación Avanzada/FelipeBanco/Cliente/src/main/java/Logico/Retiro.java
 /home/joaco/Desktop/ITI 2026/Programación Avanzada/FelipeBanco/Cliente/src/main/java/Logico/Sucursal.java
 /home/joaco/Desktop/ITI 2026/Programación Avanzada/FelipeBanco/Cliente/src/main/java/Logico/Sucursales.java
 /home/joaco/Desktop/ITI 2026/Programación Avanzada/FelipeBanco/Cliente/src/main/java/Logico/Transferencia.java
+/home/joaco/Desktop/ITI 2026/Programación Avanzada/FelipeBanco/Cliente/src/main/java/Presentacion/ConfirmarPrestamo.java
 /home/joaco/Desktop/ITI 2026/Programación Avanzada/FelipeBanco/Cliente/src/main/java/Presentacion/Login.java
+/home/joaco/Desktop/ITI 2026/Programación Avanzada/FelipeBanco/Cliente/src/main/java/Presentacion/SolicitarPrestamo.java
 /home/joaco/Desktop/ITI 2026/Programación Avanzada/FelipeBanco/Cliente/src/main/java/Presentacion/VentanaNuevoCliente.java
 /home/joaco/Desktop/ITI 2026/Programación Avanzada/FelipeBanco/Cliente/src/main/java/Presentacion/VentanaNuevoFuncionario.java
 /home/joaco/Desktop/ITI 2026/Programación Avanzada/FelipeBanco/Cliente/src/main/java/Presentacion/VentanaPrincipal.java

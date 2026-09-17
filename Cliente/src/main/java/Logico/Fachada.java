@@ -17,6 +17,7 @@ public class Fachada {
         funcionarios = new Funcionarios();
         clientes = new Clientes();
         sucursales = new Sucursales();
+        prestamos = new Prestamos();
     }
 
     public static Fachada getInstancia() {
@@ -104,19 +105,20 @@ public class Fachada {
 
     
     
-    public Cliente login(String documento, int password) {
+   public Cliente login(String documento, int password) {
 
-        for (Cliente c : clientes.mostrarClientes()) {
+    for (Cliente c : clientes.mostrarClientes()) {
 
-            if (c.getDocumento().equals(documento)
-                     && c.getPassword() == password) {
+        if (c.getDocumento().equals(documento)
+                && c.getPassword() == password) {
 
-                 return c;
-            }
-         }
-
-        return null;
+            cliente = c; // faltaba declarar que cliente era c
+            return c;
+        }
     }
+
+    return null;
+}
     
     
     //PRESTAMO
