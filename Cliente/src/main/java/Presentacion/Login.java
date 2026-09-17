@@ -8,6 +8,8 @@ import com.formdev.flatlaf.FlatDarkLaf;
 import Logico.Cliente;
 import Logico.Fachada;
 import com.formdev.flatlaf.FlatLightLaf;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 /**
  *
@@ -30,6 +32,17 @@ public class Login extends javax.swing.JFrame {
         setSize(296, 180);
         
         this.getRootPane().setDefaultButton(jButton1); 
+        
+      
+
+       // Quitar fondo y borde
+       jButton1.setContentAreaFilled(false);
+       jButton1.setBorderPainted(false);
+       jButton1.setFocusPainted(false);
+
+       // Opcional: hacer el botón transparente
+       jButton1.setOpaque(false);
+
     }
 
     /**
@@ -51,11 +64,11 @@ public class Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBackground(new java.awt.Color(13, 27, 42));
         jPanel1.setPreferredSize(new java.awt.Dimension(296, 152));
 
-        jPanel2.setBackground(new java.awt.Color(0, 204, 204));
-        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jPanel2.setBackground(new java.awt.Color(201, 168, 106));
+        jPanel2.setBorder(new javax.swing.border.MatteBorder(null));
 
         jLabel1_CI.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1_CI.setText("C.I:");
@@ -63,11 +76,11 @@ public class Login extends javax.swing.JFrame {
         jLabel2_contraseña.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2_contraseña.setText("Contraseña");
 
-        jTextField1_CI.setBackground(new java.awt.Color(255, 255, 255));
+        jTextField1_CI.setBackground(new java.awt.Color(245, 245, 245));
         jTextField1_CI.setForeground(new java.awt.Color(0, 0, 0));
         jTextField1_CI.addActionListener(this::jTextField1_CIActionPerformed);
 
-        jTextField2_password.setBackground(new java.awt.Color(255, 255, 255));
+        jTextField2_password.setBackground(new java.awt.Color(245, 245, 245));
         jTextField2_password.setForeground(new java.awt.Color(0, 0, 0));
         jTextField2_password.addActionListener(this::jTextField2_passwordActionPerformed);
 
@@ -105,7 +118,17 @@ public class Login extends javax.swing.JFrame {
         );
 
         jButton1.setBackground(new java.awt.Color(255, 255, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon("/home/joaco/Desktop/ITI 2026/Programación Avanzada/FelipeBanco/Cliente/images/next-button.png")); // NOI18N
+        jButton1.setIcon(new javax.swing.JLabel() {
+            public javax.swing.Icon getIcon() {
+                try {
+                    return new javax.swing.ImageIcon(
+                        new java.net.URL("file:/home/joaco/Documents/Proyecto%20integrador%20-%20BD%20%7C%20SO%20%7C%20PROG%20%7C%20VJ/Botones/suiguiente.png")
+                    );
+                } catch (java.net.MalformedURLException e) {
+                }
+                return null;
+            }
+        }.getIcon());
         jButton1.setBorder(null);
         jButton1.addActionListener(this::jButton1ActionPerformed);
 
@@ -114,14 +137,13 @@ public class Login extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(129, 129, 129)
-                        .addComponent(jButton1)))
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addGap(25, 25, 25)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(25, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(125, 125, 125))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -130,69 +152,24 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      
-        
-        String documento = jTextField1_CI.getText();
-
-    try {
-        
-        int password = Integer.parseInt(jTextField2_password.getText());
-
-        Cliente cliente = Fachada.getInstancia().login(documento, password);
-
-        if (cliente != null) {
-
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Bienvenido " + cliente.getNombreCompleto()
-            );
-
-            // Abrir ventana del cliente
-            VentanaPrincipal ventana = new VentanaPrincipal();
-            ventana.setVisible(true);
-
-            // Cerrar login
-            this.dispose();
-
-        } else {
-
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Documento o contraseña incorrectos.",
-                    "Error de login",
-                    JOptionPane.ERROR_MESSAGE
-            );
-        }
-
-    } catch (NumberFormatException e) {
-
-        JOptionPane.showMessageDialog(
-                this,
-                "La contraseña debe ser numérica.",
-                "Error",
-                JOptionPane.ERROR_MESSAGE
-        );
-
-    }
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField2_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2_passwordActionPerformed
         jButton1ActionPerformed(evt);
@@ -201,6 +178,52 @@ public class Login extends javax.swing.JFrame {
     private void jTextField1_CIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1_CIActionPerformed
         jButton1ActionPerformed(evt);
     }//GEN-LAST:event_jTextField1_CIActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        String documento = jTextField1_CI.getText();
+
+        try {
+
+            int password = Integer.parseInt(jTextField2_password.getText());
+
+            Cliente cliente = Fachada.getInstancia().login(documento, password);
+
+            if (cliente != null) {
+
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Bienvenido " + cliente.getNombreCompleto()
+                );
+
+                // Abrir ventana del cliente
+                VentanaPrincipal ventana = new VentanaPrincipal();
+                ventana.setVisible(true);
+
+                // Cerrar login
+                this.dispose();
+
+            } else {
+
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Documento o contraseña incorrectos.",
+                    "Error de login",
+                    JOptionPane.ERROR_MESSAGE
+                );
+            }
+
+        } catch (NumberFormatException e) {
+
+            JOptionPane.showMessageDialog(
+                this,
+                "La contraseña debe ser numérica.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+            );
+
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
