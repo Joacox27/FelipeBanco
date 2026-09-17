@@ -129,6 +129,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jMenu4.setText("Préstamos");
 
         jMenuItem3.setText("Solicitar Préstamo");
+        jMenuItem3.addActionListener(this::jMenuItem3ActionPerformed);
         jMenu4.add(jMenuItem3);
 
         jMenuBar1.add(jMenu4);
@@ -192,6 +193,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         c.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jMenuItem1_verfuncionariosActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        SolicitarPrestamo s = new SolicitarPrestamo();
+        s.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments

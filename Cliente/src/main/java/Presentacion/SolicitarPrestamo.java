@@ -5,6 +5,9 @@
 package Presentacion;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import java.time.LocalDate;
+import static java.time.temporal.TemporalQueries.localDate;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -40,11 +43,11 @@ public class SolicitarPrestamo extends javax.swing.JFrame {
         jScrollBar1 = new javax.swing.JScrollBar();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel1_monto = new javax.swing.JLabel();
+        jLabel2_cuotas = new javax.swing.JLabel();
         jTextField1_monto = new javax.swing.JTextField();
         jLabel1_monto1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        jComboBox1_cuotas = new javax.swing.JComboBox<>();
+        jButton1_solicitar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -55,13 +58,14 @@ public class SolicitarPrestamo extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(51, 51, 51));
         jPanel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabel1_monto.setText("Cuotas:");
+        jLabel2_cuotas.setText("Cuotas:");
 
         jLabel1_monto1.setText("Monto:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20" }));
+        jComboBox1_cuotas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24" }));
 
-        jButton1.setText("Solicitar");
+        jButton1_solicitar.setText("Solicitar");
+        jButton1_solicitar.addActionListener(this::jButton1_solicitarActionPerformed);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -75,13 +79,13 @@ public class SolicitarPrestamo extends javax.swing.JFrame {
                         .addGap(12, 12, 12)
                         .addComponent(jTextField1_monto))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel1_monto)
+                        .addComponent(jLabel2_cuotas)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBox1_cuotas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
-                                .addComponent(jButton1)
+                                .addComponent(jButton1_solicitar)
                                 .addGap(0, 65, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
@@ -94,10 +98,10 @@ public class SolicitarPrestamo extends javax.swing.JFrame {
                     .addComponent(jLabel1_monto1))
                 .addGap(8, 8, 8)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1_monto)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2_cuotas)
+                    .addComponent(jComboBox1_cuotas, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(jButton1_solicitar)
                 .addContainerGap())
         );
 
@@ -115,24 +119,26 @@ public class SolicitarPrestamo extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
+                .addGap(26, 26, 26)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(80, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(107, Short.MAX_VALUE))
         );
 
         jMenu1.setText("Volver");
+        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu1MouseClicked(evt);
+            }
+        });
         jMenuBar1.add(jMenu1);
 
         setJMenuBar(jMenuBar1);
@@ -150,6 +156,32 @@ public class SolicitarPrestamo extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
+        VentanaPrincipal ventana = new VentanaPrincipal();
+        ventana.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jMenu1MouseClicked
+
+    private void jButton1_solicitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1_solicitarActionPerformed
+         LocalDate fechaOtorgamiento = LocalDate.now();
+
+         String montoEnTexto = jTextField1_monto.getText();
+
+            if (montoEnTexto.isEmpty()) {
+            JOptionPane.showMessageDialog(rootPane, "El monto es obligatorio.");
+             return;
+            }
+            
+            //pasa el string anterior a double
+            double monto = Double.parseDouble(montoEnTexto);
+
+            int cuotas = jComboBox1_cuotas.getSelectedIndex();
+            
+                  ConfirmarPrestamo confirmar = new ConfirmarPrestamo();
+                  confirmar.setVisible(true);
+        
+    }//GEN-LAST:event_jButton1_solicitarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -177,10 +209,10 @@ public class SolicitarPrestamo extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel1_monto;
+    private javax.swing.JButton jButton1_solicitar;
+    private javax.swing.JComboBox<String> jComboBox1_cuotas;
     private javax.swing.JLabel jLabel1_monto1;
+    private javax.swing.JLabel jLabel2_cuotas;
     private javax.swing.JList<String> jList1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
