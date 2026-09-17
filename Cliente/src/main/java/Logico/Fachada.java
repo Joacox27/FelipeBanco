@@ -8,7 +8,9 @@ public class Fachada {
     private static Fachada singleton;
 
     private Funcionarios funcionarios;
+    private Prestamos prestamos;
     private Clientes clientes;
+    private Cliente cliente;
     private Sucursales sucursales;
 
     private Fachada()  {
@@ -115,5 +117,47 @@ public class Fachada {
 
         return null;
     }
+    
+    
+    //PRESTAMO
+    
+        public void solicitarPrestamo(double monto, int cuotas) {
+
+            String idPrestamo = "P" + (prestamos.mostrarPrestamos().size() + 1);
+
+            double tasaInteres;
+
+                if (cuotas <= 12) {
+                    
+                   tasaInteres = 10;
+                } else if (cuotas <= 24) {
+                    
+                    tasaInteres = 15;
+                } else {
+                    
+                    tasaInteres = 20;
+                }
+
+                Prestamo p = new Prestamo(
+                    idPrestamo,
+                    monto,
+                    tasaInteres,
+                    LocalDate.now(),
+                    cuotas,
+                    cliente
+                );
+  
+                prestamos.nuevoPrestamo(p);
+
+                cliente.agregarPrestamo(p);
+         }
+        
+       public ArrayList<Prestamo> mostrarPrestamos() {
+        return prestamos.mostrarPrestamos();
+    }
+        
+        
+      
+    
 }
 
