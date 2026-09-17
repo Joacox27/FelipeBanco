@@ -4,9 +4,8 @@
  */
 package Presentacion;
 
+
 import com.formdev.flatlaf.FlatLightLaf;
-import java.time.LocalDate;
-import static java.time.temporal.TemporalQueries.localDate;
 import javax.swing.JOptionPane;
 
 /**
@@ -164,23 +163,49 @@ public class SolicitarPrestamo extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu1MouseClicked
 
     private void jButton1_solicitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1_solicitarActionPerformed
-         LocalDate fechaOtorgamiento = LocalDate.now();
 
-         String montoEnTexto = jTextField1_monto.getText();
 
-            if (montoEnTexto.isEmpty()) {
-            JOptionPane.showMessageDialog(rootPane, "El monto es obligatorio.");
-             return;
-            }
-            
-            //pasa el string anterior a double
-            double monto = Double.parseDouble(montoEnTexto);
+    String montoEnTexto = jTextField1_monto.getText().trim();
 
-            int cuotas = jComboBox1_cuotas.getSelectedIndex();
-            
-                  ConfirmarPrestamo confirmar = new ConfirmarPrestamo();
-                  confirmar.setVisible(true);
+    if (montoEnTexto.isEmpty()) {
+        JOptionPane.showMessageDialog(rootPane,
+            "El monto es obligatorio"
+        );
+        return;
+    }
+
+     double monto;
+
+    try {
         
+        //prueba convertir el monto en texto a Double
+        monto = Double.parseDouble(montoEnTexto);
+        
+    } catch (NumberFormatException e) {
+        
+        JOptionPane.showMessageDialog(rootPane, "El monto debe ser un número valido.");
+        
+        return;
+        
+    }
+
+    if (monto <= 0) {
+        JOptionPane.showMessageDialog(rootPane,"El monto debe ser mayor a 0.");
+         return;
+    }
+
+    int cuotas = Integer.parseInt(
+            
+         jComboBox1_cuotas.getSelectedItem().toString()
+    );
+
+    ConfirmarPrestamo ventana = new ConfirmarPrestamo(monto, cuotas);
+    ventana.setVisible(true);
+
+    this.dispose();
+
+            
+
     }//GEN-LAST:event_jButton1_solicitarActionPerformed
 
     /**

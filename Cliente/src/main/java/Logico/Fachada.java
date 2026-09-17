@@ -155,6 +155,20 @@ public class Fachada {
        public ArrayList<Prestamo> mostrarPrestamos() {
         return prestamos.mostrarPrestamos();
     }
+       
+       public double calcularTasaInteres( int cuotas) {
+
+            if (cuotas <= 12) {
+
+                  return 10;
+            } else if (cuotas <= 24) {
+                 return 15;
+
+            } else {
+
+                return 20;
+         }
+}
         
         
       

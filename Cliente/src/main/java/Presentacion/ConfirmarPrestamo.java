@@ -4,6 +4,7 @@
  */
 package Presentacion;
 
+import Logico.Fachada;
 import com.formdev.flatlaf.FlatLightLaf;
 
 /**
@@ -13,19 +14,43 @@ import com.formdev.flatlaf.FlatLightLaf;
 public class ConfirmarPrestamo extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ConfirmarPrestamo.class.getName());
+    private double monto;
+    private int cuotas;
 
     /**
      * Creates new form SolicitarPrestamo
      */
-    public ConfirmarPrestamo() {
+    
+    //cuando esta ventana se inicie, va a recibir el monto y las cuotas seleccionadas en SolicitarPrestamo
+    public ConfirmarPrestamo(double monto, int cuotas) {
         FlatLightLaf.setup();
         initComponents();
+        
+        
+        this.monto = monto;
+        this.cuotas = cuotas;
+        
+        
+
+        double tasa = Fachada.getInstancia().calcularTasaInteres(cuotas);
+
+        jTextArea1.setText(
+            "CONFIRMAR PRÉSTAMO\n\n"
+            + "Monto: $" + monto + "\n"
+            + "Cuotas: " + cuotas + "\n"
+            + "Tasa de interés: " + tasa + "%\n\n"
+            + "¿Desea confirmar el préstamo?"
+        );
         
         this.setLocationRelativeTo(null); 
         this.setTitle("FelipeBanco - Solicitar Prestamo");
         
         setLocation(100, 50); // Consulta N02 con IA
         setSize(415, 430);
+    }
+
+    private ConfirmarPrestamo() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     /**
