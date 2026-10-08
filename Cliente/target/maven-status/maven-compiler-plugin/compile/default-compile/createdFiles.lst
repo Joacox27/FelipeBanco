@@ -1,4 +1,6 @@
+Presentacion/Operaciones$1.class
 Logico/CuentaCorriente.class
+Presentacion/Deposito$1.class
 Presentacion/VentanaNuevoFuncionario$1.class
 Presentacion/SolicitarPrestamo$1.class
 red/ClienteSocket.class
@@ -16,10 +18,14 @@ Presentacion/VentanaPrincipal.class
 Logico/Retiro.class
 Logico/Transferencia.class
 Logico/Deposito.class
+Presentacion/Retiro$1.class
 Presentacion/VentanaNuevoCliente$1.class
+Presentacion/Operaciones.class
 Presentacion/Login.class
 Logico/CuentaBancaria.class
 Logico/Funcionario.class
+Presentacion/Retiro.class
+Presentacion/Deposito.class
 Logico/Sucursal.class
 Logico/Fachada.class
 Presentacion/VisualizarFuncionarios.class

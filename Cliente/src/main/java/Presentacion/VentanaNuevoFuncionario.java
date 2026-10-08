@@ -208,7 +208,7 @@ public class VentanaNuevoFuncionario extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1_sucursalesActionPerformed
 
     private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
-       VentanaPrincipal ventana = new VentanaPrincipal();
+            VentanaPrincipal ventana = new VentanaPrincipal();
             ventana.setVisible(true);
             this.dispose();
     }//GEN-LAST:event_jMenu1MouseClicked

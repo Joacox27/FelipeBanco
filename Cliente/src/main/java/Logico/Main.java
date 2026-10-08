@@ -11,7 +11,7 @@ public class Main {
 
     public static void main(String[] args) {
         
-        Fachada.getInstancia();
+        //Fachada.getInstancia();
         
         Login ppal= new Login();
         ppal.setVisible(true);

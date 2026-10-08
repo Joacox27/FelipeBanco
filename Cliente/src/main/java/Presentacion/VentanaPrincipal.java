@@ -50,6 +50,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -109,9 +110,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jMenu3.setText("Operaciónes");
 
-        jMenuItem2.setText("Realizar Operación");
+        jMenuItem2.setText("Nueva");
         jMenuItem2.addActionListener(this::jMenuItem2ActionPerformed);
         jMenu3.add(jMenuItem2);
+
+        jMenuItem1.setText("Historial");
+        jMenu3.add(jMenuItem1);
 
         jMenuBar1.add(jMenu3);
 
@@ -132,7 +136,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
+        Operaciones O = new Operaciones();
+        O.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem4_verclientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4_verclientesActionPerformed
@@ -194,6 +200,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem1_ingresarCliente;
     private javax.swing.JMenuItem jMenuItem1_verfuncionarios;
     private javax.swing.JMenuItem jMenuItem2;
