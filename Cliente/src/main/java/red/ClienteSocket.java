@@ -69,9 +69,8 @@ public class ClienteSocket {
     }
 
 
-    // ============================================================
     // DRIVER
-    // ============================================================
+
 
     public String probarDriver() throws IOException {
 
@@ -81,9 +80,9 @@ public class ClienteSocket {
     }
 
 
-    // ============================================================
+   
     // CLIENTES
-    // ============================================================
+   
 
     /*
      * Protocolo:
@@ -95,6 +94,9 @@ public class ClienteSocket {
      *
      * 2:12345678:1234:Joaquin Salazar:
      * 2009-05-10:Montevideo:099123456
+    
+    
+    nombre completo tiene q ser atomico, osea nombre y apellido 8/10
      */
     public String nuevoCliente(Cliente c) throws IOException {
 
@@ -176,9 +178,8 @@ public class ClienteSocket {
     }
 
 
-    // ============================================================
     // FUNCIONARIOS
-    // ============================================================
+
 
     /*
      * Protocolo:
@@ -282,10 +283,8 @@ public class ClienteSocket {
         }
 
 
-
-    // ============================================================
     // SUCURSALES
-    // ============================================================
+
 
     /*
      * Protocolo:
@@ -308,10 +307,7 @@ public class ClienteSocket {
         return lista;
     }
 
-
-    // ============================================================
     // LOGIN
-    // ============================================================
 
     /*
      * Protocolo:
@@ -377,12 +373,12 @@ public class ClienteSocket {
     }
 
 
-    // ============================================================
+
     // PRESTAMOS
-    // ============================================================
+  
 
     /*
-     * Protocolo:
+     * Protocolo q sigue:
      *
      * 8:monto:cuotas:documentoCliente
      */
@@ -458,9 +454,9 @@ public class ClienteSocket {
 
          return lista;
      }
-    // ============================================================
+
     // SALIR
-    // ============================================================
+ 
 
     public String salir() throws IOException {
 
