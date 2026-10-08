@@ -1,13 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Logico;
 
-/**
- *
- * @author joaco
- */
-public class Deposito {
+import java.time.LocalDateTime;
+
+public class Deposito extends Operacion {
+    public Deposito(String idOperacion, LocalDateTime fechaHora, double monto, CuentaBancaria cuenta) {
+        super(idOperacion, fechaHora, monto, cuenta);
+    }
+
+    @Override
+    public void ejecutar() { 
+        
+        cuenta.depositar(monto);
     
+    }
 }

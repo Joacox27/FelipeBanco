@@ -1,13 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Logico;
 
-/**
- *
- * @author joaco
- */
-public class CuentaAhorro {
-    
+import java.time.LocalDate;
+
+public class CuentaAhorro extends CuentaBancaria {
+    private double tasaInteres;
+
+    public CuentaAhorro(String numeroCuenta, LocalDate fechaApertura, double saldo,
+                        Sucursal sucursal, double tasaInteres) {
+        super(numeroCuenta, fechaApertura, saldo, sucursal);
+        this.tasaInteres = tasaInteres;
+    }
+
+    @Override
+    public void depositar(double monto) { saldo += monto; }
+
+    @Override
+    public void retirar(double monto) { if (saldo >= monto) saldo -= monto; }
 }

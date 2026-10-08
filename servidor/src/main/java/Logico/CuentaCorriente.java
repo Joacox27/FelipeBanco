@@ -1,13 +1,21 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Logico;
 
-/**
- *
- * @author joaco
- */
-public class CuentaCorriente {
-    
+import java.time.LocalDate;
+
+public class CuentaCorriente extends CuentaBancaria {
+    private double limiteDescubierto;
+
+    public CuentaCorriente(String numeroCuenta, LocalDate fechaApertura, double saldo,
+                           Sucursal sucursal, double limiteDescubierto) {
+        super(numeroCuenta, fechaApertura, saldo, sucursal);
+        this.limiteDescubierto = limiteDescubierto;
+    }
+
+    @Override
+    public void depositar(double monto) { saldo += monto; }
+
+    @Override
+    public void retirar(double monto) {
+        if (saldo + limiteDescubierto >= monto) saldo -= monto;
+    }
 }

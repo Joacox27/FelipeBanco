@@ -1,13 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Logico;
 
-/**
- *
- * @author joaco
- */
-public class Operacion {
-    
+import java.time.LocalDateTime;
+
+public abstract class Operacion {
+    protected String idOperacion;
+    protected LocalDateTime fechaHora;
+    protected double monto;
+    protected CuentaBancaria cuenta;
+
+    public Operacion(String idOperacion, LocalDateTime fechaHora, double monto, CuentaBancaria cuenta) {
+        this.idOperacion = idOperacion;
+        this.fechaHora = fechaHora;
+        this.monto = monto;
+        this.cuenta = cuenta;
+    }
+
+    public abstract void ejecutar();
 }

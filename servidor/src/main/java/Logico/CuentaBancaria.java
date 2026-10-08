@@ -1,13 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Logico;
 
-/**
- *
- * @author joaco
- */
-public class CuentaBancaria {
-    
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class CuentaBancaria {
+    protected String numeroCuenta;
+    protected LocalDate fechaApertura;
+    protected double saldo;
+    protected Sucursal sucursal;
+    protected List<Operacion> operaciones;
+
+    public CuentaBancaria(String numeroCuenta, LocalDate fechaApertura, double saldo, Sucursal sucursal) {
+        this.numeroCuenta = numeroCuenta;
+        this.fechaApertura = fechaApertura;
+        this.saldo = saldo;
+        this.sucursal = sucursal;
+        this.operaciones = new ArrayList<>();
+    }
+
+    public abstract void depositar(double monto);
+    public abstract void retirar(double monto);
 }
