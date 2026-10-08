@@ -20,9 +20,7 @@ public class ClienteSocket {
     private PrintWriter salida;
 
 
-    // ============================================================
-    // CONEXIÓN CON SERVIDOR
-    // ============================================================
+    // CONEXIÓN CON PROGRAMA SERVIDOR
 
     public void conectar() throws IOException {
 
@@ -62,7 +60,7 @@ public class ClienteSocket {
         } catch (IOException e) {
 
             System.out.println(
-                    "ERROR al cerrar la conexión: "
+                    "Red: ERROR al cerrar la conexión: "
                     + e.getMessage()
             );
         }
@@ -80,33 +78,36 @@ public class ClienteSocket {
     }
 
 
-   
     // CLIENTES
-   
 
     /*
+     * La contraseña NO pertenece al objeto Cliente
+     * Se manda aparte porque el servidor debe guardarla
+     * en la base de datos.
+     *
      * Protocolo:
      *
-     * 2:documento:password:nombreCompleto:
-     * fechaNacimiento:direccion:telefono
+     * 2;documento:password:nombre:apellido:
+     * fechaNacimiento:calle:numero:ciudad:telefono
      *
      * Ejemplo:
      *
-     * 2:12345678:1234:Joaquin Salazar:
-     * 2009-05-10:Montevideo:099123456
-    
-    
-    nombre completo tiene q ser atomico, osea nombre y apellido 8/10
+     * 2;12345678:1234:Joaquin:Salazar:2009-05-10:Montevideo:4750:Montevideo:099123456
      */
-    public String nuevoCliente(Cliente c) throws IOException {
+    public String nuevoCliente(
+            Cliente c,
+            int password) throws IOException {
 
         String mensaje =
-                "2:"
+                "2;"
                 + c.getDocumento() + ":"
-                + c.getPassword() + ":"
-                + c.getNombreCompleto() + ":"
+                + password + ":"
+                + c.getNombre() + ":"
+                + c.getApellido() + ":"
                 + c.getFechaNacimiento() + ":"
-                + c.getDireccion() + ":"
+                + c.getCalle() + ":"
+                + c.getNumero() + ":"
+                + c.getCiudad() + ":"
                 + c.getTelefono();
 
         salida.println(mensaje);
@@ -122,8 +123,8 @@ public class ClienteSocket {
      *
      * Respuesta:
      *
-     * documento,password,nombreCompleto,
-     * fechaNacimiento,direccion,telefono|
+     * documento,nombre,apellido,fechaNacimiento,
+     * calle,numero,ciudad,telefono|
      */
     public ArrayList<Cliente> mostrarClientes()
             throws IOException {
@@ -151,22 +152,28 @@ public class ClienteSocket {
 
             String[] partes = datos.split(",");
 
-            if (partes.length >= 6) {
+            if (partes.length >= 8) {
 
                 String documento = partes[0];
-                int password = Integer.parseInt(partes[1]);
-                String nombreCompleto = partes[2];
+                String nombre = partes[1];
+                String apellido = partes[2];
+
                 LocalDate fechaNacimiento =
                         LocalDate.parse(partes[3]);
-                String direccion = partes[4];
-                String telefono = partes[5];
+
+                String calle = partes[4];
+                String numero = partes[5];
+                String ciudad = partes[6];
+                String telefono = partes[7];
 
                 Cliente c = new Cliente(
                         documento,
-                        password,
-                        nombreCompleto,
+                        nombre,
+                        apellido,
                         fechaNacimiento,
-                        direccion,
+                        calle,
+                        numero,
+                        ciudad,
                         telefono
                 );
 
@@ -180,11 +187,10 @@ public class ClienteSocket {
 
     // FUNCIONARIOS
 
-
     /*
      * Protocolo:
      *
-     * 4:nombre:sucursal:rol
+     * 4;nombre:sucursal:rol
      */
     public String nuevoFuncionario(
             String nombre,
@@ -192,7 +198,7 @@ public class ClienteSocket {
             String rol) throws IOException {
 
         String mensaje =
-                "4:"
+                "4;"
                 + nombre + ":"
                 + nombreSucursal + ":"
                 + rol;
@@ -207,80 +213,73 @@ public class ClienteSocket {
      * Protocolo:
      *
      * 5
+     *
+     * Respuesta:
+     *
+     * idFuncionario,nombre,rol,fechaIngreso,
+     * idSucursal,nombreSucursal,direccion,ciudad|
      */
-    
-        public ArrayList<Funcionario> mostrarFuncionarios()
-                throws IOException {
+    public ArrayList<Funcionario> mostrarFuncionarios()
+            throws IOException {
 
-            salida.println("5");
+        salida.println("5");
 
-            String respuesta = entrada.readLine();
+        String respuesta = entrada.readLine();
 
-            ArrayList<Funcionario> lista = new ArrayList<>();
+        ArrayList<Funcionario> lista = new ArrayList<>();
 
-            if (respuesta == null
-                    || respuesta.equals("No hay funcionarios registrados.")
-                    || respuesta.isEmpty()) {
-
-                return lista;
-            }
-
-            /*
-             * Formato recibido:
-             *
-             * idFuncionario,nombre,rol,fechaIngreso,
-             * idSucursal,nombreSucursal,direccion,ciudad
-             *
-             * Cada funcionario se separa con el palo "|".
-             */
-
-            String[] funcionarios = respuesta.split("\\|");
-
-            for (String datos : funcionarios) {
-
-                if (datos.isEmpty()) {
-                    continue;
-                }
-
-                String[] partes = datos.split(",");
-
-                if (partes.length >= 8) {
-
-                    String idFuncionario = partes[0];
-                    String nombre = partes[1];
-                    String rol = partes[2];
-
-                    LocalDate fechaIngreso =
-                            LocalDate.parse(partes[3]);
-
-                    int idSucursal =
-                            Integer.parseInt(partes[4]);
-
-                    String nombreSucursal = partes[5];
-                    String direccion = partes[6];
-                    String ciudad = partes[7];
-
-                    Sucursal sucursal = new Sucursal(
-                            idSucursal,
-                            nombreSucursal,
-                            direccion,
-                            ciudad
-                    );
-
-                    Funcionario funcionario = new Funcionario(
-                            idFuncionario,
-                            nombre,
-                            rol,
-                            fechaIngreso,
-                            sucursal
-                    );
-
-                    lista.add(funcionario);
-                }
-            }
+        if (respuesta == null || respuesta.equals("No hay funcionarios registrados.") || respuesta.isEmpty()) {
 
             return lista;
         }
+
+        String[] funcionarios = respuesta.split("\\|");
+
+        for (String datos : funcionarios) {
+
+            if (datos.isEmpty()) {
+                continue;
+            }
+
+            String[] partes = datos.split(",");
+
+            if (partes.length >= 8) {
+
+                String idFuncionario = partes[0];
+                String nombre = partes[1];
+                String rol = partes[2];
+
+                LocalDate fechaIngreso =
+                        LocalDate.parse(partes[3]);
+
+                int idSucursal =
+                        Integer.parseInt(partes[4]);
+
+                String nombreSucursal = partes[5];
+                String direccion = partes[6];
+                String ciudad = partes[7];
+
+                Sucursal sucursal = new Sucursal(
+                        idSucursal,
+                        nombreSucursal,
+                        direccion,
+                        ciudad
+                );
+
+                Funcionario funcionario = new Funcionario(
+                        idFuncionario,
+                        nombre,
+                        rol,
+                        fechaIngreso,
+                        sucursal
+                );
+
+                lista.add(funcionario);
+            }
+        }
+
+        return lista;
+    }
 
 
     // SUCURSALES
@@ -290,6 +289,10 @@ public class ClienteSocket {
      * Protocolo:
      *
      * 6
+     *
+     * Respuesta:
+     *
+     * idSucursal,nombre,direccion,ciudad|
      */
     public ArrayList<Sucursal> mostrarSucursales()
             throws IOException {
@@ -298,26 +301,64 @@ public class ClienteSocket {
 
         String respuesta = entrada.readLine();
 
-        /*
-         * Esta parte necesita ajustarse al constructor REAL
-         * de Sucursal.
-         */
         ArrayList<Sucursal> lista = new ArrayList<>();
+
+        if (respuesta == null
+                || respuesta.equals("No hay sucursales registradas.")
+                || respuesta.isEmpty()) {
+
+            return lista;
+        }
+
+        String[] sucursales = respuesta.split("\\|");
+
+        for (String datos : sucursales) {
+
+            if (datos.isEmpty()) {
+                continue;
+            }
+
+            String[] partes = datos.split(",");
+
+            if (partes.length >= 4) {
+
+                int idSucursal =
+                        Integer.parseInt(partes[0]);
+
+                String nombre = partes[1];
+                String direccion = partes[2];
+                String ciudad = partes[3];
+
+                Sucursal sucursal = new Sucursal(
+                        idSucursal,
+                        nombre,
+                        direccion,
+                        ciudad
+                );
+
+                lista.add(sucursal);
+            }
+        }
 
         return lista;
     }
 
+
     // LOGIN
 
+
     /*
+     * La contraseña se manda al servidor,
+     * pero NO se guarda dentro del objeto Cliente.
+     *
      * Protocolo:
      *
-     * 7:CI:password
+     * 7;documento:password
      *
      * Respuesta correcta:
      *
-     * OK|CI|password|nombreCompleto|
-     * fechaNacimiento|direccion|telefono
+     * OK|documento|nombre|apellido|fechaNacimiento|
+     * calle|numero|ciudad|telefono
      *
      * Respuesta incorrecta:
      *
@@ -328,7 +369,7 @@ public class ClienteSocket {
             int password) throws IOException {
 
         String mensaje =
-                "7:"
+                "7;"
                 + documento + ":"
                 + password;
 
@@ -346,25 +387,29 @@ public class ClienteSocket {
 
         String[] partes = respuesta.split("\\|");
 
-        if (partes.length >= 7
+        if (partes.length >= 9
                 && partes[0].equals("OK")) {
 
             String ci = partes[1];
-            int pass = Integer.parseInt(partes[2]);
-            String nombreCompleto = partes[3];
+            String nombre = partes[2];
+            String apellido = partes[3];
 
             LocalDate fechaNacimiento =
                     LocalDate.parse(partes[4]);
 
-            String direccion = partes[5];
-            String telefono = partes[6];
+            String calle = partes[5];
+            String numero = partes[6];
+            String ciudad = partes[7];
+            String telefono = partes[8];
 
             return new Cliente(
                     ci,
-                    pass,
-                    nombreCompleto,
+                    nombre,
+                    apellido,
                     fechaNacimiento,
-                    direccion,
+                    calle,
+                    numero,
+                    ciudad,
                     telefono
             );
         }
@@ -378,9 +423,9 @@ public class ClienteSocket {
   
 
     /*
-     * Protocolo q sigue:
+     * Protocolo:
      *
-     * 8:monto:cuotas:documentoCliente
+     * 8;monto:cuotas:documentoCliente
      */
     public String solicitarPrestamo(
             double monto,
@@ -388,7 +433,7 @@ public class ClienteSocket {
             String documentoCliente) throws IOException {
 
         String mensaje =
-                "8:"
+                "8;"
                 + monto + ":"
                 + cuotas + ":"
                 + documentoCliente;
@@ -402,61 +447,76 @@ public class ClienteSocket {
     /*
      * Protocolo:
      *
-     * 9
+     * 9;documentoCliente
+     *
+     * Respuesta:
+     *
+     * idPrestamo,monto,tasaInteres,
+     * fechaOtorgamiento,cuotas|
      */
-        public ArrayList<Prestamo> mostrarPrestamos(
-             Cliente cliente) throws IOException {
+    public ArrayList<Prestamo> mostrarPrestamos(
+            Cliente cliente) throws IOException {
 
-         salida.println("9:" + cliente.getDocumento());
+        salida.println(
+                "9;" + cliente.getDocumento()
+        );
 
-         String respuesta = entrada.readLine();
+        String respuesta = entrada.readLine();
 
-         ArrayList<Prestamo> lista = new ArrayList<>();
+        ArrayList<Prestamo> lista = new ArrayList<>();
 
-         if (respuesta == null
-                 || respuesta.equals("No hay préstamos registrados.")
-                 || respuesta.isEmpty()) {
+        if (respuesta == null
+                || respuesta.equals("No hay préstamos registrados.")
+                || respuesta.isEmpty()) {
 
-             return lista;
-         }
+            return lista;
+        }
 
-         String[] prestamos = respuesta.split("\\|");
+        String[] prestamos = respuesta.split("\\|");
 
-         for (String datos : prestamos) {
+        for (String datos : prestamos) {
 
-             if (datos.isEmpty()) {
-                 continue;
-             }
+            if (datos.isEmpty()) {
+                continue;
+            }
 
-             String[] partes = datos.split(",");
+            String[] partes = datos.split(",");
 
-             if (partes.length >= 5) {
+            if (partes.length >= 5) {
 
-                 String idPrestamo = partes[0];
-                 double monto = Double.parseDouble(partes[1]);
-                 double tasaInteres = Double.parseDouble(partes[2]);
-                 LocalDate fechaOtorgamiento =
-                 LocalDate.parse(partes[3]);
-                 int cuotas = Integer.parseInt(partes[4]);
+                String idPrestamo = partes[0];
 
-                 Prestamo p = new Prestamo(
-                         idPrestamo,
-                         monto,
-                         tasaInteres,
-                         fechaOtorgamiento,
-                         cuotas,
-                         cliente
-                 );
+                double monto =
+                        Double.parseDouble(partes[1]);
 
-                 lista.add(p);
-             }
-         }
+                double tasaInteres =
+                        Double.parseDouble(partes[2]);
 
-         return lista;
-     }
+                LocalDate fechaOtorgamiento =
+                        LocalDate.parse(partes[3]);
+
+                int cuotas =
+                        Integer.parseInt(partes[4]);
+
+                Prestamo p = new Prestamo(
+                        idPrestamo,
+                        monto,
+                        tasaInteres,
+                        fechaOtorgamiento,
+                        cuotas,
+                        cliente
+                );
+
+                lista.add(p);
+            }
+        }
+
+        return lista;
+    }
+
 
     // SALIR
- 
+
 
     public String salir() throws IOException {
 
