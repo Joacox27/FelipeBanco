@@ -175,7 +175,8 @@ public class Login extends javax.swing.JFrame {
 
         try {
 
-            int password = Integer.parseInt(jTextField2_password.getText());
+            String textoPassword = new String(jTextField2_password.getPassword()).trim();
+            int password = Integer.parseInt(textoPassword);
 
             Cliente cliente = Fachada.getInstancia().login(documento, password);
 
@@ -183,7 +184,7 @@ public class Login extends javax.swing.JFrame {
 
                 JOptionPane.showMessageDialog(
                     this,
-                    "Bienvenido " + cliente.getNombreCompleto()
+                    "Bienvenido " + cliente.getNombre()
                 );
 
                 // Abrir ventana del cliente

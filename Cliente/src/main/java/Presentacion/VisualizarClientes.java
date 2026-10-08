@@ -8,8 +8,6 @@ import Logico.Fachada;
 import Logico.Cliente;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.util.ArrayList;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -23,33 +21,60 @@ public class VisualizarClientes extends javax.swing.JFrame {
     /**
      * Creates new form VisulizarDator
      */
+
     public VisualizarClientes() {
+
         FlatLightLaf.setup();
+
         initComponents();
-        this.setLocationRelativeTo(null); // Centra la ventana en pantalla
-        this.setTitle("FelipeBanco - Visualizar Clientes"); // Pone título
-        //insertarDatosTabla
-        DefaultTableModel modeloTabla = new DefaultTableModel();
+
+        this.setLocationRelativeTo(null);
+        this.setTitle("FelipeBanco - Visualizar Clientes");
+
+        DefaultTableModel modeloTabla =
+                new DefaultTableModel();
+
         modeloTabla.addColumn("Documento");
-        modeloTabla.addColumn("Nombre Completo");
+        modeloTabla.addColumn("Nombre");
+        modeloTabla.addColumn("Apellido");
         modeloTabla.addColumn("Fecha Nacimiento");
-        modeloTabla.addColumn("Direccíon");
+        modeloTabla.addColumn("Calle");
+        modeloTabla.addColumn("Número");
+        modeloTabla.addColumn("Ciudad");
         modeloTabla.addColumn("Teléfono");
-        ArrayList<Cliente> lista = Fachada.getInstancia().mostrarClientes();
-        for (Cliente c: lista){
-          Object[] objeto= new Object[]{
-              c.getDocumento(),
-              c.getNombreCompleto(),
-              c.getFechaNacimiento(),
-              c.getDireccion(),
-              c.getTelefono(),
-          };
-          modeloTabla.addRow(objeto);
-        }
-        
+
+
+        // se obtienen los clientes desde el servidor
+
+        ArrayList<Cliente> lista =
+                Fachada.getInstancia().mostrarClientes();
+
+
+        // se cargan en la tabla
+
+        for (Cliente c : lista) {
+
+            Object[] objeto = new Object[]{
+                c.getDocumento(),
+                c.getNombre(),
+                c.getApellido(),
+                c.getFechaNacimiento(),
+                c.getCalle(),
+                c.getNumero(),
+                c.getCiudad(),
+                c.getTelefono()
+
+                    
+            };
+
+            modeloTabla.addRow(objeto);
+            
+         }
+
         jTable1_display.setModel(modeloTabla);
-           
     }
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
