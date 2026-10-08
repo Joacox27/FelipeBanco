@@ -7,49 +7,63 @@ import java.util.List;
 public class Cliente {
 
     private String documento;
-    private int password; // Luego esto estará en la base de datos, no acá en el programa mismo
-    private String nombreCompleto; // separar en nombre y apellido
+
+    private String nombre;
+    private String apellido;
+
     private LocalDate fechaNacimiento;
-    private String direccion; // separar tambien
+
+    private String calle;
+    private String numero;
+    private String ciudad;
+
     private String telefono;
 
     private List<CuentaBancaria> cuentas;
     private List<Prestamo> prestamos;
 
-    public Cliente(String documento, int password, String nombreCompleto,
-                   LocalDate fechaNacimiento, String direccion, String telefono) {
+
+    public Cliente(String documento, String nombre, String apellido, LocalDate fechaNacimiento, String calle, String numero, String ciudad, String telefono) {
 
         this.documento = documento;
-        this.password = password;
-        this.nombreCompleto = nombreCompleto;
+        this.nombre = nombre;
+        this.apellido = apellido;
         this.fechaNacimiento = fechaNacimiento;
-        this.direccion = direccion;
+        this.calle = calle;
+        this.numero = numero;
+        this.ciudad = ciudad;
         this.telefono = telefono;
 
         this.cuentas = new ArrayList<>();
         this.prestamos = new ArrayList<>();
     }
 
-
-
     public String getDocumento() {
         return documento;
     }
 
-    public int getPassword() {
-        return password;
+    public String getNombre() {
+        return nombre;
     }
 
-    public String getNombreCompleto() {
-        return nombreCompleto;
+    public String getApellido() {
+        return apellido;
     }
 
     public LocalDate getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public String getDireccion() {
-        return direccion;
+    public String getCalle() {
+        return calle;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public String getCiudad() {
+        return ciudad;
     }
 
     public String getTelefono() {
@@ -65,32 +79,39 @@ public class Cliente {
     }
 
 
-
     public void setDocumento(String documento) {
         this.documento = documento;
     }
 
-    public void setPassword(int password) {
-        this.password = password;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public void setNombreCompleto(String nombreCompleto) {
-        this.nombreCompleto = nombreCompleto;
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
     }
 
     public void setFechaNacimiento(LocalDate fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
+    public void setCalle(String calle) {
+        this.calle = calle;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
     }
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 
-    // metodos para agregar cuentas y prestamos
+
 
     public void agregarCuenta(CuentaBancaria cuenta) {
         cuentas.add(cuenta);
