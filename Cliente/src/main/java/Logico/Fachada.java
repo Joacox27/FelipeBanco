@@ -11,7 +11,7 @@ public class Fachada {
 
     private final ClienteSocket clienteSocket;
 
-    // Cliente que inició sesión en este programa cliente
+    // el Cliente que inició sesión en este programa cliente
     private Cliente cliente;
 
     private Fachada() {
@@ -41,9 +41,9 @@ public class Fachada {
     }
 
 
-    // =========================
+
     // FUNCIONARIOS
-    // =========================
+
 
     public void nuevoFuncionario(
             String nombre,
@@ -86,15 +86,20 @@ public class Fachada {
     }
 
 
-    // =========================
-    // CLIENTES
-    // =========================
 
-    public void nuevoCliente(Cliente c) {
+    // CLIENTES
+
+
+    public void nuevoCliente(
+            Cliente c,
+            int password) {
 
         try {
 
-            String respuesta = clienteSocket.nuevoCliente(c);
+            String respuesta = clienteSocket.nuevoCliente(
+                    c,
+                    password
+            );
 
             comprobarRespuesta(respuesta);
 
@@ -124,9 +129,9 @@ public class Fachada {
     }
 
 
-    // =========================
+
     // SUCURSALES
-    // =========================
+
 
     public ArrayList<Sucursal> mostrarSucursales() {
 
@@ -144,11 +149,12 @@ public class Fachada {
     }
 
 
-    // =========================
     // LOGIN
-    // =========================
 
-    public Cliente login(String documento, int password) {
+
+    public Cliente login(
+            String documento,
+            int password) {
 
         try {
 
@@ -173,9 +179,9 @@ public class Fachada {
     }
 
 
-    // =========================
+
     // PRESTAMOS
-    // =========================
+
 
     public void solicitarPrestamo(
             double monto,
@@ -210,29 +216,30 @@ public class Fachada {
 
     public ArrayList<Prestamo> mostrarPrestamos() {
 
-      if (cliente == null) {
-          throw new IllegalStateException(
-                  "No hay un cliente autenticado."
-          );
-      }
+        if (cliente == null) {
 
-      try {
+            throw new IllegalStateException(
+                    "No hay un cliente autenticado."
+            );
+        }
 
-          return clienteSocket.mostrarPrestamos(cliente);
+        try {
 
-      } catch (IOException e) {
+            return clienteSocket.mostrarPrestamos(cliente);
 
-          throw new RuntimeException(
-                  "Error al obtener los préstamos.",
-                  e
-          );
-      }
-  }
+        } catch (IOException e) {
+
+            throw new RuntimeException(
+                    "Error al obtener los préstamos.",
+                    e
+            );
+        }
+    }
 
 
-    // =========================
+
     // CALCULO DE TASA
-    // =========================
+
 
     public double calcularTasaInteres(int cuotas) {
 
@@ -250,10 +257,8 @@ public class Fachada {
         }
     }
 
-
-    // =========================
     // RESPUESTAS DEL SERVIDOR
-    // =========================
+
 
     private void comprobarRespuesta(String respuesta) {
 
@@ -272,3 +277,4 @@ public class Fachada {
         }
     }
 }
+
