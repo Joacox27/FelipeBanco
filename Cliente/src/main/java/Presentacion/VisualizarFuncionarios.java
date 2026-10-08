@@ -68,7 +68,7 @@ public class VisualizarFuncionarios extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(0, 51, 51));
+        jPanel1.setBackground(new java.awt.Color(13, 27, 42));
 
         jLabel1.setText("FUNCIONARIOS:");
 

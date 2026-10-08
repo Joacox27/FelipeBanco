@@ -1,179 +1,274 @@
 package Logico;
 
-import java.time.LocalDate;
+import red.ClienteSocket;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Fachada {
 
     private static Fachada singleton;
 
-    private Funcionarios funcionarios;
-    private Prestamos prestamos;
-    private Clientes clientes;
-    private Cliente cliente;
-    private Sucursales sucursales;
+    private final ClienteSocket clienteSocket;
 
-    private Fachada()  {
-        funcionarios = new Funcionarios();
-        clientes = new Clientes();
-        sucursales = new Sucursales();
-        prestamos = new Prestamos();
+    // Cliente que inició sesión en este programa cliente
+    private Cliente cliente;
+
+    private Fachada() {
+
+        clienteSocket = new ClienteSocket();
+
+        try {
+
+            clienteSocket.conectar();
+
+        } catch (IOException e) {
+
+            throw new RuntimeException(
+                    "No se pudo conectar con el servidor.",
+                    e
+            );
+        }
     }
 
     public static Fachada getInstancia() {
 
-            if (singleton == null) {
+        if (singleton == null) {
             singleton = new Fachada();
-         }
+        }
 
         return singleton;
     }
 
 
+    // =========================
+    // FUNCIONARIOS
+    // =========================
 
-    public void nuevoFuncionario(String nombre, String nombreSucursal, String rol) {
+    public void nuevoFuncionario(
+            String nombre,
+            String nombreSucursal,
+            String rol) {
 
-      
-        Sucursal sucursal = null;
+        try {
 
-        for (Sucursal s : sucursales.mostrarSucursales()) {
+            String respuesta = clienteSocket.nuevoFuncionario(
+                    nombre,
+                    nombreSucursal,
+                    rol
+            );
 
-            if (s.getNombre().equals(nombreSucursal)) {
-                sucursal = s;
-                break;
-            }
+            comprobarRespuesta(respuesta);
+
+        } catch (IOException e) {
+
+            throw new RuntimeException(
+                    "Error de comunicación con el servidor.",
+                    e
+            );
         }
+    }
 
-        // se comprueba que la sucursal exista
-        if (sucursal == null) {
-            throw new IllegalArgumentException(
-                    "La sucursal no existe."
+
+    public ArrayList<Funcionario> mostrarFuncionarios() {
+
+        try {
+
+            return clienteSocket.mostrarFuncionarios();
+
+        } catch (IOException e) {
+
+            throw new RuntimeException(
+                    "Error al obtener los funcionarios.",
+                    e
+            );
+        }
+    }
+
+
+    // =========================
+    // CLIENTES
+    // =========================
+
+    public void nuevoCliente(Cliente c) {
+
+        try {
+
+            String respuesta = clienteSocket.nuevoCliente(c);
+
+            comprobarRespuesta(respuesta);
+
+        } catch (IOException e) {
+
+            throw new RuntimeException(
+                    "Error de comunicación con el servidor.",
+                    e
+            );
+        }
+    }
+
+
+    public ArrayList<Cliente> mostrarClientes() {
+
+        try {
+
+            return clienteSocket.mostrarClientes();
+
+        } catch (IOException e) {
+
+            throw new RuntimeException(
+                    "Error al obtener los clientes.",
+                    e
+            );
+        }
+    }
+
+
+    // =========================
+    // SUCURSALES
+    // =========================
+
+    public ArrayList<Sucursal> mostrarSucursales() {
+
+        try {
+
+            return clienteSocket.mostrarSucursales();
+
+        } catch (IOException e) {
+
+            throw new RuntimeException(
+                    "Error al obtener las sucursales.",
+                    e
+            );
+        }
+    }
+
+
+    // =========================
+    // LOGIN
+    // =========================
+
+    public Cliente login(String documento, int password) {
+
+        try {
+
+            Cliente c = clienteSocket.login(
+                    documento,
+                    password
+            );
+
+            if (c != null) {
+                cliente = c;
+            }
+
+            return c;
+
+        } catch (IOException e) {
+
+            throw new RuntimeException(
+                    "Error de comunicación con el servidor.",
+                    e
+            );
+        }
+    }
+
+
+    // =========================
+    // PRESTAMOS
+    // =========================
+
+    public void solicitarPrestamo(
+            double monto,
+            int cuotas) {
+
+        if (cliente == null) {
+
+            throw new IllegalStateException(
+                    "No hay un cliente autenticado."
             );
         }
 
-      
-        String idFuncionario = "F" + (funcionarios.mostrarFuncionarios().size() + 1);
+        try {
 
-        // Crear funcionario
-        Funcionario f = new Funcionario(
-                idFuncionario,
-                nombre,
-                rol,
-                LocalDate.now(),
-                sucursal
-        );
-
-        // se guarda en la lista de funcionarios
-        funcionarios.nuevoFuncionario(f);
-
-        // se asocia a la sucursal
-        sucursal.agregarFuncionario(f);
-    }
-
-    public ArrayList<Funcionario> mostrarFuncionarios() {
-        return funcionarios.mostrarFuncionarios();
-    }
-
-
-        public void nuevoCliente(Cliente c) {
-
-    
-          for (Cliente cliente : clientes.mostrarClientes()) {
-
-            if (cliente.getDocumento().equals(c.getDocumento())) {
-                 throw new IllegalArgumentException(
-                        "Ya existe un cliente con esa CI."
-                );
-            }
-        }
-
-        clientes.nuevoCliente(c);
-    }
-
-        
-        
-    public ArrayList<Cliente> mostrarClientes() {
-        return clientes.mostrarClientes();
-    }
-
-    
-    
-    public ArrayList<Sucursal> mostrarSucursales() {
-        return sucursales.mostrarSucursales();
-    }
-
-
-    
-    
-   public Cliente login(String documento, int password) {
-
-    for (Cliente c : clientes.mostrarClientes()) {
-
-        if (c.getDocumento().equals(documento)
-                && c.getPassword() == password) {
-
-            cliente = c; // faltaba declarar que cliente era c
-            return c;
-        }
-    }
-
-    return null;
-}
-    
-    
-    //PRESTAMO
-    
-        public void solicitarPrestamo(double monto, int cuotas) {
-
-            String idPrestamo = "P" + (prestamos.mostrarPrestamos().size() + 1);
-
-            double tasaInteres;
-
-                if (cuotas <= 12) {
-                    
-                   tasaInteres = 10;
-                } else if (cuotas <= 24) {
-                    
-                    tasaInteres = 15;
-                } else {
-                    
-                    tasaInteres = 20;
-                }
-
-                Prestamo p = new Prestamo(
-                    idPrestamo,
+            String respuesta = clienteSocket.solicitarPrestamo(
                     monto,
-                    tasaInteres,
-                    LocalDate.now(),
                     cuotas,
-                    cliente
-                );
-  
-                prestamos.nuevoPrestamo(p);
+                    cliente.getDocumento()
+            );
 
-                cliente.agregarPrestamo(p);
-         }
-        
-       public ArrayList<Prestamo> mostrarPrestamos() {
-        return prestamos.mostrarPrestamos();
+            comprobarRespuesta(respuesta);
+
+        } catch (IOException e) {
+
+            throw new RuntimeException(
+                    "Error al solicitar el préstamo.",
+                    e
+            );
+        }
     }
-       
-       public double calcularTasaInteres( int cuotas) {
 
-            if (cuotas <= 12) {
 
-                  return 10;
-            } else if (cuotas <= 24) {
-                 return 15;
+    public ArrayList<Prestamo> mostrarPrestamos() {
 
-            } else {
+      if (cliente == null) {
+          throw new IllegalStateException(
+                  "No hay un cliente autenticado."
+          );
+      }
 
-                return 20;
-         }
+      try {
+
+          return clienteSocket.mostrarPrestamos(cliente);
+
+      } catch (IOException e) {
+
+          throw new RuntimeException(
+                  "Error al obtener los préstamos.",
+                  e
+          );
+      }
+  }
+
+
+    // =========================
+    // CALCULO DE TASA
+    // =========================
+
+    public double calcularTasaInteres(int cuotas) {
+
+        if (cuotas <= 12) {
+
+            return 10;
+
+        } else if (cuotas <= 24) {
+
+            return 15;
+
+        } else {
+
+            return 20;
+        }
+    }
+
+
+    // =========================
+    // RESPUESTAS DEL SERVIDOR
+    // =========================
+
+    private void comprobarRespuesta(String respuesta) {
+
+        if (respuesta == null) {
+
+            throw new RuntimeException(
+                    "El servidor cerró la conexión."
+            );
+        }
+
+        if (respuesta.startsWith("ERROR|")) {
+
+            throw new IllegalArgumentException(
+                    respuesta.substring(6)
+            );
+        }
+    }
 }
-        
-        
-      
-    
-}
-

@@ -12,12 +12,12 @@ public class Clientes {
 
         // Clientes preestablecidos para pruebas
         lista.add(new Cliente(
-                "58501563",
-                555,
-                "Agustín Aguirre",
-                LocalDate.of(2000, 5, 15),
-                "18 de Julio 1234",
-                "099123456"
+                "68063513",
+                911,
+                "Felipe",
+                LocalDate.of(2001, 9, 11),
+                "en un avion",
+                "676767676"
         ));
 
         lista.add(new Cliente(

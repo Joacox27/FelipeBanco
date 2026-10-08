@@ -118,17 +118,7 @@ public class Login extends javax.swing.JFrame {
         );
 
         jButton1.setBackground(new java.awt.Color(255, 255, 255));
-        jButton1.setIcon(new javax.swing.JLabel() {
-            public javax.swing.Icon getIcon() {
-                try {
-                    return new javax.swing.ImageIcon(
-                        new java.net.URL("file:/home/joaco/Documents/Proyecto%20integrador%20-%20BD%20%7C%20SO%20%7C%20PROG%20%7C%20VJ/Botones/suiguiente.png")
-                    );
-                } catch (java.net.MalformedURLException e) {
-                }
-                return null;
-            }
-        }.getIcon());
+        jButton1.setIcon(new javax.swing.ImageIcon("/home/joaco/Desktop/ITI 2026/Programación Avanzada/FelipeBanco/Cliente/src/main/recursos/Botones/suiguiente.png")); // NOI18N
         jButton1.setBorder(null);
         jButton1.addActionListener(this::jButton1ActionPerformed);
 

@@ -70,8 +70,11 @@ public class VisualizarClientes extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(0, 51, 51));
+        jPanel1.setBackground(new java.awt.Color(13, 27, 42));
 
+        jPanel3.setBackground(new java.awt.Color(201, 168, 106));
+
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("CLIENTES:");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -127,6 +130,10 @@ public class VisualizarClientes extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jMenuBar1.setBackground(new java.awt.Color(201, 168, 106));
+        jMenuBar1.setForeground(new java.awt.Color(201, 168, 106));
+        jMenuBar1.setDoubleBuffered(true);
 
         jMenu3.setText("Volver");
         jMenu3.addMouseListener(new java.awt.event.MouseAdapter() {

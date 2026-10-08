@@ -34,6 +34,17 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
         
         setLocation(100, 50); // Consulta N02 con IA
         setSize(415, 430);
+        
+        this.getRootPane().setDefaultButton(jButton1aceptar);  // hace q el enter funcione
+        
+       // Quitar fondo y borde
+       jButton1aceptar.setContentAreaFilled(false);
+       jButton1aceptar.setBorderPainted(false);
+       jButton1aceptar.setFocusPainted(false);
+
+       // se hace el botón transparente, porq es un png
+       jButton1aceptar.setOpaque(false);
+
     }
 
     /**
@@ -49,7 +60,6 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
         jTextPane1 = new javax.swing.JTextPane();
         jTextField1 = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel2_CI = new javax.swing.JLabel();
         jLabel1_Nombrecompleto = new javax.swing.JLabel();
@@ -66,6 +76,8 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
         jTextField3_fechanac = new javax.swing.JTextField();
         jTextField5_tel = new javax.swing.JTextField();
         jButton1aceptar = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
 
         jScrollPane1.setViewportView(jTextPane1);
 
@@ -79,15 +91,9 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
         setName("NuevoFuncionario"); // NOI18N
         setSize(new java.awt.Dimension(0, 0));
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBackground(new java.awt.Color(13, 27, 42));
 
-        jButton2.setIcon(new javax.swing.ImageIcon("/home/joaco/Desktop/ITI 2026/Programación Avanzada/FelipeBanco/Cliente/images/volver.png")); // NOI18N
-        jButton2.setBorder(null);
-        jButton2.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
-        jButton2.addActionListener(this::jButton2ActionPerformed);
-
-        jPanel1.setBackground(new java.awt.Color(0, 204, 204));
+        jPanel1.setBackground(new java.awt.Color(201, 168, 106));
 
         jLabel2_CI.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2_CI.setForeground(new java.awt.Color(0, 0, 0));
@@ -206,7 +212,7 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
         );
 
         jButton1aceptar.setBackground(new java.awt.Color(255, 255, 255));
-        jButton1aceptar.setIcon(new javax.swing.ImageIcon("/home/joaco/Desktop/ITI 2026/Programación Avanzada/FelipeBanco/Cliente/images/next-button.png")); // NOI18N
+        jButton1aceptar.setIcon(new javax.swing.ImageIcon("/home/joaco/Desktop/ITI 2026/Programación Avanzada/FelipeBanco/Cliente/src/main/recursos/Botones/suiguiente.png")); // NOI18N
         jButton1aceptar.setBorder(null);
         jButton1aceptar.addActionListener(this::jButton1aceptarActionPerformed);
 
@@ -215,26 +221,33 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton2)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(180, 180, 180)
-                        .addComponent(jButton1aceptar)))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addGap(181, 181, 181)
+                .addComponent(jButton1aceptar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 31, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap(38, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1aceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addGap(18, 18, 18))
         );
+
+        jMenu1.setText("Volver");
+        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu1MouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -244,7 +257,9 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -422,11 +437,11 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton1aceptarActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
         VentanaPrincipal ventana = new VentanaPrincipal();
-        ventana.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
+            ventana.setVisible(true);
+            this.dispose();
+    }//GEN-LAST:event_jMenu1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -455,7 +470,6 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1aceptar;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1_Nombrecompleto;
     private javax.swing.JLabel jLabel1_nombre2;
     private javax.swing.JLabel jLabel2_CI;
@@ -463,6 +477,8 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5_FechaNac;
     private javax.swing.JLabel jLabel6_Dirreción;
     private javax.swing.JLabel jLabel7_Tel;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField jPasswordField1_con1;
