@@ -4,6 +4,9 @@ import Logico.Cliente;
 import Logico.Funcionario;
 import Logico.Prestamo;
 import Logico.Sucursal;
+import Logico.CuentaAhorro;
+import Logico.CuentaBancaria;
+import Logico.CuentaCorriente;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -193,20 +196,20 @@ public class ClienteSocket {
      * 4;nombre:sucursal:rol
      */
     public String nuevoFuncionario(
-            String nombre,
-            String nombreSucursal,
-            String rol) throws IOException {
+        String nombre,
+        String nombreSucursal,
+        String rol) throws IOException {
+        
+    String mensaje =
+            "4;"
+            + nombre + ":"
+            + nombreSucursal + ":"
+            + rol;
 
-        String mensaje =
-                "4;"
-                + nombre + ":"
-                + nombreSucursal + ":"
-                + rol;
-
-        salida.println(mensaje);
-
-        return entrada.readLine();
-    }
+    salida.println(mensaje);
+    
+    return entrada.readLine();
+}
 
 
     /*
@@ -343,6 +346,134 @@ public class ClienteSocket {
         return lista;
     }
 
+    
+    
+        // CUENTAS BANCARIAS
+
+    public String nuevaCuenta(
+            String tipo,
+            int idSucursal,
+            double tasaInteres,
+            double limiteDescubierto) throws IOException {
+
+        String mensaje =
+                "13;"
+                + tipo + ":"
+                + idSucursal + ":"
+                + tasaInteres + ":"
+                + limiteDescubierto;
+
+        salida.println(mensaje);
+
+        return entrada.readLine();
+    }
+
+
+    public ArrayList<CuentaBancaria> mostrarCuentas()
+            throws IOException {
+
+        salida.println("14");
+
+        String respuesta = entrada.readLine();
+
+        ArrayList<CuentaBancaria> lista = new ArrayList<>();
+
+        if (respuesta == null || respuesta.isEmpty()) {
+            return lista;
+        }
+
+        if (respuesta.startsWith("ERROR|")) {
+            throw new IllegalArgumentException(
+                    respuesta.substring(6)
+            );
+        }
+
+        String[] cuentas = respuesta.split("\\|");
+
+        for (String datos : cuentas) {
+
+            if (datos.isEmpty()) {
+                continue;
+            }
+
+            String[] partes = datos.split(",", -1);
+
+            if (partes.length != 10) {
+                throw new IOException(
+                        "Los datos recibidos de una cuenta son incorrectos."
+                );
+            }
+
+            String numeroCuenta = partes[0];
+            String tipo = partes[1];
+
+            LocalDate fechaApertura =
+                    LocalDate.parse(partes[2]);
+
+            double saldo =
+                    Double.parseDouble(partes[3]);
+
+            int idSucursal =
+                    Integer.parseInt(partes[4]);
+
+            String nombreSucursal = partes[5];
+            String direccion = partes[6];
+            String ciudad = partes[7];
+
+            double tasaInteres =
+                    Double.parseDouble(partes[8]);
+
+            double limiteDescubierto =
+                    Double.parseDouble(partes[9]);
+
+            Sucursal sucursal = new Sucursal(
+                    idSucursal,
+                    nombreSucursal,
+                    direccion,
+                    ciudad
+            );
+
+            CuentaBancaria cuenta;
+
+            if (tipo.equals("Ahorro")) {
+
+                cuenta = new CuentaAhorro(
+                        numeroCuenta,
+                        fechaApertura,
+                        saldo,
+                        sucursal,
+                        tasaInteres
+                );
+
+            } else if (tipo.equals("Corriente")) {
+
+                cuenta = new CuentaCorriente(
+                        numeroCuenta,
+                        fechaApertura,
+                        saldo,
+                        sucursal,
+                        limiteDescubierto
+                );
+
+            } else {
+
+                throw new IOException(
+                        "Tipo de cuenta desconocido: " + tipo
+                );
+            }
+
+            lista.add(cuenta);
+        }
+
+        return lista;
+    }
+
+
+
+
+    
+    
+    
 
     // LOGIN
 

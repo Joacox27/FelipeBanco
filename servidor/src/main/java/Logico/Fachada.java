@@ -6,12 +6,14 @@ import Datos.FuncionariosDAO;
 import Datos.SucursalesDAO;
 import Datos.PrestamosDAO;
 import Datos.OperacionesDAO;
+import Datos.CuentasDAO;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.UUID;
+
 
 public class Fachada {
 
@@ -22,13 +24,16 @@ public class Fachada {
     private final SucursalesDAO sucursalesDAO;
     private final PrestamosDAO prestamosDAO;
     private final OperacionesDAO operacionesDAO;
-
+    private final CuentasDAO cuentasDAO;
+    
+    
     private Fachada() {
         clientesDAO = new ClientesDAO();
         funcionariosDAO = new FuncionariosDAO();
         sucursalesDAO = new SucursalesDAO();
         prestamosDAO = new PrestamosDAO();
         operacionesDAO = new OperacionesDAO();
+        cuentasDAO = new CuentasDAO();
     }
 
     public static synchronized Fachada getInstancia() {
@@ -38,7 +43,7 @@ public class Fachada {
         return instancia;
     }
 
-
+//conectar con la base de datos
  
     public String probarDriver() {
         try (Connection conexion = Conexion.getConexion()) {
@@ -57,7 +62,7 @@ public class Fachada {
 
 
     
-    
+    //clientes
 
     public void nuevoCliente(Cliente cliente, int password) {
 
@@ -120,7 +125,7 @@ public class Fachada {
 
     
     
-    
+    //funcionarios
  
     public void nuevoFuncionario(
             String nombre,
@@ -156,7 +161,7 @@ public class Fachada {
     }
 
 
-    // SUCURSALES
+    //metodos para sucursales
   
 
     public ArrayList<Sucursal> mostrarSucursales() {
@@ -170,7 +175,7 @@ public class Fachada {
     }
 
 
-    // PRESTAMOS
+    // metodos para prestamo
 
 
     public void solicitarPrestamo(
@@ -258,7 +263,7 @@ public class Fachada {
     }
 
 
-    // OPERACIONES BANCARIAS
+    // metodos para las operaciones
 
 
     public void depositar(
@@ -354,4 +359,81 @@ public class Fachada {
             );
         }
     }
+    
+    
+    // metodos de las cuentas bancarias
+    
+     public CuentaBancaria nuevaCuenta(
+        String tipo,
+        int idSucursal,
+        double tasaInteres,
+        double limiteDescubierto,
+        String documentoCliente) {
+
+    if (tipo == null
+            || (!tipo.equals("Ahorro")
+            && !tipo.equals("Corriente"))) {
+        throw new IllegalArgumentException(
+                "Debe seleccionar un tipo de cuenta válido."
+        );
+    }
+
+    if (idSucursal <= 0) {
+        throw new IllegalArgumentException(
+                "Debe seleccionar una sucursal válida."
+        );
+    }
+
+    if (documentoCliente == null || documentoCliente.isBlank()) {
+        throw new IllegalArgumentException(
+                "El documento del titular es obligatorio."
+        );
+    }
+
+    if (!Double.isFinite(tasaInteres) || tasaInteres < 0
+            || !Double.isFinite(limiteDescubierto)
+            || limiteDescubierto < 0) {
+        throw new IllegalArgumentException(
+                "Los valores específicos de la cuenta no son válidos."
+        );
+    }
+
+    try {
+        Cliente titular = clientesDAO.buscarPorDocumento(documentoCliente);
+
+        if (titular == null) {
+            throw new IllegalArgumentException(
+                    "El cliente que será titular no existe."
+            );
+        }
+
+        return cuentasDAO.insertar(
+                tipo,
+                idSucursal,
+                tasaInteres,
+                limiteDescubierto,
+                documentoCliente
+        );
+
+    } catch (SQLException e) {
+        throw new RuntimeException(
+                "No se pudo crear la cuenta bancaria.",
+                e
+        );
+    }
+}
+
+    public ArrayList<CuentaBancaria> mostrarCuentas() {
+
+        try {
+            return cuentasDAO.listar();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("No se pudieron obtener las cuentas bancarias.", e );
+        }
+    }
+
+
+
+
 }

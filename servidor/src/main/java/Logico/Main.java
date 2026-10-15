@@ -306,7 +306,232 @@ public class Main {
                     return "OK|Transferencia realizada correctamente.";
                 }
 
+                                // CREAR CUENTA BANCARIA
+                // Protocolo: 13;tipo:idSucursal:tasaInteres:limiteDescubierto
 
+                case 13: {
+
+                    String[] d = datos.split(":", -1);
+
+                    if (d.length != 4) {
+                        return "ERROR|Datos de cuenta incorrectos.";
+                    }
+
+                    String tipo = d[0];
+                    int idSucursal = Integer.parseInt(d[1]);
+                    double tasaInteres = Double.parseDouble(d[2]);
+                    double limiteDescubierto = Double.parseDouble(d[3]);
+
+                    CuentaBancaria cuenta = fachada.nuevaCuenta(
+                            tipo,
+                            idSucursal,
+                            tasaInteres,
+                            limiteDescubierto
+                    );
+
+                    String tipoCuenta;
+
+                    if (cuenta instanceof CuentaAhorro) {
+                        tipoCuenta = "Ahorro";
+                    } else {
+                        tipoCuenta = "Corriente";
+                    }
+
+                    return "OK|"
+                            + cuenta.numeroCuenta + "|"
+                            + tipoCuenta + "|"
+                            + cuenta.fechaApertura + "|"
+                            + cuenta.saldo + "|"
+                            + cuenta.sucursal.getIdSucursal();
+                }
+
+
+                // CONSULTAR TODAS LAS CUENTAS BANCARIAS
+                // Protocolo: 14
+                // Respuesta:
+                // numeroCuenta,tipo,fechaApertura,saldo,
+                // idSucursal,nombreSucursal,direccion,ciudad,
+                // tasaInteres,limiteDescubierto|
+
+                case 14: {
+
+                    ArrayList<CuentaBancaria> cuentas =
+                            fachada.mostrarCuentas();
+
+                    StringBuilder respuesta = new StringBuilder(); 
+                            //string builder nos permite construir un texto progresivamente,
+                            // agregándole partes sin tener que crear una cadena nueva en cada concatenación.
+                            //.append le va agregando algo alfinal del texto
+
+                    for (CuentaBancaria cuenta : cuentas) {
+
+                        String tipo;
+                        double tasaInteres = 0;
+                        double limiteDescubierto = 0;
+
+                        if (cuenta instanceof CuentaAhorro ahorro) {
+
+                            tipo = "Ahorro";
+                            tasaInteres = ahorro.getTasaInteres();
+
+                        } else if (cuenta instanceof CuentaCorriente corriente) {
+
+                            tipo = "Corriente";
+                            limiteDescubierto =
+                                    corriente.getLimiteDescubierto();
+
+                        } else {
+                            continue;
+                        }
+
+                        Sucursal sucursal = cuenta.sucursal;
+
+                        respuesta.append(cuenta.numeroCuenta).append(",");
+                        respuesta.append(tipo).append(",");
+                        respuesta.append(cuenta.fechaApertura).append(",");
+                        respuesta.append(cuenta.saldo).append(",");
+
+                        respuesta.append(sucursal.getIdSucursal()).append(",");
+                        respuesta.append(sucursal.getNombre()).append(",");
+                        respuesta.append(sucursal.getDireccion()).append(",");
+                        respuesta.append(sucursal.getCiudad()).append(",");
+
+                        respuesta.append(tasaInteres).append(",");
+                        respuesta.append(limiteDescubierto).append("|");
+                    }
+
+                    return respuesta.toString();
+                }
+
+                
+                
+
+                // ALTA DE SUCURSAL
+                case 15: {
+                    // Aquí irá el registro de una nueva sucursal.
+                    return "ERROR|Funcionalidad pendiente: alta de sucursal.";
+                }
+
+
+                // MODIFICAR SUCURSAL
+                case 16: {
+                    // Aquí irá la modificación de los datos de una sucursal.
+                    return "ERROR|Funcionalidad pendiente: modificar sucursal.";
+                }
+
+
+                // ELIMINAR SUCURSAL
+                case 17: {
+                    // Aquí irá la eliminación de una sucursal.
+                    return "ERROR|Funcionalidad pendiente: eliminar sucursal.";
+                }
+
+
+                // MODIFICAR CLIENTE
+                case 18: {
+                    // Aquí irá la modificación de los datos de un cliente.
+                    return "ERROR|Funcionalidad pendiente: modificar cliente.";
+                }
+
+
+                // ELIMINAR CLIENTE
+                case 19: {
+                    // Aquí irá la eliminación de un cliente.
+                    return "ERROR|Funcionalidad pendiente: eliminar cliente.";
+                }
+
+
+                // MODIFICAR FUNCIONARIO
+                case 20: {
+                    // Aquí irá la modificación de los datos de un funcionario.
+                    return "ERROR|Funcionalidad pendiente: modificar funcionario.";
+                }
+
+
+                // ELIMINAR FUNCIONARIO
+                case 21: {
+                    // Aquí irá la eliminación de un funcionario.
+                    return "ERROR|Funcionalidad pendiente: eliminar funcionario.";
+                }
+
+
+                // ASOCIAR TITULAR A UNA CUENTA
+                case 22: {
+                    // Aquí irá la asociación de un cliente como titular de una cuenta.
+                    return "ERROR|Funcionalidad pendiente: asociar titular.";
+                }
+
+
+                // DESASOCIAR TITULAR DE UNA CUENTA
+                case 23: {
+                    // Aquí irá la eliminación de la relación entre un cliente y una cuenta.
+                    return "ERROR|Funcionalidad pendiente: desasociar titular.";
+                }
+
+
+                // CONSULTAR CUENTAS DE UN CLIENTE
+                case 24: {
+                    // Aquí irá la consulta de las cuentas asociadas a un documento de cliente.
+                    return "ERROR|Funcionalidad pendiente: cuentas del cliente.";
+                }
+
+
+                // BUSCAR CUENTA POR NÚMERO
+                case 25: {
+                    // Aquí irá la búsqueda de una cuenta bancaria por su número.
+                    return "ERROR|Funcionalidad pendiente: buscar cuenta.";
+                }
+
+
+                // MODIFICAR CUENTA BANCARIA
+                case 26: {
+                    // Aquí irá la modificación de los datos permitidos de una cuenta.
+                    return "ERROR|Funcionalidad pendiente: modificar cuenta.";
+                }
+
+
+                // ELIMINAR CUENTA BANCARIA
+                case 27: {
+                    // Aquí irá la eliminación de una cuenta bancaria.
+                    return "ERROR|Funcionalidad pendiente: eliminar cuenta.";
+                }
+
+
+                // CONSULTAR OPERACIONES DE UNA CUENTA
+                case 28: {
+                    // Aquí irá el historial de depósitos, retiros y transferencias de una cuenta.
+                    return "ERROR|Funcionalidad pendiente: historial de operaciones.";
+                }
+
+
+                // BUSCAR OPERACIÓN POR IDENTIFICADOR
+                case 29: {
+                    // Aquí irá la búsqueda de una operación por su identificador.
+                    return "ERROR|Funcionalidad pendiente: buscar operación.";
+                }
+
+
+                // BUSCAR CLIENTE POR DOCUMENTO
+                case 30: {
+                    // Aquí irá la búsqueda de un cliente por su documento.
+                    return "ERROR|Funcionalidad pendiente: buscar cliente.";
+                }
+
+
+                // BUSCAR FUNCIONARIO POR IDENTIFICADOR
+                case 31: {
+                    // Aquí irá la búsqueda de un funcionario por su identificador.
+                    return "ERROR|Funcionalidad pendiente: buscar funcionario.";
+                }
+
+
+                // BUSCAR SUCURSAL POR IDENTIFICADOR
+                case 32: {
+                    // Aquí irá la búsqueda de una sucursal por su identificador.
+                    return "ERROR|Funcionalidad pendiente: buscar sucursal.";
+                }
+                
+                
 
                 default:
                     return "ERROR|Opción no válida.";

@@ -135,6 +135,53 @@ public class Fachada {
     }
     
     
+
+
+    public String nuevaCuenta(
+            String tipo,
+            int idSucursal,
+            double tasaInteres,
+            double limiteDescubierto) {
+
+        try {
+
+            String respuesta = clienteSocket.nuevaCuenta(
+                    tipo,
+                    idSucursal,
+                    tasaInteres,
+                    limiteDescubierto
+            );
+
+            comprobarRespuesta(respuesta);
+
+            return respuesta;
+
+        } catch (IOException e) {
+
+            throw new RuntimeException(
+                    "Error de comunicación al crear la cuenta bancaria.",
+                    e
+            );
+        }
+    }
+
+
+    public ArrayList<CuentaBancaria> mostrarCuentas() {
+
+        try {
+
+            return clienteSocket.mostrarCuentas();
+
+        } catch (IOException e) {
+
+            throw new RuntimeException(
+                    "Error al obtener las cuentas bancarias.",
+                    e
+            );
+        }
+    }
+    
+    
     
     public Cliente login(String documento, int password) {
         
@@ -176,11 +223,7 @@ public class Fachada {
         
         try {
             
-            String respuesta = clienteSocket.solicitarPrestamo(
-                    monto,
-                    cuotas,
-                    cliente.getDocumento()
-            );
+            String respuesta = clienteSocket.solicitarPrestamo(monto, cuotas, cliente.getDocumento());
             
             comprobarRespuesta(respuesta);
             

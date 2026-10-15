@@ -1,14 +1,154 @@
 package Datos;
 
+import Logico.CuentaAhorro;
+import Logico.CuentaBancaria;
+import Logico.CuentaCorriente;
+import Logico.Sucursal;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.UUID;
 
 public class CuentasDAO {
+    
+    public CuentaBancaria insertar(
+        String tipo,
+        int idSucursal,
+        double tasaInteres,
+        double limiteDescubierto,
+        String documentoCliente) throws SQLException {
 
-    
-    
+    if (!"Ahorro".equals(tipo) && !"Corriente".equals(tipo)) {
+        throw new IllegalArgumentException(
+                "El tipo de cuenta no es válido."
+        );
+    }
+
+    if (documentoCliente == null || documentoCliente.isBlank()) {
+        throw new IllegalArgumentException(
+                "El documento del titular es obligatorio."
+        );
+    }
+
+    if (!Double.isFinite(tasaInteres) || tasaInteres < 0
+            || !Double.isFinite(limiteDescubierto)
+            || limiteDescubierto < 0) {
+        throw new IllegalArgumentException(
+                "Los valores de la cuenta no son válidos."
+        );
+    }
+
+    try (Connection conexion = Conexion.getConexion()) {
+
+        conexion.setAutoCommit(false);
+
+        try {
+            Sucursal sucursal = buscarSucursal(conexion, idSucursal);
+
+            if (sucursal == null) {
+                throw new IllegalArgumentException(
+                        "La sucursal seleccionada no existe."
+                );
+            }
+
+            String numeroCuenta;
+
+            do {
+                numeroCuenta = "CTA-"
+                        + UUID.randomUUID()
+                                .toString()
+                                .replace("-", "")
+                                .substring(0, 16)
+                                .toUpperCase();
+            } while (existe(conexion, numeroCuenta));
+
+            LocalDate fechaApertura = LocalDate.now();
+            double saldoInicial = 0.00;
+
+            String sqlCuenta = """
+                    INSERT INTO cuentas
+                    (numero_cuenta, tipo, fecha_apertura, saldo,
+                     id_sucursal, tasa_interes, limite_descubierto)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                    """;
+
+            try (PreparedStatement ps =
+                         conexion.prepareStatement(sqlCuenta)) {
+
+                ps.setString(1, numeroCuenta);
+                ps.setString(2, tipo);
+                ps.setDate(3, java.sql.Date.valueOf(fechaApertura));
+                ps.setDouble(4, saldoInicial);
+                ps.setInt(5, idSucursal);
+                ps.setDouble(
+                        6,
+                        "Ahorro".equals(tipo) ? tasaInteres : 0.00
+                );
+                ps.setDouble(
+                        7,
+                        "Corriente".equals(tipo)
+                                ? limiteDescubierto : 0.00
+                );
+
+                ps.executeUpdate();
+            }
+
+            String sqlTitular = """
+                    INSERT INTO titulares_cuenta
+                    (documento_cliente, numero_cuenta)
+                    VALUES (?, ?)
+                    """;
+
+            try (PreparedStatement ps =
+                         conexion.prepareStatement(sqlTitular)) {
+
+                ps.setString(1, documentoCliente);
+                ps.setString(2, numeroCuenta);
+
+                ps.executeUpdate();
+            }
+
+            CuentaBancaria cuenta;
+
+            if ("Ahorro".equals(tipo)) {
+                cuenta = new CuentaAhorro(
+                        numeroCuenta,
+                        fechaApertura,
+                        saldoInicial,
+                        sucursal,
+                        tasaInteres
+                );
+            } else {
+                cuenta = new CuentaCorriente(
+                        numeroCuenta,
+                        fechaApertura,
+                        saldoInicial,
+                        sucursal,
+                        limiteDescubierto
+                );
+            }
+
+            conexion.commit();
+
+            return cuenta;
+
+        } catch (SQLException | RuntimeException e) {
+
+            try {
+                conexion.rollback();
+            } catch (SQLException errorRollback) {
+                e.addSuppressed(errorRollback);
+            }
+
+            throw e;
+        }
+    }
+}
+
     public boolean existe(
             Connection conexion,
             String numeroCuenta) throws SQLException {
@@ -19,7 +159,6 @@ public class CuentasDAO {
                 WHERE numero_cuenta = ?
                 """;
 
-        
         try (PreparedStatement ps =
                      conexion.prepareStatement(sql)) {
 
@@ -31,7 +170,6 @@ public class CuentasDAO {
         }
     }
 
-
     public boolean perteneceACliente(
             Connection conexion,
             String numeroCuenta,
@@ -39,7 +177,7 @@ public class CuentasDAO {
 
         String sql = """
                 SELECT 1
-                FROM cuentas
+                FROM titulares_cuenta
                 WHERE numero_cuenta = ?
                   AND documento_cliente = ?
                 """;
@@ -56,7 +194,6 @@ public class CuentasDAO {
         }
     }
 
-    // Obtener el saldo y bloquear la fila durante la transacción
     public double obtenerSaldoBloqueando(
             Connection conexion,
             String numeroCuenta) throws SQLException {
@@ -85,7 +222,6 @@ public class CuentasDAO {
             }
         }
     }
-
 
     public void actualizarSaldo(
             Connection conexion,
@@ -118,5 +254,36 @@ public class CuentasDAO {
                 );
             }
         }
+    }
+
+    private Sucursal buscarSucursal(
+            Connection conexion,
+            int idSucursal) throws SQLException {
+
+        String sql = """
+                SELECT id_sucursal, nombre, direccion, ciudad
+                FROM sucursales
+                WHERE id_sucursal = ?
+                """;
+
+        try (PreparedStatement ps =
+                     conexion.prepareStatement(sql)) {
+
+            ps.setInt(1, idSucursal);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) {
+                    return new Sucursal(
+                            rs.getInt("id_sucursal"),
+                            rs.getString("nombre"),
+                            rs.getString("direccion"),
+                            rs.getString("ciudad")
+                    );
+                }
+            }
+        }
+
+        return null;
     }
 }
