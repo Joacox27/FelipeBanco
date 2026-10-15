@@ -11,7 +11,8 @@ public abstract class CuentaBancaria {
     protected Sucursal sucursal;
     protected List<Operacion> operaciones;
 
-    public CuentaBancaria(String numeroCuenta, LocalDate fechaApertura, double saldo, Sucursal sucursal) {
+    public CuentaBancaria(String numeroCuenta, LocalDate fechaApertura,
+                          double saldo, Sucursal sucursal) {
         this.numeroCuenta = numeroCuenta;
         this.fechaApertura = fechaApertura;
         this.saldo = saldo;
@@ -20,5 +21,10 @@ public abstract class CuentaBancaria {
     }
 
     public abstract void depositar(double monto);
+
     public abstract void retirar(double monto);
+
+    public double getSaldo() {
+        return saldo;
+    }
 }

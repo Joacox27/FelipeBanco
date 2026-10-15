@@ -1,64 +1,53 @@
 package Logico;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-public class Transferencia {
+public class Transferencia extends Operacion {
 
-    private CuentaBancaria cuentaOrigen;
     private CuentaBancaria cuentaDestino;
-    private double monto;
-    private LocalDate fecha;
 
-    public Transferencia(CuentaBancaria cuentaOrigen,
-                         CuentaBancaria cuentaDestino,
-                         double monto) {
+    public Transferencia(
+            String idOperacion,
+            LocalDateTime fechaHora,
+            double monto,
+            CuentaBancaria cuentaOrigen,
+            CuentaBancaria cuentaDestino) {
 
-        this.cuentaOrigen = cuentaOrigen;
-        this.cuentaDestino = cuentaDestino;
-        this.monto = monto;
-        this.fecha = LocalDate.now();
-    }
+        super(idOperacion, fechaHora, monto, cuentaOrigen);
 
-    public void realizarTransferencia() {
-
-        if (monto <= 0) {
+        if (cuentaDestino == null) {
             throw new IllegalArgumentException(
-                    "El monto debe ser mayor a 0."
+                    "La cuenta de destino es obligatoria."
             );
         }
 
         if (cuentaOrigen == cuentaDestino) {
             throw new IllegalArgumentException(
-                    "La cuenta origen y destino no pueden ser la misma."
+                    "Una cuenta no se puede autotransferir"
             );
         }
 
-        if (cuentaOrigen.saldo < monto) {
+        this.cuentaDestino = cuentaDestino;
+    }
+
+    @Override
+    public void ejecutar() {
+
+        if (cuenta.getSaldo() < monto) {
             throw new IllegalArgumentException(
                     "Saldo insuficiente."
             );
         }
 
-        cuentaOrigen.retirar(monto);
+        cuenta.retirar(monto);
         cuentaDestino.depositar(monto);
-        
-        //practicamente se retira el monto de la cuenta origen y se 
-       // deposita el mismo monto en la cuenta destino, simulando una transferencia como tal
     }
 
     public CuentaBancaria getCuentaOrigen() {
-        return cuentaOrigen;
+        return cuenta;
     }
 
     public CuentaBancaria getCuentaDestino() {
         return cuentaDestino;
-    }
-
-    public double getMonto() {
-        return monto;
-    }
-
-    public LocalDate getFecha() {
-        return fecha;
     }
 }
