@@ -33,15 +33,6 @@ public class Login extends javax.swing.JFrame {
         
         this.getRootPane().setDefaultButton(jButton1); 
         
-      
-
-       // Quitar fondo y borde
-       jButton1.setContentAreaFilled(false);
-       jButton1.setBorderPainted(false);
-       jButton1.setFocusPainted(false);
-
-       // Opcional: hacer el botón transparente
-       jButton1.setOpaque(false);
 
     }
 
@@ -173,9 +164,9 @@ public class Login extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         String documento = jTextField1_CI.getText();
-
+        
         try {
-
+            
             String textoPassword = new String(jTextField2_password.getPassword()).trim();
             int password = Integer.parseInt(textoPassword);
 
@@ -187,16 +178,16 @@ public class Login extends javax.swing.JFrame {
                     this,
                     "Bienvenido " + cliente.getNombre()
                 );
-
-    
+                
+                
                 VentanaPrincipal ventana = new VentanaPrincipal();
                 ventana.setVisible(true);
-
-             
+                
+                
                 this.dispose();
 
             } else {
-
+                
                 JOptionPane.showMessageDialog(
                     this,
                     "Documento o contraseña incorrectos.",
@@ -204,7 +195,7 @@ public class Login extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE
                 );
             }
-
+            
         } catch (NumberFormatException e) {
 
             JOptionPane.showMessageDialog(

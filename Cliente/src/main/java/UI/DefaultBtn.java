@@ -13,7 +13,7 @@ public class DefaultBtn extends JButton {
         Color colorBtn = new Color(201,168,106);
         this.setBackground(colorBtn);
         
-        this.setBorderPainted(true);
+        this.setBorderPainted(false);
         
         Color colorBtnFont = new Color(60,63,65);
         this.setForeground(colorBtnFont);
@@ -28,6 +28,9 @@ public class DefaultBtn extends JButton {
         this.setIcon(new javax.swing.ImageIcon("/home/joaco/Desktop/ITI 2026/Programación Avanzada/FelipeBanco/Cliente/src/main/recursos/Botones/suiguiente.png")); // NOI18N
 
         this.setBorder(null);
+        
+       this.setContentAreaFilled(false);
+       this.setFocusPainted(false);
 
         
     }

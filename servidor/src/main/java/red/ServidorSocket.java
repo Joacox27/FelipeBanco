@@ -16,21 +16,21 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class ServidorSocket {
-
+    
     private static final int PUERTO = 2050;
-
+    
     private final Fachada fachada;
-
+    
     public ServidorSocket() {
         fachada = Fachada.getInstancia();
     }
 
     public void iniciar() {
         try (ServerSocket servidor = new ServerSocket(PUERTO)) {
-
+            
             System.out.println("FELIPEBAKSERVER iniciado.");
             System.out.println("Escuchando en el puerto " + PUERTO + "...");
-
+            
             while (true) {
                 Socket cliente = servidor.accept();
 
@@ -42,7 +42,7 @@ public class ServidorSocket {
                 Thread hilo = new Thread(() -> atenderCliente(cliente));
                 hilo.start();
             }
-
+            
         } catch (IOException e) {
             System.err.println("Error al iniciar el felipeserver: " + e.getMessage());
         }
@@ -67,7 +67,7 @@ public class ServidorSocket {
             String mensaje;
 
             while ((mensaje = entrada.readLine()) != null) {
-
+                
                 System.out.println("Mensaje recibido: " + mensaje);
 
                 if (mensaje.equals("0")) {
