@@ -11,7 +11,7 @@ public class Fachada {
 
     private final ClienteSocket clienteSocket;
 
-    // el Cliente que inició sesión en este programa cliente
+
     private Cliente cliente;
 
     private Fachada() {
@@ -25,7 +25,7 @@ public class Fachada {
         } catch (IOException e) {
 
             throw new RuntimeException(
-                    "No se pudo conectar con el servidor.",
+                    "No se pudo conectar con el servidor felipe banco.",
                     e
             );
         }
@@ -40,9 +40,6 @@ public class Fachada {
         return singleton;
     }
 
-
-
-    // FUNCIONARIOS
 
 
     public void nuevoFuncionario(
@@ -87,12 +84,8 @@ public class Fachada {
 
 
 
-    // CLIENTES
 
-
-    public void nuevoCliente(
-            Cliente c,
-            int password) {
+    public void nuevoCliente( Cliente c, int password) {
 
         try {
 
@@ -130,8 +123,6 @@ public class Fachada {
 
 
 
-    // SUCURSALES
-
 
     public ArrayList<Sucursal> mostrarSucursales() {
 
@@ -142,17 +133,15 @@ public class Fachada {
         } catch (IOException e) {
 
             throw new RuntimeException(
-                    "Error al obtener las sucursales.",
-                    e
+                    "Error al obtener las sucursales.", e
             );
         }
     }
 
 
-    // LOGIN
-
 
     public Cliente login(
+            
             String documento,
             int password) {
 
@@ -180,7 +169,7 @@ public class Fachada {
 
 
 
-    // PRESTAMOS
+
 
 
     public void solicitarPrestamo(
@@ -214,6 +203,7 @@ public class Fachada {
     }
 
 
+    
     public ArrayList<Prestamo> mostrarPrestamos() {
 
         if (cliente == null) {
@@ -238,7 +228,7 @@ public class Fachada {
 
 
 
-    // CALCULO DE TASA
+
 
 
     public double calcularTasaInteres(int cuotas) {
@@ -257,7 +247,8 @@ public class Fachada {
         }
     }
 
-    // RESPUESTAS DEL SERVIDOR
+
+    
 
 
     private void comprobarRespuesta(String respuesta) {

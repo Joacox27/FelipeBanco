@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 public class ClientesDAO {
 
-    // Registrar un cliente
     public void insertar(Cliente cliente, int password)
             throws SQLException {
 
@@ -49,7 +48,6 @@ public class ClientesDAO {
         }
     }
 
-    // Buscar un cliente por documento
     public Cliente buscarPorDocumento(String documento)
             throws SQLException {
 
@@ -76,7 +74,6 @@ public class ClientesDAO {
         return null;
     }
 
-    // Mostrar todos los clientes
     public ArrayList<Cliente> listar() throws SQLException {
 
         ArrayList<Cliente> clientes = new ArrayList<>();
