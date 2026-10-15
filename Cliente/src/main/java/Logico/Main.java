@@ -13,7 +13,7 @@ public class Main {
         
         //Fachada.getInstancia();
         
-        Login ppal= new Login();
+        Login ppal= new Login(); jsdhfwef
         ppal.setVisible(true);
     }
 }
