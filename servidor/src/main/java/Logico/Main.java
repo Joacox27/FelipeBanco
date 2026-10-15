@@ -11,6 +11,9 @@ public class Main {
     public static void main(String[] args) {
         ServidorSocket servidor = new ServidorSocket();
         servidor.iniciar();
+        
+        
+        
     }
 
     public static String procesarMensaje(String mensaje) {
@@ -35,22 +38,16 @@ public class Main {
 
                 case 2: {
 
+                    
                     String[] d = datos.split(":", -1);
 
                     if (d.length != 9) {
+                        
                         return "ERROR|Datos de cliente incorrectos.";
+                        
                     }
 
-                    Cliente cliente = new Cliente(
-                            d[0],
-                            d[2],
-                            d[3],
-                            LocalDate.parse(d[4]),
-                            d[5],
-                            d[6],
-                            d[7],
-                            d[8]
-                    );
+                    Cliente cliente = new Cliente( d[0], d[2], d[3], LocalDate.parse(d[4]), d[5], d[6], d[7], d[8] );
 
                     int password = Integer.parseInt(d[1]);
 
@@ -67,7 +64,6 @@ public class Main {
                     StringBuilder respuesta = new StringBuilder();
 
                     for (Cliente c : clientes) {
-
                         respuesta.append(c.getDocumento()).append(",");
                         respuesta.append(c.getNombre()).append(",");
                         respuesta.append(c.getApellido()).append(",");
@@ -86,15 +82,11 @@ public class Main {
 
                     String[] d = datos.split(":", -1);
 
-                    if (d.length != 3) {
+                    if (d.length != 3) { 
                         return "ERROR|Datos de funcionario incorrectos.";
                     }
 
-                    fachada.nuevoFuncionario(
-                            d[0],
-                            d[1],
-                            d[2]
-                    );
+                    fachada.nuevoFuncionario( d[0], d[1], d[2] );
 
                     return "OK|Funcionario registrado correctamente.";
                 }
@@ -117,11 +109,14 @@ public class Main {
                         Sucursal s = f.getSucursal();
 
                         if (s != null) {
+                            
                             respuesta.append(s.getIdSucursal()).append(",");
                             respuesta.append(s.getNombre()).append(",");
                             respuesta.append(s.getDireccion()).append(",");
                             respuesta.append(s.getCiudad());
+                            
                         } else {
+                            
                             respuesta.append("0,,,");
                         }
 
@@ -312,7 +307,7 @@ public class Main {
                 }
 
 
-   
+
                 default:
                     return "ERROR|Opción no válida.";
             }
@@ -320,7 +315,7 @@ public class Main {
         } catch (Exception e) {
 
             System.err.println(
-                    "Error procesando solicitud: " + e.getMessage()
+                    "Error procesando la solicitud: " + e.getMessage()
             );
 
             String mensajeError = e.getMessage();
