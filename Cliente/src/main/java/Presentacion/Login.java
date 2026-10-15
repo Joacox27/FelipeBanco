@@ -162,50 +162,47 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1_CIActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-        String documento = jTextField1_CI.getText();
         
-        try {
+        String documento = jTextField1_CI.getText().trim();
+    
+    
+    if (!Logico.ControlarCedula.esCedulaValida(documento))  { //gracias nahuel lopez (:
+        JOptionPane.showMessageDialog(this, "La cédula ingresada no es válida.", "Error de validación", JOptionPane.ERROR_MESSAGE );
+        return;
+    }
+    
+    try {
+        
+        String textoPassword = new String(jTextField2_password.getPassword()).trim();
+        int password = Integer.parseInt(textoPassword);
+        
+        Cliente cliente = Fachada.getInstancia().login(documento, password);
+        
+        if (cliente != null) {
             
-            String textoPassword = new String(jTextField2_password.getPassword()).trim();
-            int password = Integer.parseInt(textoPassword);
-
-            Cliente cliente = Fachada.getInstancia().login(documento, password);
-
-            if (cliente != null) {
-
-                JOptionPane.showMessageDialog(
-                    this,
-                    "Bienvenido " + cliente.getNombre()
-                );
-                
-                
-                VentanaPrincipal ventana = new VentanaPrincipal();
-                ventana.setVisible(true);
-                
-                
-                this.dispose();
-
-            } else {
-                
-                JOptionPane.showMessageDialog(
-                    this,
-                    "Documento o contraseña incorrectos.",
-                    "Error de login",
-                    JOptionPane.ERROR_MESSAGE
-                );
-            }
-            
-        } catch (NumberFormatException e) {
-
             JOptionPane.showMessageDialog(
                 this,
-                "La contraseña debe ser numérica.",
-                "Error",
-                JOptionPane.ERROR_MESSAGE
+                "Bienvenido " + cliente.getNombre()
             );
-
+            
+            VentanaPrincipal ventana = new VentanaPrincipal();
+            ventana.setVisible(true);
+            
+            this.dispose();
+            
+        } else {
+            JOptionPane.showMessageDialog(this, "Documento o contraseña incorrectos.", "Error de login", JOptionPane.ERROR_MESSAGE);
         }
+        
+    } catch (NumberFormatException e) {
+        
+        JOptionPane.showMessageDialog(
+            this,
+            "La contraseña debe ser numérica.",
+            "Error",
+            JOptionPane.ERROR_MESSAGE
+        );
+    }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

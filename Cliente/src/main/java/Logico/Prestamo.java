@@ -11,8 +11,7 @@ public class Prestamo {
     private int cuotas;
     private Cliente cliente;
 
-    public Prestamo(String idPrestamo, double monto, double tasaInteres,
-                    LocalDate fechaOtorgamiento, int cuotas, Cliente cliente) {
+    public Prestamo(String idPrestamo, double monto, double tasaInteres, LocalDate fechaOtorgamiento, int cuotas, Cliente cliente) {
         this.idPrestamo = idPrestamo;
         this.monto = monto;
         this.tasaInteres = tasaInteres;
@@ -20,51 +19,51 @@ public class Prestamo {
         this.cuotas = cuotas;
         this.cliente = cliente;
     }
-
+    
     public String getIdPrestamo() {
         return idPrestamo;
     }
-
+    
     public double getMonto() {
         return monto;
     }
-
+    
     public double getTasaInteres() {
         return tasaInteres;
     }
-
+    
     public LocalDate getFechaOtorgamiento() {
         return fechaOtorgamiento;
     }
-
+    
     public int getCuotas() {
         return cuotas;
     }
-
+    
     public Cliente getCliente() {
         return cliente;
     }
-
+    
     public void setIdPrestamo(String idPrestamo) {
         this.idPrestamo = idPrestamo;
     }
-
+    
     public void setMonto(double monto) {
         this.monto = monto;
     }
-
+    
     public void setTasaInteres(double tasaInteres) {
         this.tasaInteres = tasaInteres;
     }
-
+    
     public void setFechaOtorgamiento(LocalDate fechaOtorgamiento) {
         this.fechaOtorgamiento = fechaOtorgamiento;
     }
-
+    
     public void setCuotas(int cuotas) {
         this.cuotas = cuotas;
     }
-
+    
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }

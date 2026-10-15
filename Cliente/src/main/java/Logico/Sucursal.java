@@ -11,7 +11,7 @@ public class Sucursal {
     private String ciudad;
     private List<Funcionario> funcionarios;
     private List<CuentaBancaria> cuentas;
-
+    
     public Sucursal(int idSucursal, String nombre, String direccion, String ciudad) {
         this.idSucursal = idSucursal;
         this.nombre = nombre;
@@ -20,19 +20,19 @@ public class Sucursal {
         this.funcionarios = new ArrayList<>();
         this.cuentas = new ArrayList<>();
     }
-
+    
     public int getIdSucursal() {
         return idSucursal;
     }
-
+    
     public String getNombre() {
         return nombre;
     }
-
+    
     public String getDireccion() {
         return direccion;
     }
-
+    
     public String getCiudad() {
         return ciudad;
     }
@@ -40,31 +40,31 @@ public class Sucursal {
     public List<Funcionario> getFuncionarios() {
         return funcionarios;
     }
-
+    
     public List<CuentaBancaria> getCuentas() {
         return cuentas;
     }
-
+    
     public void setIdSucursal(int idSucursal) {
         this.idSucursal = idSucursal;
     }
-
+    
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
+    
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
-
+    
     public void setCiudad(String ciudad) {
         this.ciudad = ciudad;
     }
-
+    
     public void setFuncionarios(List<Funcionario> funcionarios) {
         this.funcionarios = funcionarios;
     }
-
+    
     public void setCuentas(List<CuentaBancaria> cuentas) {
         this.cuentas = cuentas;
     }
