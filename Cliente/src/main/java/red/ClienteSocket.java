@@ -453,12 +453,86 @@ public class ClienteSocket {
     }
 
 
+    // CONSULTA DE CUENTAS
+
     public ArrayList<CuentaBancaria> mostrarCuentas()
             throws IOException {
 
         salida.println("14");
 
+        return convertirCuentas(entrada.readLine());
+    }
+
+
+    // CONSULTAR CUENTAS DE UN CLIENTE
+
+    public ArrayList<CuentaBancaria> mostrarCuentasCliente(
+            String documentoCliente) throws IOException {
+
+        salida.println("24;" + documentoCliente);
+
+        return convertirCuentas(entrada.readLine());
+    }
+
+
+    // BUSCAR CUENTA POR NUMERO
+
+    public CuentaBancaria buscarCuenta(String numeroCuenta)
+            throws IOException {
+
+        salida.println("25;" + numeroCuenta);
+
         String respuesta = entrada.readLine();
+
+        if (respuesta == null) {
+            throw new IOException(
+                    "El servidor cerró la conexión."
+            );
+        }
+
+        if (respuesta.startsWith("ERROR|")) {
+            throw new IllegalArgumentException(
+                    respuesta.substring(6)
+            );
+        }
+
+        String[] partes = respuesta.split("\\|", -1);
+
+        if (partes.length != 11 || !partes[0].equals("OK")) {
+            throw new IOException(
+                    "Los datos recibidos de la cuenta son incorrectos."
+            );
+        }
+
+        return convertirCuenta(partes, 1);
+    }
+
+
+    // MODIFICAR CUENTA
+
+    public String modificarCuenta(
+            String numeroCuenta,
+            int idSucursal,
+            double tasaInteres,
+            double limiteDescubierto) throws IOException {
+
+        String mensaje =
+                "26;"
+                + numeroCuenta + ":"
+                + idSucursal + ":"
+                + tasaInteres + ":"
+                + limiteDescubierto;
+
+        salida.println(mensaje);
+
+        return entrada.readLine();
+    }
+
+
+    // CONVERTIR LISTA DE CUENTAS
+
+    private ArrayList<CuentaBancaria> convertirCuentas(
+            String respuesta) throws IOException {
 
         ArrayList<CuentaBancaria> lista = new ArrayList<>();
 
@@ -488,72 +562,114 @@ public class ClienteSocket {
                 );
             }
 
-            String numeroCuenta = partes[0];
-            String tipo = partes[1];
-
-            LocalDate fechaApertura =
-                    LocalDate.parse(partes[2]);
-
-            double saldo =
-                    Double.parseDouble(partes[3]);
-
-            int idSucursal =
-                    Integer.parseInt(partes[4]);
-
-            String nombreSucursal = partes[5];
-            String direccion = partes[6];
-            String ciudad = partes[7];
-
-            double tasaInteres =
-                    Double.parseDouble(partes[8]);
-
-            double limiteDescubierto =
-                    Double.parseDouble(partes[9]);
-
-            Sucursal sucursal = new Sucursal(
-                    idSucursal,
-                    nombreSucursal,
-                    direccion,
-                    ciudad
-            );
-
-            CuentaBancaria cuenta;
-
-            if (tipo.equals("Ahorro")) {
-
-                cuenta = new CuentaAhorro(
-                        numeroCuenta,
-                        fechaApertura,
-                        saldo,
-                        sucursal,
-                        tasaInteres
-                );
-
-            } else if (tipo.equals("Corriente")) {
-
-                cuenta = new CuentaCorriente(
-                        numeroCuenta,
-                        fechaApertura,
-                        saldo,
-                        sucursal,
-                        limiteDescubierto
-                );
-
-            } else {
-
-                throw new IOException(
-                        "Tipo de cuenta desconocido: " + tipo
-                );
-            }
-
-            lista.add(cuenta);
+            lista.add(convertirCuenta(partes, 0));
         }
 
         return lista;
     }
 
 
+    // CONVERTIR REGISTRO EN OBJETO CUENTA
 
+    private CuentaBancaria convertirCuenta(
+            String[] partes,
+            int inicio) throws IOException {
+
+        String numeroCuenta = partes[inicio];
+        String tipo = partes[inicio + 1];
+
+        LocalDate fechaApertura =
+                LocalDate.parse(partes[inicio + 2]);
+
+        double saldo =
+                Double.parseDouble(partes[inicio + 3]);
+
+        int idSucursal =
+                Integer.parseInt(partes[inicio + 4]);
+
+        String nombreSucursal = partes[inicio + 5];
+        String direccion = partes[inicio + 6];
+        String ciudad = partes[inicio + 7];
+
+        double tasaInteres =
+                Double.parseDouble(partes[inicio + 8]);
+
+        double limiteDescubierto =
+                Double.parseDouble(partes[inicio + 9]);
+
+        Sucursal sucursal = new Sucursal(
+                idSucursal,
+                nombreSucursal,
+                direccion,
+                ciudad
+        );
+
+        if (tipo.equals("Ahorro")) {
+
+            return new CuentaAhorro(
+                    numeroCuenta,
+                    fechaApertura,
+                    saldo,
+                    sucursal,
+                    tasaInteres
+            );
+
+        } else if (tipo.equals("Corriente")) {
+
+            return new CuentaCorriente(
+                    numeroCuenta,
+                    fechaApertura,
+                    saldo,
+                    sucursal,
+                    limiteDescubierto
+            );
+        }
+
+        throw new IOException(
+                "Tipo de cuenta desconocido: " + tipo
+        );
+    }
+
+    public String asociarTitular(
+            String numeroCuenta,
+            String documentoCliente) throws IOException {
+
+        String mensaje =
+                "22;"
+                + numeroCuenta + ":"
+                + documentoCliente;
+
+        salida.println(mensaje);
+
+        return entrada.readLine();
+    }
+
+
+    public String desasociarTitular(
+            String numeroCuenta,
+            String documentoCliente) throws IOException {
+
+        String mensaje =
+                "23;"
+                + numeroCuenta + ":"
+                + documentoCliente;
+
+        salida.println(mensaje);
+
+        return entrada.readLine();
+    }
+
+    // eliminar una cuenta
+    
+    public String eliminarCuenta(String numeroCuenta)
+            throws IOException {
+
+        String mensaje = "27;" + numeroCuenta;
+
+        salida.println(mensaje);
+
+        return entrada.readLine();
+    }
 
     
     

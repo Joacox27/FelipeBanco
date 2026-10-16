@@ -547,65 +547,122 @@ public class Fachada {
     
     // metodos de las cuentas bancarias
     
-     public CuentaBancaria nuevaCuenta(
-        String tipo,
-        int idSucursal,
-        double tasaInteres,
-        double limiteDescubierto,
-        String documentoCliente) {
+    public CuentaBancaria nuevaCuenta(
+            String tipo,
+            int idSucursal,
+            double tasaInteres,
+            double limiteDescubierto,
+            String documentoCliente) {
 
-    if (tipo == null
-            || (!tipo.equals("Ahorro")
-            && !tipo.equals("Corriente"))) {
-        throw new IllegalArgumentException(
-                "Debe seleccionar un tipo de cuenta válido."
-        );
-    }
-
-    if (idSucursal <= 0) {
-        throw new IllegalArgumentException(
-                "Debe seleccionar una sucursal válida."
-        );
-    }
-
-    if (documentoCliente == null || documentoCliente.isBlank()) {
-        throw new IllegalArgumentException(
-                "El documento del titular es obligatorio."
-        );
-    }
-
-    if (!Double.isFinite(tasaInteres) || tasaInteres < 0
-            || !Double.isFinite(limiteDescubierto)
-            || limiteDescubierto < 0) {
-        throw new IllegalArgumentException(
-                "Los valores específicos de la cuenta no son válidos."
-        );
-    }
-
-    try {
-        Cliente titular = clientesDAO.buscarPorDocumento(documentoCliente);
-
-        if (titular == null) {
+        if (tipo == null
+                || (!tipo.equals("Ahorro")
+                && !tipo.equals("Corriente"))) {
             throw new IllegalArgumentException(
-                    "El cliente que será titular no existe."
+                    "Debe seleccionar un tipo de cuenta válido."
             );
         }
 
-        return cuentasDAO.insertar(
-                tipo,
-                idSucursal,
-                tasaInteres,
-                limiteDescubierto,
-                documentoCliente
-        );
+        if (idSucursal <= 0) {
+            throw new IllegalArgumentException(
+                    "Debe seleccionar una sucursal válida."
+            );
+        }
 
-    } catch (SQLException e) {
-        throw new RuntimeException(
-                "No se pudo crear la cuenta bancaria.",
-                e
-        );
+        if (documentoCliente == null || documentoCliente.isBlank()) {
+            throw new IllegalArgumentException(
+                    "El documento del titular es obligatorio."
+            );
+        }
+
+        if (!Double.isFinite(tasaInteres) || tasaInteres < 0
+                || !Double.isFinite(limiteDescubierto)
+                || limiteDescubierto < 0) {
+            throw new IllegalArgumentException(
+                    "Los valores específicos de la cuenta no son válidos."
+            );
+        }
+
+        try {
+            Cliente titular = clientesDAO.buscarPorDocumento(documentoCliente);
+
+            if (titular == null) {
+                throw new IllegalArgumentException(
+                        "El cliente que será titular no existe."
+                );
+            }
+
+            return cuentasDAO.insertar(
+                    tipo,
+                    idSucursal,
+                    tasaInteres,
+                    limiteDescubierto,
+                    documentoCliente
+            );
+
+        } catch (SQLException e) {
+            throw new RuntimeException(
+                    "No se pudo crear la cuenta bancaria.",
+                    e
+            );
+        }
     }
-}
+     
+    public void asociarTitular(
+            String numeroCuenta,
+            String documentoCliente) {
+
+        if (numeroCuenta == null || numeroCuenta.isBlank()
+                || documentoCliente == null || documentoCliente.isBlank()) {
+
+            throw new IllegalArgumentException(
+                    "El número de cuenta y el documento son obligatorios."
+            );
+        }
+
+        try {
+
+            cuentasDAO.asociarTitular(
+                    numeroCuenta,
+                    documentoCliente
+            );
+
+        } catch (SQLException e) {
+
+            throw new RuntimeException(
+                    "No se pudo asociar el titular: " + e.getMessage(),
+                    e
+            );
+        }
+    }
+
+
+    public void desasociarTitular(
+            String numeroCuenta,
+            String documentoCliente) {
+
+        if (numeroCuenta == null || numeroCuenta.isBlank()
+                || documentoCliente == null || documentoCliente.isBlank()) {
+
+            throw new IllegalArgumentException(
+                    "El número de cuenta y el documento son obligatorios."
+            );
+        }
+
+        try {
+
+            cuentasDAO.desasociarTitular(
+                    numeroCuenta,
+                    documentoCliente
+            );
+
+        } catch (SQLException e) {
+
+            throw new RuntimeException(
+                    "No se pudo desasociar el titular: " + e.getMessage(),
+                    e
+            );
+        }
+    }
 
     public ArrayList<CuentaBancaria> mostrarCuentas() {
 
@@ -616,7 +673,118 @@ public class Fachada {
             throw new RuntimeException("No se pudieron obtener las cuentas bancarias.", e );
         }
     }
+    
+    public ArrayList<CuentaBancaria> mostrarCuentasCliente(
+            String documentoCliente) {
 
+        if (documentoCliente == null || documentoCliente.isBlank()) {
+            throw new IllegalArgumentException(
+                    "El documento del cliente es obligatorio."
+            );
+        }
+
+        try {
+
+            Cliente cliente = clientesDAO.buscarPorDocumento(
+                    documentoCliente
+            );
+
+            if (cliente == null) {
+                throw new IllegalArgumentException(
+                        "El cliente no existe."
+                );
+            }
+
+            return cuentasDAO.listarPorCliente(documentoCliente);
+
+        } catch (SQLException e) {
+
+            throw new RuntimeException(
+                    "No se pudieron obtener las cuentas del cliente.",
+                    e
+            );
+        }
+    }
+    
+    public CuentaBancaria buscarCuenta(String numeroCuenta) {
+
+        if (numeroCuenta == null || numeroCuenta.isBlank()) {
+            throw new IllegalArgumentException(
+                    "El número de cuenta es obligatorio."
+            );
+        }
+
+        try {
+
+            return cuentasDAO.buscarPorNumero(numeroCuenta);
+
+        } catch (SQLException e) {
+
+            throw new RuntimeException(
+                    "No se pudo buscar la cuenta bancaria.",
+                    e
+            );
+        }
+    }
+
+    public void modificarCuenta(
+            String numeroCuenta,
+            int idSucursal,
+            double tasaInteres,
+            double limiteDescubierto) {
+
+        if (numeroCuenta == null || numeroCuenta.isBlank()) {
+            throw new IllegalArgumentException(
+                    "El número de cuenta es obligatorio."
+            );
+        }
+
+        if (idSucursal <= 0) {
+            throw new IllegalArgumentException(
+                    "Debe seleccionar una sucursal válida."
+            );
+        }
+
+        try {
+
+            cuentasDAO.modificar(
+                    numeroCuenta,
+                    idSucursal,
+                    tasaInteres,
+                    limiteDescubierto
+            );
+
+        } catch (SQLException e) {
+
+            throw new RuntimeException(
+                    "No se pudo modificar la cuenta bancaria: "
+                    + e.getMessage(),
+                    e
+            );
+        }
+    }
+    
+    public void eliminarCuenta(String numeroCuenta) {
+
+        if (numeroCuenta == null || numeroCuenta.isBlank()) {
+            throw new IllegalArgumentException(
+                    "El número de cuenta es obligatorio."
+            );
+        }
+
+        try {
+
+            cuentasDAO.eliminar(numeroCuenta);
+
+        } catch (SQLException e) {
+
+            throw new RuntimeException(
+                    "No se pudo eliminar la cuenta bancaria: "
+                    + e.getMessage(),
+                    e
+            );
+        }
+    }
 
 
 

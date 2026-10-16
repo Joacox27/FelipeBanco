@@ -314,6 +314,23 @@ public class Fachada {
         }
     }
 
+    public ArrayList<CuentaBancaria> mostrarCuentasCliente(
+            String documentoCliente) {
+
+        try {
+
+            return clienteSocket.mostrarCuentasCliente(
+                    documentoCliente
+            );
+
+        } catch (IOException e) {
+
+            throw new RuntimeException(
+                    "Error al obtener las cuentas del cliente.",
+                    e
+            );
+        }
+    }
 
     public ArrayList<CuentaBancaria> mostrarCuentas() {
 
@@ -325,6 +342,112 @@ public class Fachada {
 
             throw new RuntimeException(
                     "Error al obtener las cuentas bancarias.",
+                    e
+            );
+        }
+    }
+    
+    public CuentaBancaria buscarCuenta(String numeroCuenta) {
+
+        try {
+
+            return clienteSocket.buscarCuenta(numeroCuenta);
+
+        } catch (IOException e) {
+
+            throw new RuntimeException(
+                    "Error al buscar la cuenta bancaria.",
+                    e
+            );
+        }
+    }
+    
+    public void modificarCuenta(
+            String numeroCuenta,
+            int idSucursal,
+            double tasaInteres,
+            double limiteDescubierto) {
+
+        try {
+
+            String respuesta = clienteSocket.modificarCuenta(
+                    numeroCuenta,
+                    idSucursal,
+                    tasaInteres,
+                    limiteDescubierto
+            );
+
+            comprobarRespuesta(respuesta);
+
+        } catch (IOException e) {
+
+            throw new RuntimeException(
+                    "Error de comunicación al modificar la cuenta.",
+                    e
+            );
+        }
+    }
+    
+    
+    public void eliminarCuenta(String numeroCuenta) {
+
+        try {
+
+            String respuesta = clienteSocket.eliminarCuenta(
+                    numeroCuenta
+            );
+
+            comprobarRespuesta(respuesta);
+
+        } catch (IOException e) {
+
+            throw new RuntimeException(
+                    "Error de comunicación al eliminar la cuenta bancaria.",
+                    e
+            );
+        }
+    }
+    
+    public void asociarTitular(
+            String numeroCuenta,
+            String documentoCliente) {
+
+        try {
+
+            String respuesta = clienteSocket.asociarTitular(
+                    numeroCuenta,
+                    documentoCliente
+            );
+
+            comprobarRespuesta(respuesta);
+
+        } catch (IOException e) {
+
+            throw new RuntimeException(
+                    "Error de comunicación al asociar el titular.",
+                    e
+            );
+        }
+    }
+
+
+    public void desasociarTitular(
+            String numeroCuenta,
+            String documentoCliente) {
+
+        try {
+
+            String respuesta = clienteSocket.desasociarTitular(
+                    numeroCuenta,
+                    documentoCliente
+            );
+
+            comprobarRespuesta(respuesta);
+
+        } catch (IOException e) {
+
+            throw new RuntimeException(
+                    "Error de comunicación al desasociar el titular.",
                     e
             );
         }

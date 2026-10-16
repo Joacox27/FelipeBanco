@@ -533,43 +533,175 @@ public class Main {
 
                 // ASOCIAR TITULAR A UNA CUENTA
                 case 22: {
-                    // Aquí irá la asociación de un cliente como titular de una cuenta.
-                    return "ERROR|Funcionalidad pendiente: asociar titular.";
+
+                    String[] d = datos.split(":", -1);
+
+                    if (d.length != 2) {
+                        return "ERROR|Datos para asociar titular incorrectos.";
+                    }
+
+                    String numeroCuenta = d[0];
+                    String documentoCliente = d[1];
+
+                    fachada.asociarTitular(
+                            numeroCuenta,
+                            documentoCliente
+                    );
+
+                    return "OK|Titular asociado correctamente.";
                 }
 
 
                 // DESASOCIAR TITULAR DE UNA CUENTA
                 case 23: {
-                    // Aquí irá la eliminación de la relación entre un cliente y una cuenta.
-                    return "ERROR|Funcionalidad pendiente: desasociar titular.";
+
+                    String[] d = datos.split(":", -1);
+
+                    if (d.length != 2) {
+                        return "ERROR|Datos para desasociar titular incorrectos.";
+                    }
+
+                    String numeroCuenta = d[0];
+                    String documentoCliente = d[1];
+
+                    fachada.desasociarTitular(
+                            numeroCuenta,
+                            documentoCliente
+                    );
+
+                    return "OK|Titular desasociado correctamente.";
                 }
 
 
                 // CONSULTAR CUENTAS DE UN CLIENTE
-                case 24: {
-                    // Aquí irá la consulta de las cuentas asociadas a un documento de cliente.
-                    return "ERROR|Funcionalidad pendiente: cuentas del cliente.";
-                }
+               case 24: {
 
+                    String documento = datos.trim();
+
+                    ArrayList<CuentaBancaria> cuentas =
+                            fachada.mostrarCuentasCliente(documento);
+
+                    StringBuilder respuesta = new StringBuilder();
+
+                    for (CuentaBancaria cuenta : cuentas) {
+
+                        double tasaInteres = 0;
+                        double limiteDescubierto = 0;
+                        String tipo;
+
+                        if (cuenta instanceof CuentaAhorro ahorro) {
+
+                            tipo = "Ahorro";
+                            tasaInteres = ahorro.getTasaInteres();
+
+                        } else if (cuenta instanceof CuentaCorriente corriente) {
+
+                            tipo = "Corriente";
+                            limiteDescubierto = corriente.getLimiteDescubierto();
+
+                        } else {
+                            continue;
+                        }
+
+                        Sucursal sucursal = cuenta.sucursal;
+
+                        respuesta.append(cuenta.numeroCuenta).append(",");
+                        respuesta.append(tipo).append(",");
+                        respuesta.append(cuenta.fechaApertura).append(",");
+                        respuesta.append(cuenta.saldo).append(",");
+                        respuesta.append(sucursal.getIdSucursal()).append(",");
+                        respuesta.append(sucursal.getNombre()).append(",");
+                        respuesta.append(sucursal.getDireccion()).append(",");
+                        respuesta.append(sucursal.getCiudad()).append(",");
+                        respuesta.append(tasaInteres).append(",");
+                        respuesta.append(limiteDescubierto).append("|");
+                    }
+
+                    return respuesta.toString();
+                }
 
                 // BUSCAR CUENTA POR NÚMERO
                 case 25: {
-                    // Aquí irá la búsqueda de una cuenta bancaria por su número.
-                    return "ERROR|Funcionalidad pendiente: buscar cuenta.";
-                }
 
+                    String numeroCuenta = datos.trim();
+
+                    CuentaBancaria cuenta =
+                            fachada.buscarCuenta(numeroCuenta);
+
+                    if (cuenta == null) {
+                        return "ERROR|No existe una cuenta con ese número.";
+                    }
+
+                    String tipo;
+                    double tasaInteres = 0;
+                    double limiteDescubierto = 0;
+
+                    if (cuenta instanceof CuentaAhorro ahorro) {
+
+                        tipo = "Ahorro";
+                        tasaInteres = ahorro.getTasaInteres();
+
+                    } else if (cuenta instanceof CuentaCorriente corriente) {
+
+                        tipo = "Corriente";
+                        limiteDescubierto = corriente.getLimiteDescubierto();
+
+                    } else {
+                        return "ERROR|Tipo de cuenta desconocido.";
+                    }
+
+                    Sucursal sucursal = cuenta.sucursal;
+
+                    return "OK|"
+                            + cuenta.numeroCuenta + "|"
+                            + tipo + "|"
+                            + cuenta.fechaApertura + "|"
+                            + cuenta.saldo + "|"
+                            + sucursal.getIdSucursal() + "|"
+                            + sucursal.getNombre() + "|"
+                            + sucursal.getDireccion() + "|"
+                            + sucursal.getCiudad() + "|"
+                            + tasaInteres + "|"
+                            + limiteDescubierto;
+                }
 
                 // MODIFICAR CUENTA BANCARIA
                 case 26: {
-                    // Aquí irá la modificación de los datos permitidos de una cuenta.
-                    return "ERROR|Funcionalidad pendiente: modificar cuenta.";
+
+                    String[] d = datos.split(":", -1);
+
+                    if (d.length != 4) {
+                        return "ERROR|Datos de modificación de cuenta incorrectos.";
+                    }
+
+                    String numeroCuenta = d[0];
+                    int idSucursal = Integer.parseInt(d[1]);
+                    double tasaInteres = Double.parseDouble(d[2]);
+                    double limiteDescubierto = Double.parseDouble(d[3]);
+
+                    fachada.modificarCuenta(
+                            numeroCuenta,
+                            idSucursal,
+                            tasaInteres,
+                            limiteDescubierto
+                    );
+
+                    return "OK|Cuenta bancaria modificada correctamente.";
                 }
 
 
                 // ELIMINAR CUENTA BANCARIA
                 case 27: {
-                    // Aquí irá la eliminación de una cuenta bancaria.
-                    return "ERROR|Funcionalidad pendiente: eliminar cuenta.";
+
+                    String numeroCuenta = datos.trim();
+
+                    if (numeroCuenta.isEmpty()) {
+                        return "ERROR|El número de cuenta es obligatorio.";
+                    }
+
+                    fachada.eliminarCuenta(numeroCuenta);
+
+                    return "OK|Cuenta bancaria eliminada correctamente.";
                 }
 
 
