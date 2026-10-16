@@ -72,7 +72,95 @@ public class FuncionariosDAO {
         }
     }
 
+    
+    
+    public void modificar(
+            int idFuncionario,
+            String nombre,
+            String nombreSucursal,
+            String rol) throws SQLException {
 
+        String sqlSucursal = """
+                SELECT id_sucursal
+                FROM sucursales
+                WHERE nombre = ?
+                """;
+
+        String sqlFuncionario = """
+                UPDATE funcionarios
+                SET nombre = ?,
+                    rol = ?,
+                    id_sucursal = ?
+                WHERE id_funcionario = ?
+                """;
+
+        try (Connection conexion = Conexion.getConexion()) {
+
+            int idSucursal;
+
+            try (PreparedStatement ps =
+                         conexion.prepareStatement(sqlSucursal)) {
+
+                ps.setString(1, nombreSucursal);
+
+                try (ResultSet rs = ps.executeQuery()) {
+
+                    if (!rs.next()) {
+                        throw new SQLException(
+                                "La sucursal indicada no existe."
+                        );
+                    }
+
+                    idSucursal = rs.getInt("id_sucursal");
+
+                    if (rs.next()) {
+                        throw new SQLException(
+                                "Hay varias sucursales con ese nombre."
+                        );
+                    }
+                }
+            }
+
+            try (PreparedStatement ps =
+                         conexion.prepareStatement(sqlFuncionario)) {
+
+                ps.setString(1, nombre);
+                ps.setString(2, rol);
+                ps.setInt(3, idSucursal);
+                ps.setInt(4, idFuncionario);
+
+                int filas = ps.executeUpdate();
+
+                if (filas == 0) {
+                    throw new SQLException(
+                            "No existe un funcionario con ese identificador."
+                    );
+                }
+            }
+        }
+    }
+    
+    public void eliminar(int idFuncionario) throws SQLException {
+
+        String sql = """
+                DELETE FROM funcionarios
+                WHERE id_funcionario = ?
+                """;
+
+        try (Connection conexion = Conexion.getConexion();
+             PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+            ps.setInt(1, idFuncionario);
+
+            int filas = ps.executeUpdate();
+
+            if (filas == 0) {
+                throw new SQLException(
+                        "No existe un funcionario con ese identificador."
+                );
+            }
+        }
+    }
 
     public ArrayList<Funcionario> listar() throws SQLException {
 

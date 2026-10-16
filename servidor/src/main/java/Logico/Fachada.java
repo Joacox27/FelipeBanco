@@ -215,7 +215,68 @@ public class Fachada {
             );
         }
     }
+    
+    public void modificarFuncionario(
+            int idFuncionario,
+            String nombre,
+            String nombreSucursal,
+            String rol) {
 
+        if (idFuncionario <= 0) {
+            throw new IllegalArgumentException(
+                    "El identificador del funcionario no es válido."
+            );
+        }
+
+        if (nombre == null || nombre.isBlank()
+                || nombreSucursal == null || nombreSucursal.isBlank()
+                || rol == null || rol.isBlank()) {
+
+            throw new IllegalArgumentException(
+                    "Todos los datos del funcionario son obligatorios."
+            );
+        }
+
+        try {
+
+            funcionariosDAO.modificar(
+                    idFuncionario,
+                    nombre,
+                    nombreSucursal,
+                    rol
+            );
+
+        } catch (SQLException e) {
+
+            throw new RuntimeException(
+                    "No se pudo modificar el funcionario: " + e.getMessage(),
+                    e
+            );
+        }
+    }
+    
+    public void eliminarFuncionario(int idFuncionario) {
+
+        if (idFuncionario <= 0) {
+            throw new IllegalArgumentException(
+                    "El identificador del funcionario no es válido."
+            );
+        }
+
+        try {
+
+            funcionariosDAO.eliminar(idFuncionario);
+
+        } catch (SQLException e) {
+
+            throw new RuntimeException(
+                    "No se pudo eliminar el funcionario: " + e.getMessage(),
+                    e
+            );
+        }
+    }
+    
+    
 
     //metodos para sucursales
   

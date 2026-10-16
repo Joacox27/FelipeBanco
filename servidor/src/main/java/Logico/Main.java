@@ -498,15 +498,36 @@ public class Main {
 
                 // MODIFICAR FUNCIONARIO
                 case 20: {
-                    // Aquí irá la modificación de los datos de un funcionario.
-                    return "ERROR|Funcionalidad pendiente: modificar funcionario.";
-                }
 
+                    String[] d = datos.split(":", -1);
+
+                    if (d.length != 4) {
+                        return "ERROR|Datos de modificación de funcionario incorrectos.";
+                    }
+
+                    int idFuncionario = Integer.parseInt(d[0]);
+                    String nombre = d[1];
+                    String nombreSucursal = d[2];
+                    String rol = d[3];
+
+                    fachada.modificarFuncionario(
+                            idFuncionario,
+                            nombre,
+                            nombreSucursal,
+                            rol
+                    );
+
+                    return "OK|Funcionario modificado correctamente.";
+                }
 
                 // ELIMINAR FUNCIONARIO
                 case 21: {
-                    // Aquí irá la eliminación de un funcionario.
-                    return "ERROR|Funcionalidad pendiente: eliminar funcionario.";
+
+                    int idFuncionario = Integer.parseInt(datos.trim());
+
+                    fachada.eliminarFuncionario(idFuncionario);
+
+                    return "OK|Funcionario eliminado correctamente.";
                 }
 
 

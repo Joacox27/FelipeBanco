@@ -33,6 +33,7 @@ Presentacion/VentanaPrincipal$1.class
 Logico/Prestamos.class
 Logico/Deposito.class
 Presentacion/Retiro$1.class
+Logico/ControlarCedula.class
 Presentacion/Operaciones.class
 Logico/Funcionario.class
 Presentacion/Transferencia$1.class

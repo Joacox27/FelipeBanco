@@ -63,6 +63,52 @@ public class Fachada {
         }
     }
     
+    public void modificarFuncionario(
+            String idFuncionario,
+            String nombre,
+            String nombreSucursal,
+            String rol) {
+
+        try {
+
+            String respuesta = clienteSocket.modificarFuncionario(
+                    idFuncionario,
+                    nombre,
+                    nombreSucursal,
+                    rol
+            );
+
+            comprobarRespuesta(respuesta);
+
+        } catch (IOException e) {
+
+            throw new RuntimeException(
+                    "Error de comunicación al modificar el funcionario.",
+                    e
+            );
+        }
+    }
+
+
+    public void eliminarFuncionario(String idFuncionario) {
+
+        try {
+
+            String respuesta = clienteSocket.eliminarFuncionario(
+                    idFuncionario
+            );
+
+            comprobarRespuesta(respuesta);
+
+        } catch (IOException e) {
+
+            throw new RuntimeException(
+                    "Error de comunicación al eliminar el funcionario.",
+                    e
+            );
+        }
+    }
+
     
     public ArrayList<Funcionario> mostrarFuncionarios() {
         
@@ -78,6 +124,8 @@ public class Fachada {
             );
         }
     }
+    
+    
     
     
     //Clientesss

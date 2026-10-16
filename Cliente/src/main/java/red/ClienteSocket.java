@@ -308,6 +308,35 @@ public class ClienteSocket {
         return lista;
     }
 
+    public String modificarFuncionario(
+            String idFuncionario,
+            String nombre,
+            String nombreSucursal,
+            String rol) throws IOException {
+
+        String mensaje =
+                "20;"
+                + idFuncionario + ":"
+                + nombre + ":"
+                + nombreSucursal + ":"
+                + rol;
+
+        salida.println(mensaje);
+
+        return entrada.readLine();
+    }
+
+
+    public String eliminarFuncionario(String idFuncionario)
+            throws IOException {
+
+        String mensaje = "21;" + idFuncionario;
+
+        salida.println(mensaje);
+
+        return entrada.readLine();
+    }
+    
 
     // SUCURSALES
 
