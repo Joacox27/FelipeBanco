@@ -313,7 +313,7 @@ public class Main {
 
                     String[] d = datos.split(":", -1);
 
-                    if (d.length != 4) {
+                    if (d.length != 5) {
                         return "ERROR|Datos de cuenta incorrectos.";
                     }
 
@@ -321,21 +321,19 @@ public class Main {
                     int idSucursal = Integer.parseInt(d[1]);
                     double tasaInteres = Double.parseDouble(d[2]);
                     double limiteDescubierto = Double.parseDouble(d[3]);
+                    String documentoCliente = d[4];
 
                     CuentaBancaria cuenta = fachada.nuevaCuenta(
                             tipo,
                             idSucursal,
                             tasaInteres,
-                            limiteDescubierto
+                            limiteDescubierto,
+                            documentoCliente
                     );
 
-                    String tipoCuenta;
-
-                    if (cuenta instanceof CuentaAhorro) {
-                        tipoCuenta = "Ahorro";
-                    } else {
-                        tipoCuenta = "Corriente";
-                    }
+                    String tipoCuenta = cuenta instanceof CuentaAhorro
+                            ? "Ahorro"
+                            : "Corriente";
 
                     return "OK|"
                             + cuenta.numeroCuenta + "|"
@@ -344,7 +342,8 @@ public class Main {
                             + cuenta.saldo + "|"
                             + cuenta.sucursal.getIdSucursal();
                 }
-
+                
+                
 
                 // CONSULTAR TODAS LAS CUENTAS BANCARIAS
                 // Protocolo: 14
@@ -406,17 +405,42 @@ public class Main {
                 
                 
 
-                // ALTA DE SUCURSAL
+                // alta de una sucursal
                 case 15: {
-                    // Aquí irá el registro de una nueva sucursal.
-                    return "ERROR|Funcionalidad pendiente: alta de sucursal.";
+                    
+                    String[] d = datos.split(":", -1);
+                    
+                    if (d.length != 3) {
+                        return "ERROR|Datos de sucursal incorrectos.";
+                    }
+                    
+                    String nombre = d[0];
+                    String direccion = d[1];
+                    String ciudad = d[2];
+                    
+                    fachada.nuevaSucursal(nombre, direccion,ciudad);
+                    
+                    return "OK|Sucursal registrada correctamente.";
                 }
 
 
                 // MODIFICAR SUCURSAL
                 case 16: {
-                    // Aquí irá la modificación de los datos de una sucursal.
-                    return "ERROR|Funcionalidad pendiente: modificar sucursal.";
+                    
+                    String[] d = datos.split(":", -1);
+                    
+                    if (d.length != 4) {
+                        return "ERROR|Datos de modificación incorrectos.";
+                    }
+                    
+                    int idSucursal = Integer.parseInt(d[0]);
+                    String nombre = d[1];
+                    String direccion = d[2];
+                    String ciudad = d[3];
+
+                    fachada.modificarSucursal(idSucursal, nombre, direccion, ciudad);
+
+                    return "OK|Sucursal modificada correctamente.";
                 }
 
 

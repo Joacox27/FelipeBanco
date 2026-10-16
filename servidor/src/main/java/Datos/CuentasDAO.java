@@ -145,9 +145,94 @@ public class CuentasDAO {
             }
 
             throw e;
+            
+         }
+        
         }
     }
+    
+    public ArrayList<CuentaBancaria> listar() throws SQLException {
+
+        ArrayList<CuentaBancaria> lista = new ArrayList<>();
+
+        String sql = """
+                SELECT
+                    c.numero_cuenta,
+                    c.tipo,
+                    c.fecha_apertura,
+                    c.saldo,
+                    c.tasa_interes,
+                    c.limite_descubierto,
+                    s.id_sucursal,
+                    s.nombre AS nombre_sucursal,
+                    s.direccion,
+                    s.ciudad
+                FROM cuentas c
+                INNER JOIN sucursales s
+                    ON c.id_sucursal = s.id_sucursal
+                ORDER BY c.fecha_apertura DESC
+                """;
+
+        try (Connection conexion = Conexion.getConexion();
+             PreparedStatement ps = conexion.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+
+                Sucursal sucursal = new Sucursal(
+                        rs.getInt("id_sucursal"),
+                        rs.getString("nombre_sucursal"),
+                        rs.getString("direccion"),
+                        rs.getString("ciudad")
+                );
+
+                String numeroCuenta =
+                        rs.getString("numero_cuenta");
+
+                String tipo = rs.getString("tipo");
+
+                LocalDate fechaApertura =
+                        rs.getDate("fecha_apertura").toLocalDate();
+
+                double saldo = rs.getDouble("saldo");
+
+                CuentaBancaria cuenta;
+
+                if (tipo.equals("Ahorro")) {
+
+                    cuenta = new CuentaAhorro(
+                            numeroCuenta,
+                            fechaApertura,
+                            saldo,
+                            sucursal,
+                            rs.getDouble("tasa_interes")
+                    );
+
+                } else if (tipo.equals("Corriente")) {
+
+                    cuenta = new CuentaCorriente(
+                            numeroCuenta,
+                            fechaApertura,
+                            saldo,
+                            sucursal,
+                            rs.getDouble("limite_descubierto")
+                    );
+
+                } else {
+
+                    throw new SQLException(
+                            "Tipo de cuenta desconocido: " + tipo
+                    );
+                }
+
+                lista.add(cuenta);
+            }
+        }
+
+    return lista;
 }
+    
+    
 
     public boolean existe(
             Connection conexion,

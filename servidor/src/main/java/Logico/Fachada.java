@@ -174,6 +174,73 @@ public class Fachada {
         }
     }
 
+    public void nuevaSucursal(String nombre, String direccion, String ciudad) {
+        
+        if (nombre == null || nombre.isBlank()
+                || direccion == null || direccion.isBlank()
+                || ciudad == null || ciudad.isBlank()) {
+
+            throw new IllegalArgumentException(
+                    "Todos los datos de la sucursal son obligatorios."
+            );
+        }
+        
+        try {
+            
+            sucursalesDAO.insertar(nombre, direccion, ciudad);
+            
+        } catch (SQLException e) {
+            
+            throw new RuntimeException(
+                    "No se pudo registrar la sucursal: " + e.getMessage(),
+                    e
+            );
+        }
+    }
+    
+    public void modificarSucursal(
+            int idSucursal,
+            String nombre,
+            String direccion,
+            String ciudad) {
+        
+        if (idSucursal <= 0) {
+            throw new IllegalArgumentException(
+                    "El identificador de la sucursal no es válido."
+            );
+        }
+        
+        if (nombre == null || nombre.isBlank() || direccion == null || direccion.isBlank() || ciudad == null || ciudad.isBlank()) {
+            throw new IllegalArgumentException("todos los datos de la sucursal son obligatorios");
+        }
+        
+        try {
+
+            sucursalesDAO.modificar(idSucursal, nombre, direccion, ciudad);
+
+        } catch (SQLException e) {
+
+            throw new RuntimeException("No se pudo modificar la sucursal: " + e.getMessage(), e);
+        }
+    }
+    
+    public void eliminarSucursal(int idSucursal) {
+
+        if (idSucursal <= 0) {
+            throw new IllegalArgumentException("El id de la sucursal no es válido");
+        }
+
+        try {
+
+            sucursalesDAO.eliminar(idSucursal);
+
+        } catch (SQLException e) {
+
+            throw new RuntimeException(e.getMessage(),e);
+        }
+    }
+    
+    
 
     // metodos para prestamo
 
