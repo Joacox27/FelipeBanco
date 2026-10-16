@@ -186,6 +186,30 @@ public class ClienteSocket {
 
         return lista;
     }
+    
+    public String modificarCliente(Cliente cliente) throws IOException {
+
+        String mensaje = "18;" + cliente.getDocumento() + ":" + cliente.getNombre() + ":"
+                + cliente.getApellido() + ":" + cliente.getFechaNacimiento() + ":"
+                + cliente.getCalle() + ":" + cliente.getNumero() + ":"
+                + cliente.getCiudad() + ":" + cliente.getTelefono();
+
+        salida.println(mensaje);
+
+        return entrada.readLine();
+    }
+
+
+    public String eliminarCliente(String documento) throws IOException {
+
+        String mensaje = "19;" + documento;
+
+        salida.println(mensaje);
+
+        return entrada.readLine();
+    }
+    
+    
 
 
     // FUNCIONARIOS
@@ -299,51 +323,82 @@ public class ClienteSocket {
      */
     public ArrayList<Sucursal> mostrarSucursales()
             throws IOException {
-
+        
         salida.println("6");
-
+        
         String respuesta = entrada.readLine();
-
+        
         ArrayList<Sucursal> lista = new ArrayList<>();
-
+        
         if (respuesta == null
                 || respuesta.equals("No hay sucursales registradas.")
                 || respuesta.isEmpty()) {
-
+            
             return lista;
         }
-
+        
         String[] sucursales = respuesta.split("\\|");
-
+        
         for (String datos : sucursales) {
-
+            
             if (datos.isEmpty()) {
                 continue;
             }
-
+            
             String[] partes = datos.split(",");
-
+            
             if (partes.length >= 4) {
-
+                
                 int idSucursal =
                         Integer.parseInt(partes[0]);
-
+                
                 String nombre = partes[1];
                 String direccion = partes[2];
                 String ciudad = partes[3];
-
+                
                 Sucursal sucursal = new Sucursal(
                         idSucursal,
                         nombre,
                         direccion,
                         ciudad
                 );
-
+                
                 lista.add(sucursal);
             }
         }
 
         return lista;
+    }
+    
+    public String nuevaSucursal(String nombre, String direccion, String ciudad) throws IOException {
+        
+        String mensaje ="15;" + nombre + ":" + direccion + ":" + ciudad;
+        
+        salida.println(mensaje);
+        
+        return entrada.readLine();
+    }
+
+
+    public String modificarSucursal(int idSucursal, String nombre, String direccion, String ciudad) 
+            throws IOException {
+        
+        String mensaje ="16;" + idSucursal + ":" + nombre + ":" + direccion + ":" + ciudad;
+        
+        salida.println(mensaje);
+        
+        return entrada.readLine();
+    }
+
+
+    public String eliminarSucursal(int idSucursal)
+            throws IOException {
+        
+        String mensaje = "17;" + idSucursal;
+        
+        salida.println(mensaje);
+        
+        return entrada.readLine();
     }
 
     

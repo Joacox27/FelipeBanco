@@ -444,24 +444,55 @@ public class Main {
                 }
 
 
-                // ELIMINAR SUCURSAL
+                // eliminar una sucursal (por el id)
                 case 17: {
-                    // Aquí irá la eliminación de una sucursal.
-                    return "ERROR|Funcionalidad pendiente: eliminar sucursal.";
+                    
+                    int idSucursal = Integer.parseInt(datos);
+                    
+                    fachada.eliminarSucursal(idSucursal);
+                    
+                    return "OK|Sucursal " + idSucursal + "eliminada correctamente.";
                 }
 
 
                 // MODIFICAR CLIENTE
                 case 18: {
-                    // Aquí irá la modificación de los datos de un cliente.
-                    return "ERROR|Funcionalidad pendiente: modificar cliente.";
+                    
+                    String[] d = datos.split(":", -1);
+                    
+                    if (d.length != 8) {
+                        return "ERROR|Datos de modificación de cliente incorrectos.";
+                    }
+                    
+                    Cliente cliente = new Cliente(
+                            d[0],
+                            d[1],
+                            d[2],
+                            LocalDate.parse(d[3]),
+                            d[4],
+                            d[5],
+                            d[6],
+                            d[7]
+                    );
+
+                    fachada.modificarCliente(cliente);
+
+                    return "OK|Cliente modificado correctamente.";
                 }
 
 
-                // ELIMINAR CLIENTE
+                // ELIMINAR CLIENTE (POR CI)
                 case 19: {
-                    // Aquí irá la eliminación de un cliente.
-                    return "ERROR|Funcionalidad pendiente: eliminar cliente.";
+
+                    String documento = datos.trim();
+
+                    if (documento.isEmpty()) {
+                        return "ERROR|El documento del cliente es obligatorio.";
+                    }
+
+                    fachada.eliminarCliente(documento);
+
+                    return "OK|Cliente eliminado correctamente.";
                 }
 
 

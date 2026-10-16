@@ -41,6 +41,7 @@ public class Fachada {
     }
     
     
+    //Funcionariossss
     
     public void nuevoFuncionario(
             String nombre,
@@ -79,7 +80,7 @@ public class Fachada {
     }
     
     
-    
+    //Clientesss
     
     public void nuevoCliente( Cliente c, int password) {
         
@@ -117,8 +118,35 @@ public class Fachada {
         }
     }
     
+    public void modificarCliente(Cliente cliente) {
+        
+        try {
+            String respuesta = clienteSocket.modificarCliente(cliente);
+            
+            comprobarRespuesta(respuesta);
+            
+        } catch (IOException e) {
+            
+            throw new RuntimeException("Error de comunicación al modificar el cliente.", e);
+            
+        }
+    }
+
+
+    public void eliminarCliente(String documento) {
+        
+        try {
+            String respuesta = clienteSocket.eliminarCliente(documento);
+            
+            comprobarRespuesta(respuesta);
+            
+        } catch (IOException e) {
+            throw new RuntimeException("Error de comunicación al eliminar el cliente.", e);
+        }
+    }
     
     
+    //Sucursalesss
     
     public ArrayList<Sucursal> mostrarSucursales() {
         
@@ -134,9 +162,82 @@ public class Fachada {
         }
     }
     
+    public void nuevaSucursal(
+            String nombre,
+            String direccion,
+            String ciudad) {
+
+        try {
+
+            String respuesta = clienteSocket.nuevaSucursal(
+                    nombre,
+                    direccion,
+                    ciudad
+            );
+
+            comprobarRespuesta(respuesta);
+
+        } catch (IOException e) {
+
+            throw new RuntimeException(
+                    "Error de comunicación al registrar la sucursal.",
+                    e
+            );
+        }
+    }
+
+
+    public void modificarSucursal(
+            int idSucursal,
+            String nombre,
+            String direccion,
+            String ciudad) {
+
+        try {
+
+            String respuesta = clienteSocket.modificarSucursal(
+                    idSucursal,
+                    nombre,
+                    direccion,
+                    ciudad
+            );
+
+            comprobarRespuesta(respuesta);
+
+        } catch (IOException e) {
+
+            throw new RuntimeException(
+                    "Error de comunicación al modificar la sucursal.",
+                    e
+            );
+        }
+    }
+
+
+    public void eliminarSucursal(int idSucursal) {
+
+        try {
+
+            String respuesta = clienteSocket.eliminarSucursal(
+                    idSucursal
+            );
+
+            comprobarRespuesta(respuesta);
+
+        } catch (IOException e) {
+
+            throw new RuntimeException(
+                    "Error de comunicación al eliminar la sucursal.",
+                    e
+            );
+        }
+    }
+    
+    
     
 
-
+        //cuentasss
+    
     public String nuevaCuenta(
             String tipo,
             int idSucursal,
@@ -208,7 +309,7 @@ public class Fachada {
     
     
     
-    
+    //Prestamossss
     
     public void solicitarPrestamo(
             double monto,
@@ -263,7 +364,7 @@ public class Fachada {
 
 
 
-
+    //utiles
 
     public double calcularTasaInteres(int cuotas) {
 

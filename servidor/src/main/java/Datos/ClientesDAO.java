@@ -126,6 +126,86 @@ public class ClientesDAO {
         return null;
     }
 
+    
+    public void modificar(Cliente cliente) throws SQLException {
+
+        if (cliente == null) {
+            throw new IllegalArgumentException(
+                    "Los datos del cliente son obligatorios."
+            );
+        }
+
+        String sql = """
+                UPDATE clientes
+                SET nombre = ?,
+                    apellido = ?,
+                    fecha_nacimiento = ?,
+                    calle = ?,
+                    numero = ?,
+                    ciudad = ?,
+                    telefono = ?
+                WHERE documento = ?
+                """;
+
+        try (Connection conexion = Conexion.getConexion();
+             PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+            ps.setString(1, cliente.getNombre());
+            ps.setString(2, cliente.getApellido());
+            ps.setDate(3,java.sql.Date.valueOf(cliente.getFechaNacimiento()));
+            ps.setString(4, cliente.getCalle());
+            ps.setString(5, cliente.getNumero());
+            ps.setString(6, cliente.getCiudad());
+            ps.setString(7, cliente.getTelefono());
+            ps.setString(8, cliente.getDocumento());
+
+            int filas = ps.executeUpdate();
+
+            if (filas == 0) {
+                throw new SQLException("No existe un cliente con ese documento.");
+            }
+        }
+    }
+    
+    public void eliminar(String documento) throws SQLException {
+        
+        String sql = """
+                DELETE FROM clientes
+                WHERE documento = ?
+                """;
+        
+        try (Connection conexion = Conexion.getConexion();
+             PreparedStatement ps = conexion.prepareStatement(sql)) {
+            
+            ps.setString(1, documento);
+            
+            try {
+                int filas = ps.executeUpdate();
+
+                if (filas == 0) {
+                    throw new SQLException(
+                            "No existe un cliente con esa cedula."
+                    );
+                }
+                
+            } catch (SQLException e) {
+
+                if (e.getSQLState() != null
+                        && e.getSQLState().startsWith("23")) {
+
+                    throw new SQLException("No se puede eliminar el cliente porque tiene " + "cuentas bancarias, préstamos u operaciones asociados.",e);
+                    //La eliminación se bloquea cuando existen registros relacionados mediante claves foráneas.
+                    //Así se mantiene el historial bancario correctamente
+                    
+                    
+                    
+                }
+
+                throw e;
+            }
+        }
+    }
+    
     // Convertir una fila de MySQL en un objeto Cliente
     private Cliente mapearCliente(ResultSet rs)
             throws SQLException {

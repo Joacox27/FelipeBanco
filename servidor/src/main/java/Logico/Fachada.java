@@ -97,13 +97,69 @@ public class Fachada {
         }
     }
 
+    public void modificarCliente(Cliente cliente) {
+        
+        if (cliente == null) {
+            throw new IllegalArgumentException(
+                    "Los datos del cliente son obligatorios."
+            );
+        }
+        
+        if (cliente.getDocumento() == null
+                || cliente.getDocumento().isBlank()
+                 || cliente.getNombre() == null
+                  || cliente.getNombre().isBlank()
+                   || cliente.getApellido() == null
+                    || cliente.getApellido().isBlank()
+                     || cliente.getFechaNacimiento() == null
+                    || cliente.getCalle() == null
+                   || cliente.getCalle().isBlank()
+                  || cliente.getNumero() == null
+                 || cliente.getNumero().isBlank()
+                || cliente.getCiudad() == null
+               || cliente.getCiudad().isBlank()) {
+            
+            throw new IllegalArgumentException( "Todos los datos obligatorios del cliente TIENEN QUE ESTAR.");
+        }
+        
+        try {
+            clientesDAO.modificar(cliente);
+            
+        } catch (SQLException e) {
+            
+            throw new RuntimeException("No se pudo modificar el cliente: " + e.getMessage(), e);
+        }
+    }
+
+
+    public void eliminarCliente(String documento) {
+        
+        if (documento == null || documento.isBlank()) {
+            throw new IllegalArgumentException(
+                    "El documento del cliente es obligatorio."
+            );
+        }
+
+        try {
+            clientesDAO.eliminar(documento);
+
+        } catch (SQLException e) {
+            
+            throw new RuntimeException(e.getMessage(), e);
+            
+        }
+    }
+    
+    
     public ArrayList<Cliente> mostrarClientes() {
         try {
+            
             return clientesDAO.listar();
+            
         } catch (SQLException e) {
-            throw new RuntimeException(
-                    "No se pudieron obtener los clientes.", e
-            );
+            
+            throw new RuntimeException("No se pudieron obtener los clientes.", e);
+            
         }
     }
 
