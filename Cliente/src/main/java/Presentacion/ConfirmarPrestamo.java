@@ -25,6 +25,7 @@ public class ConfirmarPrestamo extends javax.swing.JFrame {
     
     //cuando esta ventana se inicie, va a recibir el monto y las cuotas seleccionadas en SolicitarPrestamo
     public ConfirmarPrestamo(double monto, int cuotas) {
+        
         FlatLightLaf.setup();
         initComponents();
         
@@ -202,23 +203,26 @@ public class ConfirmarPrestamo extends javax.swing.JFrame {
        
         
         if ( !jCheckBox2.isSelected() ) {
-            
+          
           JOptionPane.showMessageDialog(rootPane,"Debe aceptar las condiciones del préstamo.");
-       
+          
           return;
-           
-         }
+          
+        }
         
                 Fachada.getInstancia().solicitarPrestamo(monto, cuotas);
-
+                
                  JOptionPane.showMessageDialog(
                 rootPane,
                 "Prestamo solicitado correctamente."
             );
-
+            
+            SolicitarPrestamo p = new SolicitarPrestamo();
+            p.setVisible(true);
             this.dispose();
+            
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    
     private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
         SolicitarPrestamo p = new SolicitarPrestamo();
         p.setVisible(true);

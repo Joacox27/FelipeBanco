@@ -6,48 +6,47 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
+import Logico.CuentaBancaria;
+import Logico.Deposito;
+import Logico.Operacion;
+import Logico.Retiro;
+import Logico.Transferencia;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class OperacionesDAO {
-
+    
     private final CuentasDAO cuentasDAO;
-
+    
     public OperacionesDAO() {
+        
         cuentasDAO = new CuentasDAO();
     }
 
 
     
-    public void registrarDeposito(
-            String numeroCuenta,
-            double monto,
-            String documentoCliente) throws SQLException {
-
+    public void registrarDeposito(String numeroCuenta, double monto, String documentoCliente) throws SQLException {
+        
         validarDatos(numeroCuenta, monto, documentoCliente);
-
+        
         try (Connection conexion = Conexion.getConexion()) {
-
+            
             conexion.setAutoCommit(false);
-
+            
             try {
-                comprobarTitular(
-                        conexion, numeroCuenta, documentoCliente
-                );
-
-                double saldoActual =
-                        cuentasDAO.obtenerSaldoBloqueando(
-                                conexion, numeroCuenta
-                        );
-
+                comprobarTitular(conexion, numeroCuenta, documentoCliente);
+                
+                double saldoActual = cuentasDAO.obtenerSaldoBloqueando(conexion, numeroCuenta);
+                
                 double nuevoSaldo = saldoActual + monto;
-
+                
                 comprobarSaldoValido(nuevoSaldo);
-
-                cuentasDAO.actualizarSaldo(
-                        conexion, numeroCuenta, nuevoSaldo
-                );
-
+                
+                cuentasDAO.actualizarSaldo(conexion, numeroCuenta, nuevoSaldo);
+                
                 guardarOperacion(
                         conexion,
                         "DEPOSITO",
@@ -67,39 +66,29 @@ public class OperacionesDAO {
     }
 
 
-    public void registrarRetiro(
-            String numeroCuenta,
-            double monto,
-            String documentoCliente) throws SQLException {
-
+    public void registrarRetiro(String numeroCuenta, double monto, String documentoCliente) throws SQLException {
+        
         validarDatos(numeroCuenta, monto, documentoCliente);
-
+        
         try (Connection conexion = Conexion.getConexion()) {
-
+            
             conexion.setAutoCommit(false);
-
+            
             try {
-                comprobarTitular(
-                        conexion, numeroCuenta, documentoCliente
-                );
-
-                double saldoActual =
-                        cuentasDAO.obtenerSaldoBloqueando(
-                                conexion, numeroCuenta
-                        );
-
+                comprobarTitular(conexion, numeroCuenta, documentoCliente);
+                
+                double saldoActual = cuentasDAO.obtenerSaldoBloqueando(conexion, numeroCuenta);
+                
                 if (saldoActual < monto) {
                     throw new IllegalArgumentException(
                             "Saldo insuficiente."
                     );
                 }
-
+                
                 double nuevoSaldo = saldoActual - monto;
-
-                cuentasDAO.actualizarSaldo(
-                        conexion, numeroCuenta, nuevoSaldo
-                );
-
+                
+                cuentasDAO.actualizarSaldo(conexion, numeroCuenta, nuevoSaldo);
+                
                 guardarOperacion(
                         conexion,
                         "RETIRO",
@@ -108,24 +97,20 @@ public class OperacionesDAO {
                         null,
                         documentoCliente
                 );
-
+                
                 conexion.commit();
-
+                
             } catch (SQLException | RuntimeException e) {
                 revertir(conexion, e);
                 throw e;
             }
         }
     }
-
-
-
-    public void registrarTransferencia(
-            String cuentaOrigen,
-            String cuentaDestino,
-            double monto,
-            String documentoCliente) throws SQLException {
-
+    
+    
+    
+    public void registrarTransferencia(String cuentaOrigen, String cuentaDestino, double monto, String documentoCliente) throws SQLException {
+        
         validarDatos(cuentaOrigen, monto, documentoCliente);
 
         if (cuentaDestino == null || cuentaDestino.isBlank()) {
@@ -227,14 +212,8 @@ public class OperacionesDAO {
     }
 
 
-    private void guardarOperacion(
-            Connection conexion,
-            String tipo,
-            double monto,
-            String cuentaOrigen,
-            String cuentaDestino,
-            String documentoCliente) throws SQLException {
-
+    private void guardarOperacion(Connection conexion, String tipo, double monto, String cuentaOrigen, String cuentaDestino, String documentoCliente) throws SQLException {
+        
         String sql = """
                 INSERT INTO operaciones
                 (id_operacion, tipo, fecha_hora, monto,
@@ -242,7 +221,7 @@ public class OperacionesDAO {
                  documento_cliente)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
                 """;
-
+        
         try (PreparedStatement ps =
                      conexion.prepareStatement(sql)) {
 
@@ -313,6 +292,173 @@ public class OperacionesDAO {
             throw new IllegalArgumentException(
                     "El saldo resultante no es válido."
             );
+        }
+    }
+    
+    public ArrayList<Operacion> listarPorCuenta(
+            String numeroCuenta) throws SQLException {
+
+        if (numeroCuenta == null || numeroCuenta.isBlank()) {
+            throw new IllegalArgumentException(
+                    "El número de cuenta es obligatorio."
+            );
+        }
+
+        ArrayList<String[]> registros = new ArrayList<>();
+        ArrayList<Operacion> operaciones = new ArrayList<>();
+
+        String sql = """
+                SELECT id_operacion, tipo, fecha_hora, monto,
+                       numero_cuenta, numero_cuenta_destino
+                FROM operaciones
+                WHERE numero_cuenta = ?
+                   OR numero_cuenta_destino = ?
+                ORDER BY fecha_hora DESC
+                """;
+
+        try (Connection conexion = Conexion.getConexion();
+             PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+            ps.setString(1, numeroCuenta);
+            ps.setString(2, numeroCuenta);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    registros.add(leerRegistro(rs));
+                }
+            }
+
+            for (String[] registro : registros) {
+                operaciones.add(mapearOperacion(conexion, registro));
+            }
+        }
+
+        return operaciones;
+    }
+
+
+    public Operacion buscarPorId(
+            String idOperacion) throws SQLException {
+
+        if (idOperacion == null || idOperacion.isBlank()) {
+            throw new IllegalArgumentException(
+                    "El identificador de la operación es obligatorio."
+            );
+        }
+
+        String sql = """
+                SELECT id_operacion, tipo, fecha_hora, monto,
+                       numero_cuenta, numero_cuenta_destino
+                FROM operaciones
+                WHERE id_operacion = ?
+                """;
+
+        try (Connection conexion = Conexion.getConexion();
+             PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+            ps.setString(1, idOperacion);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                if (!rs.next()) {
+                    return null;
+                }
+
+                String[] registro = leerRegistro(rs);
+
+                return mapearOperacion(conexion, registro);
+            }
+        }
+    }
+
+
+    private String[] leerRegistro(ResultSet rs)
+            throws SQLException {
+
+        java.sql.Timestamp fechaHora = rs.getTimestamp("fecha_hora");
+        java.math.BigDecimal monto = rs.getBigDecimal("monto");
+
+        return new String[]{
+            rs.getString("id_operacion"),
+            rs.getString("tipo"),
+            fechaHora.toLocalDateTime().toString(),
+            monto.toPlainString(),
+            rs.getString("numero_cuenta"),
+            rs.getString("numero_cuenta_destino") == null
+                    ? ""
+                    : rs.getString("numero_cuenta_destino")
+        };
+    }
+
+
+    private Operacion mapearOperacion(
+            Connection conexion,
+            String[] datos) throws SQLException {
+
+        String id = datos[0];
+        String tipo = datos[1];
+
+        LocalDateTime fechaHora =
+                LocalDateTime.parse(datos[2]);
+
+        double monto = Double.parseDouble(datos[3]);
+
+        CuentaBancaria cuentaOrigen =
+                cuentasDAO.buscarPorNumero(conexion, datos[4]);
+
+        if (cuentaOrigen == null) {
+            throw new SQLException(
+                    "No se encontró la cuenta de origen de la operación."
+            );
+        }
+
+        switch (tipo) {
+
+            case "DEPOSITO":
+                return new Deposito(
+                        id,
+                        fechaHora,
+                        monto,
+                        cuentaOrigen
+                );
+
+            case "RETIRO":
+                return new Retiro(
+                        id,
+                        fechaHora,
+                        monto,
+                        cuentaOrigen
+                );
+
+            case "TRANSFERENCIA":
+
+                if (datos[5].isBlank()) {
+                    throw new SQLException(
+                            "La transferencia no tiene cuenta de destino."
+                    );
+                }
+
+                CuentaBancaria cuentaDestino =
+                        cuentasDAO.buscarPorNumero(conexion, datos[5]);
+
+                if (cuentaDestino == null) {
+                    throw new SQLException(
+                            "No se encontró la cuenta de destino de la transferencia."
+                    );
+                }
+
+                return new Transferencia(
+                        id,
+                        fechaHora,
+                        monto,
+                        cuentaOrigen,
+                        cuentaDestino
+                );
+
+            default:
+                throw new SQLException(
+                        "Tipo de operación desconocido: " + tipo
+                );
         }
     }
 

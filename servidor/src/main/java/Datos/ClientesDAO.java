@@ -28,12 +28,7 @@ public class ClientesDAO {
             ps.setString(3, cliente.getApellido());
 
             if (cliente.getFechaNacimiento() != null) {
-                ps.setDate(
-                        4,
-                        java.sql.Date.valueOf(
-                                cliente.getFechaNacimiento()
-                        )
-                );
+                ps.setDate(4,java.sql.Date.valueOf(cliente.getFechaNacimiento()));
             } else {
                 ps.setNull(4, java.sql.Types.DATE);
             }
@@ -195,7 +190,7 @@ public class ClientesDAO {
 
                     throw new SQLException("No se puede eliminar el cliente porque tiene " + "cuentas bancarias, préstamos u operaciones asociados.",e);
                     //La eliminación se bloquea cuando existen registros relacionados mediante claves foráneas.
-                    //Así se mantiene el historial bancario correctamente
+                    //Así se mantiene el historial correctamente
                     
                     
                     

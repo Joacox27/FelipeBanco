@@ -28,4 +28,10 @@ public abstract class CuentaBancaria {
     public double getSaldo() {
         return saldo;
     }
+
+    public String getNumeroCuenta() {
+        return numeroCuenta;
+    }
+    
+    
 }

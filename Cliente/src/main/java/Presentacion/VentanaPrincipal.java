@@ -6,6 +6,11 @@ package Presentacion;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import javax.swing.UnsupportedLookAndFeelException;
+import Logico.Cliente;
+import Logico.CuentaBancaria;
+import Logico.Fachada;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -25,7 +30,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         this.setTitle("FelipeBanco - Home"); // Pone título
         
         setLocation(100, 50); // Consulta N02 con IA
-        setSize(800, 600);
+        setSize(800, 300);
+        
+        cargarDatosCliente();
     }
 
     /**
@@ -38,6 +45,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1_bienvenido = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2_Clientes = new javax.swing.JMenu();
         jMenuItem4_verclientes = new javax.swing.JMenuItem();
@@ -56,15 +66,47 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(13, 27, 42));
 
+        jPanel2.setBackground(new java.awt.Color(201, 168, 106));
+
+        jLabel1_bienvenido.setText("Bienvenido: ");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jLabel1_bienvenido)
+                .addGap(0, 86, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1_bienvenido)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Botones/logo.png"))); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 866, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(34, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 139, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addContainerGap(89, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 386, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(71, Short.MAX_VALUE))
         );
 
         jMenu2_Clientes.setText(" Ver");
@@ -115,6 +157,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jMenu3.add(jMenuItem2);
 
         jMenuItem1.setText("Historial");
+        jMenuItem1.addActionListener(this::jMenuItem1ActionPerformed);
         jMenu3.add(jMenuItem1);
 
         jMenuBar1.add(jMenu3);
@@ -125,16 +168,77 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void cargarDatosCliente() {
+
+        try {
+
+            Fachada fachada = Fachada.getInstancia();
+
+            Cliente cliente = fachada.getClienteActual();
+
+            ArrayList<CuentaBancaria> cuentas =
+                fachada.mostrarCuentasCliente(
+                    cliente.getDocumento()
+                );
+
+            StringBuilder texto = new StringBuilder();
+
+            texto.append("<html>");
+            texto.append("<h2>Bienvenid@ " + cliente.getNombre() + " " + cliente.getApellido());
+            texto.append(" ");
+            texto.append("</h2>");
+
+            texto.append("<br><b>Tus cuentas asociadas:</b><br>");
+
+            if (cuentas.isEmpty()) {
+
+                texto.append("No tenés cuentas bancarias asociadas AUN.");
+
+            } else {
+
+                for (CuentaBancaria cuenta : cuentas) {
+
+                    texto.append("Cuenta: ");
+                    texto.append(cuenta.getNumeroCuenta());
+
+                    texto.append(" | Saldo: $");
+                    texto.append(
+                        String.format(
+                            java.util.Locale.US,
+                            "%.2f",
+                            cuenta.getSaldo()
+                        )
+                    );
+
+                    texto.append("<br>");
+                }
+            }
+
+            texto.append("</html>");
+
+            jLabel1_bienvenido.setText(texto.toString());
+
+        } catch (RuntimeException e) {
+
+            JOptionPane.showMessageDialog(
+                this,
+                e.getMessage(),
+                "Error al cargar los datos del cliente",
+                JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+    
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         Operaciones O = new Operaciones();
         O.setVisible(true);
@@ -142,9 +246,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem4_verclientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4_verclientesActionPerformed
-       VisualizarClientes c = new VisualizarClientes();
-    c.setVisible(true);
-    this.dispose();
+        VisualizarClientes2 c = new VisualizarClientes2();
+        c.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jMenuItem4_verclientesActionPerformed
 
     private void jMenu2_ClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu2_ClientesActionPerformed
@@ -168,9 +272,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem5_ingresarFuncionarioActionPerformed
 
     private void jMenuItem1_verfuncionariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1_verfuncionariosActionPerformed
-        VisualizarFuncionarios c = new VisualizarFuncionarios();
+        VisualizarFuncionarios2 c = new VisualizarFuncionarios2();
         c.setVisible(true);
-        this.dispose();
+        this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem1_verfuncionariosActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
@@ -178,6 +282,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         s.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        Historial H = new Historial();
+        H.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -195,6 +305,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel1_bienvenido;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2_Clientes;
     private javax.swing.JMenu jMenu3;
@@ -209,5 +321,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5_Sucursales;
     private javax.swing.JMenuItem jMenuItem5_ingresarFuncionario;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 }

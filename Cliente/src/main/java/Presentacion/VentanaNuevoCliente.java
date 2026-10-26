@@ -71,10 +71,12 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
         jLabel1_nombre2 = new javax.swing.JLabel();
         jLabel5_FechaNac = new javax.swing.JLabel();
         jTextField4_Dir = new javax.swing.JTextField();
-        jLabel7_Tel = new javax.swing.JLabel();
+        jLabel7_ciu = new javax.swing.JLabel();
         jLabel6_Dirreción = new javax.swing.JLabel();
         jTextField3_fechanac = new javax.swing.JTextField();
-        jTextField5_tel = new javax.swing.JTextField();
+        jTextField6_tel = new javax.swing.JTextField();
+        jLabel7_Tel1 = new javax.swing.JLabel();
+        jTextField5_ciu = new javax.swing.JTextField();
         jButton1aceptar = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -124,9 +126,9 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
         jTextField4_Dir.setBackground(new java.awt.Color(255, 255, 255));
         jTextField4_Dir.setForeground(new java.awt.Color(0, 0, 0));
 
-        jLabel7_Tel.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel7_Tel.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel7_Tel.setText("Teléfono");
+        jLabel7_ciu.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel7_ciu.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel7_ciu.setText("Ciudad");
 
         jLabel6_Dirreción.setBackground(new java.awt.Color(255, 255, 255));
         jLabel6_Dirreción.setForeground(new java.awt.Color(0, 0, 0));
@@ -135,20 +137,31 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
         jTextField3_fechanac.setBackground(new java.awt.Color(255, 255, 255));
         jTextField3_fechanac.setForeground(new java.awt.Color(0, 0, 0));
 
-        jTextField5_tel.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField5_tel.setForeground(new java.awt.Color(0, 0, 0));
+        jTextField6_tel.setBackground(new java.awt.Color(255, 255, 255));
+        jTextField6_tel.setForeground(new java.awt.Color(0, 0, 0));
+
+        jLabel7_Tel1.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel7_Tel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel7_Tel1.setText("Teléfono");
+
+        jTextField5_ciu.setBackground(new java.awt.Color(255, 255, 255));
+        jTextField5_ciu.setForeground(new java.awt.Color(0, 0, 0));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(38, 38, 38)
+                .addContainerGap(39, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel7_Tel)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7_ciu)
+                            .addComponent(jLabel7_Tel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField5_tel, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField6_tel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField5_ciu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(jLabel6_Dirreción)
@@ -175,44 +188,48 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
                                 .addComponent(jLabel2_CI)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jTextField2_CI, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
+                .addContainerGap(21, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1_Nombrecompleto))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField2_CI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2_CI))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3_Pass)
                     .addComponent(jPasswordField1_con1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jPasswordField2_con2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1_nombre2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5_FechaNac)
                     .addComponent(jTextField3_fechanac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6_Dirreción)
                     .addComponent(jTextField4_Dir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7_Tel)
-                    .addComponent(jTextField5_tel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24))
+                    .addComponent(jLabel7_ciu)
+                    .addComponent(jTextField5_ciu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7_Tel1)
+                    .addComponent(jTextField6_tel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21))
         );
 
         jButton1aceptar.setBackground(new java.awt.Color(255, 255, 255));
-        jButton1aceptar.setIcon(new javax.swing.ImageIcon("/home/joaco/Desktop/ITI 2026/Programación Avanzada/FelipeBanco/Cliente/src/main/recursos/Botones/suiguiente.png")); // NOI18N
+        jButton1aceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Botones/suiguiente.png"))); // NOI18N
         jButton1aceptar.setBorder(null);
         jButton1aceptar.addActionListener(this::jButton1aceptarActionPerformed);
 
@@ -222,22 +239,21 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(0, 31, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(29, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton1aceptar)
-                        .addGap(176, 176, 176))))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(29, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(183, 183, 183)
+                .addComponent(jButton1aceptar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(38, Short.MAX_VALUE)
+                .addGap(33, 33, 33)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addComponent(jButton1aceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
+                .addGap(26, 26, 26))
         );
 
         jMenu1.setText("Volver");
@@ -258,344 +274,294 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1aceptarActionPerformed
-        
-    String nombreCompleto = jTextField1_nombre.getText().trim();
-    String CI = jTextField2_CI.getText().trim();
 
-    String PSW1 =
-            new String(jPasswordField1_con1.getPassword()).trim();
+        String nombreCompleto = jTextField1_nombre.getText().trim();
+        String CI = jTextField2_CI.getText().trim();
 
-    String PSW2 =
-            new String(jPasswordField2_con2.getPassword()).trim();
+        String PSW1 = new String(jPasswordField1_con1.getPassword()).trim();
+        String PSW2 = new String(jPasswordField2_con2.getPassword()).trim();
 
-    String FechaNac = jTextField3_fechanac.getText().trim();
-    String direccion = jTextField4_Dir.getText().trim();
-    String telefono = jTextField5_tel.getText().trim();
+        String FechaNac = jTextField3_fechanac.getText().trim();
+        String direccion = jTextField4_Dir.getText().trim();
+        String ciudad = jTextField5_ciu.getText().trim();
+        String telefono = jTextField6_tel.getText().trim();
 
 
-    // ============================================================
-    // CAMPOS OBLIGATORIOS
-    // ============================================================
+        // CAMPOS OBLIGATORIOS
 
-    if (nombreCompleto.isEmpty()
-            || CI.isEmpty()
-            || PSW1.isEmpty()
-            || PSW2.isEmpty()
-            || FechaNac.isEmpty()
-            || direccion.isEmpty()
-            || telefono.isEmpty()) {
+        if (nombreCompleto.isEmpty()
+                || CI.isEmpty()
+                || PSW1.isEmpty()
+                || PSW2.isEmpty()
+                || FechaNac.isEmpty()
+                || direccion.isEmpty()
+                || ciudad.isEmpty()
+                || telefono.isEmpty()) {
 
-        JOptionPane.showMessageDialog(
-                rootPane,
-                "Todos los campos son obligatorios."
-        );
+            JOptionPane.showMessageDialog(
+                    rootPane,
+                    "Todos los campos son obligatorios."
+            );
 
-        return;
-    }
-
-
-    // ============================================================
-    // NOMBRE
-    // ============================================================
-
-    if (!nombreCompleto.matches(
-            "[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
-
-        JOptionPane.showMessageDialog(
-                rootPane,
-                "El nombre solo puede contener letras y espacios."
-        );
-
-        return;
-    }
-
-
-    /*
-     * Separamos:
-     *
-     * "Joaquin Salazar"
-     *
-     * nombre = Joaquin
-     * apellido = Salazar
-     *
-     * Si hay más palabras:
-     *
-     * "Juan Carlos Perez"
-     *
-     * nombre = Juan Carlos
-     * apellido = Perez
-     */
-    String[] partesNombre =
-            nombreCompleto.trim().split("\\s+");
-
-    String nombre;
-    String apellido;
-
-    if (partesNombre.length == 1) {
-
-        nombre = partesNombre[0];
-        apellido = "";
-
-    } else {
-
-        apellido =
-                partesNombre[partesNombre.length - 1];
-
-        StringBuilder nombreBuilder =
-                new StringBuilder();
-
-        for (int i = 0; i < partesNombre.length - 1; i++) {
-
-            if (i > 0) {
-                nombreBuilder.append(" ");
-            }
-
-            nombreBuilder.append(partesNombre[i]);
+            return;
         }
 
-        nombre = nombreBuilder.toString();
-    }
+
+        // NOMBRE
+
+        if (!nombreCompleto.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+
+            JOptionPane.showMessageDialog(
+                    rootPane,
+                    "El nombre solo puede contener letras y espacios."
+            );
+
+            return;
+        }
+
+        String[] partesNombre = nombreCompleto.split("\\s+");
+
+        String nombre;
+        String apellido;
+
+        if (partesNombre.length == 1) {
+
+            nombre = partesNombre[0];
+            apellido = "";
+
+        } else {
+
+            apellido = partesNombre[partesNombre.length - 1];
+
+            StringBuilder nombreBuilder = new StringBuilder();
+
+            for (int i = 0; i < partesNombre.length - 1; i++) {
+
+                if (i > 0) {
+                    nombreBuilder.append(" ");
+                }
+
+                nombreBuilder.append(partesNombre[i]);
+            }
+
+            nombre = nombreBuilder.toString();
+        }
 
 
-    // ============================================================
-    // CI
-    // ============================================================
+        // CI
 
-    if (!CI.matches("\\d{8}")) {
+        if (!CI.matches("\\d{8}")) {
 
-        JOptionPane.showMessageDialog(
-                rootPane,
-                "La CI debe tener exactamente 8 dígitos y no puede contener guiones."
-        );
+            JOptionPane.showMessageDialog(
+                    rootPane,
+                    "La CI debe tener exactamente 8 dígitos y no puede contener guiones."
+            );
 
-        return;
-    }
+            return;
+        }
 
 
-    // ============================================================
-    // CONTRASEÑA
-    // ============================================================
+        // CONTRASEÑA
 
-    if (!PSW1.equals(PSW2)) {
+        if (!PSW1.equals(PSW2)) {
 
-        JOptionPane.showMessageDialog(
-                rootPane,
-                "Las contraseñas no coinciden."
-        );
+            JOptionPane.showMessageDialog(
+                    rootPane,
+                    "Las contraseñas no coinciden."
+            );
 
-        return;
-    }
+            return;
+        }
 
-    int password;
+        int password;
 
-    try {
+        try {
 
-        password = Integer.parseInt(PSW1);
+            password = Integer.parseInt(PSW1);
 
-    } catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
 
-        JOptionPane.showMessageDialog(
-                rootPane,
-                "La contraseña debe contener solamente números."
-        );
+            JOptionPane.showMessageDialog(
+                    rootPane,
+                    "La contraseña debe contener solamente números."
+            );
 
-        return;
-    }
+            return;
+        }
 
 
-    // TELEFONO
-    
-    if (!telefono.matches("\\d{9}")) {
+        // TELÉFONO
 
-        JOptionPane.showMessageDialog(
-                rootPane,
-                "El teléfono debe tener exactamente 9 dígitos."
-        );
+        if (!telefono.matches("\\d{9}")) {
 
-        return;
-    }
+            JOptionPane.showMessageDialog(
+                    rootPane,
+                    "El teléfono debe tener exactamente 9 dígitos."
+            );
 
-
-    // FECHA DE NACIMIENTO
+            return;
+        }
 
 
-    LocalDate fechaNacimiento;
+        // CIUDAD
 
-    try {
+        if (!ciudad.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
 
-        DateTimeFormatter formato =
-                DateTimeFormatter
-                        .ofPattern("dd/MM/uuuu")
-                        .withResolverStyle(
-                                ResolverStyle.STRICT
-                        );
+            JOptionPane.showMessageDialog(
+                    rootPane,
+                    "La ciudad solo puede contener letras y espacios."
+            );
 
-        fechaNacimiento =
-                LocalDate.parse(
-                        FechaNac,
-                        formato
-                );
-
-    } catch (DateTimeParseException e) {
-
-        JOptionPane.showMessageDialog(
-                rootPane,
-                "La fecha no es válida. Use el formato dd/MM/yyyy."
-        );
-
-        return;
-    }
+            return;
+        }
 
 
-    LocalDate hoy = LocalDate.now();
+        // FECHA DE NACIMIENTO
+
+        LocalDate fechaNacimiento;
+
+        try {
+
+            DateTimeFormatter formato = DateTimeFormatter
+                    .ofPattern("dd/MM/uuuu")
+                    .withResolverStyle(ResolverStyle.STRICT);
+
+            fechaNacimiento = LocalDate.parse(FechaNac, formato);
+
+        } catch (DateTimeParseException e) {
+
+            JOptionPane.showMessageDialog(
+                    rootPane,
+                    "La fecha no es válida. Use el formato dd/MM/yyyy."
+            );
+
+            return;
+        }
+
+        LocalDate hoy = LocalDate.now();
+
+        if (fechaNacimiento.isAfter(hoy)) {
+
+            JOptionPane.showMessageDialog(
+                    rootPane,
+                    "La fecha de nacimiento no puede ser futura."
+            );
+
+            return;
+        }
+
+        if (fechaNacimiento.isBefore(hoy.minusYears(100))) {
+
+            JOptionPane.showMessageDialog(
+                    rootPane,
+                    "El cliente ingresado no puede haber nacido en esa fecha."
+            );
+
+            return;
+        }
 
 
-    // No puede ser futura
+        // DIRECCIÓN
 
-    if (fechaNacimiento.isAfter(hoy)) {
+        if (!direccion.matches(
+                "^(?=.*[A-Za-zÁÉÍÓÚáéíóúÑñ])(?=.*\\d)"
+                + "[A-Za-zÁÉÍÓÚáéíóúÑñ0-9 .,/\\-]{5,100}$")) {
 
-        JOptionPane.showMessageDialog(
-                rootPane,
-                "La fecha de nacimiento no puede ser futura."
-        );
+            JOptionPane.showMessageDialog(
+                    rootPane,
+                    "La dirección ingresada no es válida."
+            );
 
-        return;
-    }
-
-
-    // Máximo 100 años
-
-    if (fechaNacimiento.isBefore(
-            hoy.minusYears(100))) {
-
-        JOptionPane.showMessageDialog(
-                rootPane,
-                "El cliente ingresado no puede haber nacido en esa fecha."
-        );
-
-        return;
-    }
+            return;
+        }
 
 
-    // DIRECCIÓN
+        // SEPARAR CALLE Y NÚMERO
+
+        String calle = direccion;
+        String numero = "";
+
+        java.util.regex.Matcher matcher =
+                java.util.regex.Pattern
+                        .compile("^(.*?)[ ]+(\\d+)$")
+                        .matcher(direccion);
+
+        if (matcher.matches()) {
+
+            calle = matcher.group(1).trim();
+            numero = matcher.group(2);
+        }
 
 
-    if (!direccion.matches(
-            "^(?=.*[A-Za-zÁÉÍÓÚáéíóúÑñ])(?=.*\\d)"
-            + "[A-Za-zÁÉÍÓÚáéíóúÑñ0-9 .,/\\-]{5,100}$")) {
+        // CREAR CLIENTE
 
-        JOptionPane.showMessageDialog(
-                rootPane,
-                "La dirección ingresada no es válida."
-        );
-
-        return;
-    }
-
-
-    /*
-     * Intentamos separar la dirección.
-     *
-     * Ejemplo:
-     *
-     * "Avenida Brasil 2456"
-     *
-     * calle = Avenida Brasil
-     * numero = 2456
-     *
-     * La ciudad queda vacía porque el formulario
-     * actualmente no tiene un campo para ciudad.
-     */
-    String calle = direccion;
-    String numero = "";
-    String ciudad = "";
-
-    java.util.regex.Matcher matcher =
-            java.util.regex.Pattern
-                    .compile("^(.*?)[ ]+(\\d+)$")
-                    .matcher(direccion);
-
-    if (matcher.matches()) {
-
-        calle = matcher.group(1).trim();
-        numero = matcher.group(2);
-    }
-
-
-    // CREAR CLIENTE
-
-
-    Cliente cliente = new Cliente(
-            CI,
-            nombre,
-            apellido,
-            fechaNacimiento,
-            calle,
-            numero,
-            ciudad,
-            telefono
-    );
-
-
-    // ENVIAR AL SERVIDOR
-
-
-    try {
-
-        Fachada.getInstancia().nuevoCliente(
-                cliente,
-                password
-        );
-
-        JOptionPane.showMessageDialog(
-                rootPane,
-                "Cliente "
-                + nombre
-                + " "
-                + apellido
-                + " ingresado correctamente."
+        Cliente cliente = new Cliente(
+                CI,
+                nombre,
+                apellido,
+                fechaNacimiento,
+                calle,
+                numero,
+                ciudad,
+                telefono
         );
 
 
-        // Limpiar campos
+        // ENVIAR AL SERVIDOR
 
-        jTextField1_nombre.setText("");
-        jTextField2_CI.setText("");
-        jPasswordField1_con1.setText("");
-        jPasswordField2_con2.setText("");
-        jTextField3_fechanac.setText("");
-        jTextField4_Dir.setText("");
-        jTextField5_tel.setText("");
+        try {
+
+            Fachada.getInstancia().nuevoCliente(
+                    cliente,
+                    password
+            );
+
+            JOptionPane.showMessageDialog(
+                    rootPane,
+                    "Cliente "
+                    + nombre
+                    + " "
+                    + apellido
+                    + " ingresado correctamente."
+            );
 
 
-    } catch (IllegalArgumentException e) {
+            // LIMPIAR CAMPOS
 
-        JOptionPane.showMessageDialog(
-                rootPane,
-                e.getMessage(),
-                "Error",
-                JOptionPane.ERROR_MESSAGE
-        );
+            jTextField1_nombre.setText("");
+            jTextField2_CI.setText("");
+            jPasswordField1_con1.setText("");
+            jPasswordField2_con2.setText("");
+            jTextField3_fechanac.setText("");
+            jTextField4_Dir.setText("");
+            jTextField5_ciu.setText("");
+            jTextField6_tel.setText("");
 
-    } catch (RuntimeException e) {
+        } catch (IllegalArgumentException e) {
 
-        JOptionPane.showMessageDialog(
-                rootPane,
-                e.getMessage(),
-                "Error de conexión",
-                JOptionPane.ERROR_MESSAGE
-        );
-    }
+            JOptionPane.showMessageDialog(
+                    rootPane,
+                    e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
 
+        } catch (RuntimeException e) {
+
+            JOptionPane.showMessageDialog(
+                    rootPane,
+                    e.getMessage(),
+                    "Error de conexión",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
     }//GEN-LAST:event_jButton1aceptarActionPerformed
 
     private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
@@ -637,7 +603,8 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3_Pass;
     private javax.swing.JLabel jLabel5_FechaNac;
     private javax.swing.JLabel jLabel6_Dirreción;
-    private javax.swing.JLabel jLabel7_Tel;
+    private javax.swing.JLabel jLabel7_Tel1;
+    private javax.swing.JLabel jLabel7_ciu;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
@@ -650,7 +617,8 @@ public class VentanaNuevoCliente extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2_CI;
     private javax.swing.JTextField jTextField3_fechanac;
     private javax.swing.JTextField jTextField4_Dir;
-    private javax.swing.JTextField jTextField5_tel;
+    private javax.swing.JTextField jTextField5_ciu;
+    private javax.swing.JTextField jTextField6_tel;
     private javax.swing.JTextPane jTextPane1;
     // End of variables declaration//GEN-END:variables
 }

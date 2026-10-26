@@ -110,7 +110,7 @@ public class Login extends javax.swing.JFrame {
         );
 
         jButton1.setBackground(new java.awt.Color(255, 255, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon("/home/joaco/Desktop/ITI 2026/Programación Avanzada/FelipeBanco/Cliente/src/main/recursos/Botones/suiguiente.png")); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Botones/suiguiente.png"))); // NOI18N
         jButton1.setBorder(null);
         jButton1.addActionListener(this::jButton1ActionPerformed);
 
@@ -182,7 +182,7 @@ public class Login extends javax.swing.JFrame {
             
             JOptionPane.showMessageDialog(
                 this,
-                "Bienvenido " + cliente.getNombre()
+                "Bienvenid@ " + cliente.getNombre()
             );
             
             VentanaPrincipal ventana = new VentanaPrincipal();

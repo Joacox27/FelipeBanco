@@ -544,6 +544,58 @@ public class Fachada {
         }
     }
     
+    public ArrayList<Operacion> mostrarOperaciones(String numeroCuenta) {
+
+        if (numeroCuenta == null || numeroCuenta.isBlank()) {
+            throw new IllegalArgumentException(
+                    "El número de cuenta es obligatorio."
+            );
+        }
+
+        try {
+
+            CuentaBancaria cuenta =
+                    cuentasDAO.buscarPorNumero(numeroCuenta);
+
+            if (cuenta == null) {
+                throw new IllegalArgumentException(
+                        "La cuenta bancaria no existe."
+                );
+            }
+
+            return operacionesDAO.listarPorCuenta(numeroCuenta);
+
+        } catch (SQLException e) {
+
+            throw new RuntimeException(
+                    "No se pudieron consultar las operaciones de la cuenta.",
+                    e
+            );
+        }
+    }
+
+
+    public Operacion buscarOperacion(String idOperacion) {
+
+        if (idOperacion == null || idOperacion.isBlank()) {
+            throw new IllegalArgumentException(
+                    "El identificador de la operación es obligatorio."
+            );
+        }
+
+        try {
+
+            return operacionesDAO.buscarPorId(idOperacion);
+
+        } catch (SQLException e) {
+
+            throw new RuntimeException(
+                    "No se pudo buscar la operación.",
+                    e
+            );
+        }
+    }
+    
     
     // metodos de las cuentas bancarias
     

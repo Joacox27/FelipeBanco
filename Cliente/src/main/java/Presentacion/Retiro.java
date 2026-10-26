@@ -4,7 +4,9 @@
  */
 package Presentacion;
 
+import Logico.Fachada;
 import com.formdev.flatlaf.FlatLightLaf;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -68,13 +70,13 @@ public class Retiro extends javax.swing.JFrame {
         jLabel1_cuenta.setText("Cuenta");
 
         jTextField1_cuenta.setBackground(new java.awt.Color(245, 245, 245));
-        jTextField1_cuenta.setForeground(new java.awt.Color(245, 245, 245));
+        jTextField1_cuenta.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel1_monto.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1_monto.setText("Monto");
 
         jTextField1_monto.setBackground(new java.awt.Color(245, 245, 245));
-        jTextField1_monto.setForeground(new java.awt.Color(245, 245, 245));
+        jTextField1_monto.setForeground(new java.awt.Color(0, 0, 0));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -115,23 +117,22 @@ public class Retiro extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(48, 48, 48)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(134, 134, 134)
-                        .addComponent(jButton1_retirar)))
+                .addContainerGap(48, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(59, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1_retirar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap(20, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(jButton1_retirar)
-                .addGap(18, 18, 18))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         jMenu1_volver.setText("Volver");
@@ -167,7 +168,94 @@ public class Retiro extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu1_volverMouseClicked
 
     private void jButton1_retirarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1_retirarActionPerformed
-        // TODO add your handling code here:
+       
+    String numeroCuenta = jTextField1_cuenta.getText().trim();
+    String textoMonto = jTextField1_monto.getText().trim();
+
+    if (numeroCuenta.isEmpty()) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Debe ingresar el número de cuenta.",
+                "Campo obligatorio",
+                JOptionPane.ERROR_MESSAGE
+        );
+        jTextField1_cuenta.requestFocus();
+        return;
+    }
+
+    if (textoMonto.isEmpty()) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Debe ingresar el monto a retirar.",
+                "Campo obligatorio",
+                JOptionPane.ERROR_MESSAGE
+        );
+        jTextField1_monto.requestFocus();
+        return;
+    }
+
+    double monto;
+
+    try {
+        monto = Double.parseDouble(textoMonto.replace(',', '.'));
+
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(
+                this,
+                "El monto debe ser un número válido.",
+                "Monto incorrecto",
+                JOptionPane.ERROR_MESSAGE
+        );
+        jTextField1_monto.requestFocus();
+        jTextField1_monto.selectAll();
+        return;
+    }
+
+    if (!Double.isFinite(monto) || monto <= 0) {
+        JOptionPane.showMessageDialog(
+                this,
+                "El monto debe ser mayor que cero.",
+                "Monto incorrecto",
+                JOptionPane.ERROR_MESSAGE
+        );
+        jTextField1_monto.requestFocus();
+        jTextField1_monto.selectAll();
+        return;
+    }
+
+    try {
+        Fachada.getInstancia().retirar(numeroCuenta, monto);
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Retiro realizado correctamente.",
+                "Retiro",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+
+        jTextField1_cuenta.setText("");
+        jTextField1_monto.setText("");
+
+    } catch (IllegalArgumentException | IllegalStateException e) {
+        JOptionPane.showMessageDialog(
+                this,
+                e.getMessage(),
+                "No se pudo realizar el retiro",
+                JOptionPane.ERROR_MESSAGE
+        );
+
+    } catch (RuntimeException e) {
+        JOptionPane.showMessageDialog(
+                this,
+                e.getMessage() != null
+                        ? e.getMessage()
+                        : "Ocurrió un error al procesar el retiro.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+        
+        
     }//GEN-LAST:event_jButton1_retirarActionPerformed
 
     /**

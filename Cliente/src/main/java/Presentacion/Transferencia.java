@@ -4,6 +4,7 @@
  */
 package Presentacion;
 
+import Logico.Fachada;
 import com.formdev.flatlaf.FlatLightLaf;
 
 /**
@@ -71,14 +72,17 @@ public class Transferencia extends javax.swing.JFrame {
         jLabel1_monto.setText("Cuenta origen");
 
         jTextField1_cuentaorigen.setBackground(new java.awt.Color(245, 245, 245));
-        jTextField1_cuentaorigen.setForeground(new java.awt.Color(255, 255, 255));
+        jTextField1_cuentaorigen.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel1_monto1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1_monto1.setText("Monto");
 
         jTextField1_monto.setBackground(new java.awt.Color(245, 245, 245));
+        jTextField1_monto.setForeground(new java.awt.Color(0, 0, 0));
+        jTextField1_monto.addActionListener(this::jTextField1_montoActionPerformed);
 
         jTextField1_cuentadestino.setBackground(new java.awt.Color(245, 245, 245));
+        jTextField1_cuentadestino.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel1_monto2.setBackground(new java.awt.Color(0, 0, 0));
         jLabel1_monto2.setForeground(new java.awt.Color(0, 0, 0));
@@ -131,7 +135,7 @@ public class Transferencia extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(33, 33, 33)
+                .addContainerGap(33, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(38, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -142,9 +146,9 @@ public class Transferencia extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addContainerGap(18, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1_Transferir)
                 .addContainerGap(12, Short.MAX_VALUE))
         );
@@ -180,8 +184,113 @@ public class Transferencia extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu1_volverMouseClicked
 
     private void jButton1_TransferirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1_TransferirActionPerformed
-        // TODO add your handling code here:
+     
+    String cuentaOrigen = jTextField1_cuentaorigen.getText().trim();
+    String cuentaDestino = jTextField1_cuentadestino.getText().trim();
+    String textoMonto = jTextField1_monto.getText().trim();
+
+    if (cuentaOrigen.isEmpty() || cuentaDestino.isEmpty() || textoMonto.isEmpty()) {
+        javax.swing.JOptionPane.showMessageDialog(
+            this,
+            "Completá todos los campos.",
+            "Campos incompletos",
+            javax.swing.JOptionPane.WARNING_MESSAGE
+        );
+        return;
+    }
+
+    if (!cuentaOrigen.matches("[A-Za-z0-9-]{1,20}")) {
+        javax.swing.JOptionPane.showMessageDialog(
+            this,
+            "El número de la cuenta de origen no es válido.",
+            "Cuenta inválida",
+            javax.swing.JOptionPane.WARNING_MESSAGE
+        );
+        return;
+    }
+
+    if (!cuentaDestino.matches("[A-Za-z0-9-]{1,20}")) {
+        javax.swing.JOptionPane.showMessageDialog(
+            this,
+            "El número de la cuenta de destino no es válido.",
+            "Cuenta inválida",
+            javax.swing.JOptionPane.WARNING_MESSAGE
+        );
+        return;
+    }
+
+    if (cuentaOrigen.equals(cuentaDestino)) {
+        javax.swing.JOptionPane.showMessageDialog(
+            this,
+            "La cuenta de origen y la de destino deben ser diferentes.",
+            "Transferencia inválida",
+            javax.swing.JOptionPane.WARNING_MESSAGE
+        );
+        return;
+    }
+
+    if (!textoMonto.matches("[0-9]+([.,][0-9]{1,2})?")) {
+        javax.swing.JOptionPane.showMessageDialog(
+            this,
+            "Ingresá un monto numérico válido, con un máximo de dos decimales.",
+            "Monto inválido",
+            javax.swing.JOptionPane.WARNING_MESSAGE
+        );
+        return;
+    }
+
+    try {
+        double monto = Double.parseDouble(textoMonto.replace(',', '.'));
+
+        if (!Double.isFinite(monto) || monto <= 0) {
+            javax.swing.JOptionPane.showMessageDialog(
+                this,
+                "El monto debe ser mayor que cero.",
+                "Monto inválido",
+                javax.swing.JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
+
+        Fachada.getInstancia().transferir(cuentaOrigen, cuentaDestino, monto);
+
+        javax.swing.JOptionPane.showMessageDialog(
+            this,
+            "Transferencia realizada correctamente.",
+            "Transferencia",
+            javax.swing.JOptionPane.INFORMATION_MESSAGE
+        );
+
+        jTextField1_cuentaorigen.setText("");
+        jTextField1_cuentadestino.setText("");
+        jTextField1_monto.setText("");
+
+    } catch (NumberFormatException e) {
+        javax.swing.JOptionPane.showMessageDialog(
+            this,
+            "El monto ingresado no es válido.",
+            "Error",
+            javax.swing.JOptionPane.ERROR_MESSAGE
+        );
+    } catch (RuntimeException e) {
+        String mensaje = e.getMessage();
+
+        javax.swing.JOptionPane.showMessageDialog(
+            this,
+            mensaje == null || mensaje.isBlank()
+                ? "No se pudo realizar la transferencia."
+                : mensaje,
+            "Error al transferir",
+            javax.swing.JOptionPane.ERROR_MESSAGE
+        );
+    }
+    
+    
     }//GEN-LAST:event_jButton1_TransferirActionPerformed
+
+    private void jTextField1_montoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1_montoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1_montoActionPerformed
 
     /**
      * @param args the command line arguments

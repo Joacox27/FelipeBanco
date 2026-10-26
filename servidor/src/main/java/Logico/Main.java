@@ -234,7 +234,7 @@ public class Main {
 
 
             
-                
+                //Deposito
                 case 10: {
 
                     String[] d = datos.split(":", -1);
@@ -258,7 +258,7 @@ public class Main {
 
 
 
-                
+                //Retiro
                 case 11: {
 
                     String[] d = datos.split(":", -1);
@@ -282,7 +282,7 @@ public class Main {
 
 
 
-                
+                //Transferencia
                 case 12: {
 
                     String[] d = datos.split(":", -1);
@@ -307,7 +307,7 @@ public class Main {
                 }
 
                                 // CREAR CUENTA BANCARIA
-                // Protocolo: 13;tipo:idSucursal:tasaInteres:limiteDescubierto
+                // Protocolo: 13;tipo:idSucursal:tasaInteres:limiteDescubierto:documentoCliente
 
                 case 13: {
 
@@ -457,7 +457,7 @@ public class Main {
 
                 // MODIFICAR CLIENTE
                 case 18: {
-                    
+                    System.out.println("ENTRÓ EN CASE 18: MODIFICAR CLIENTE");
                     String[] d = datos.split(":", -1);
                     
                     if (d.length != 8) {
@@ -483,7 +483,7 @@ public class Main {
 
                 // ELIMINAR CLIENTE (POR CI)
                 case 19: {
-
+                    System.out.println("ENTRÓ EN CASE 19: ELIMINAR CLIENTE");
                     String documento = datos.trim();
 
                     if (documento.isEmpty()) {
@@ -707,15 +707,107 @@ public class Main {
 
                 // CONSULTAR OPERACIONES DE UNA CUENTA
                 case 28: {
-                    // Aquí irá el historial de depósitos, retiros y transferencias de una cuenta.
-                    return "ERROR|Funcionalidad pendiente: historial de operaciones.";
+
+                    String[] datosOperacion = datos.split(":", -1);
+
+                    if (datosOperacion.length != 2) {
+                        return "ERROR|Datos de consulta de operaciones incorrectos.";
+                    }
+
+                    String numeroCuenta = datosOperacion[0].trim();
+                    String documentoCliente = datosOperacion[1].trim();
+
+                    if (numeroCuenta.isEmpty() || documentoCliente.isEmpty()) {
+                        return "ERROR|La cuenta y el documento son obligatorios.";
+                    }
+
+                    ArrayList<CuentaBancaria> cuentasCliente =
+                            fachada.mostrarCuentasCliente(documentoCliente);
+
+                    boolean pertenece = cuentasCliente.stream()
+                            .anyMatch(c -> c.getNumeroCuenta().equals(numeroCuenta));
+
+                    if (!pertenece) {
+                        return "ERROR|La cuenta no está asociada al cliente.";
+                    }
+
+                    ArrayList<Operacion> operaciones =
+                            fachada.mostrarOperaciones(numeroCuenta);
+
+                    StringBuilder respuesta = new StringBuilder();
+
+                    for (Operacion operacion : operaciones) {
+
+                        String tipo;
+                        String cuentaDestino = "";
+
+                        if (operacion instanceof Deposito) {
+
+                            tipo = "DEPOSITO";
+
+                        } else if (operacion instanceof Retiro) {
+
+                            tipo = "RETIRO";
+
+                        } else if (operacion instanceof Transferencia transferencia) {
+
+                            tipo = "TRANSFERENCIA";
+                            cuentaDestino =
+                                    transferencia.getCuentaDestino().getNumeroCuenta();
+
+                        } else {
+                            continue;
+                        }
+
+                        respuesta.append(operacion.getIdOperacion()).append(",");
+                        respuesta.append(tipo).append(",");
+                        respuesta.append(operacion.getFechaHora()).append(",");
+                        respuesta.append(operacion.getMonto()).append(",");
+                        respuesta.append(operacion.getCuenta().getNumeroCuenta()).append(",");
+                        respuesta.append(cuentaDestino).append("|");
+                    }
+
+                    return respuesta.toString();
                 }
 
 
                 // BUSCAR OPERACIÓN POR IDENTIFICADOR
                 case 29: {
-                    // Aquí irá la búsqueda de una operación por su identificador.
-                    return "ERROR|Funcionalidad pendiente: buscar operación.";
+
+                    String idOperacion = datos.trim();
+
+                    Operacion operacion =
+                            fachada.buscarOperacion(idOperacion);
+
+                    if (operacion == null) {
+                        return "ERROR|No existe una operación con ese identificador.";
+                    }
+
+                    String tipo;
+                    String cuentaDestino = "";
+
+                    if (operacion instanceof Deposito) {
+                        tipo = "DEPOSITO";
+
+                    } else if (operacion instanceof Retiro) {
+                        tipo = "RETIRO";
+
+                    } else if (operacion instanceof Transferencia transferencia) {
+                        tipo = "TRANSFERENCIA";
+                        cuentaDestino =
+                                transferencia.getCuentaDestino().getNumeroCuenta();
+
+                    } else {
+                        return "ERROR|Tipo de operación desconocido.";
+                    }
+
+                    return "OK|"
+                            + operacion.getIdOperacion() + "|"
+                            + tipo + "|"
+                            + operacion.getFechaHora() + "|"
+                            + operacion.getMonto() + "|"
+                            + operacion.getCuenta().getNumeroCuenta() + "|"
+                            + cuentaDestino;
                 }
 
 
@@ -742,6 +834,7 @@ public class Main {
                 
 
                 default:
+                    System.out.println("ENTRÓ EN DEFAULT. OPCIÓN: " + opcion);
                     return "ERROR|Opción no válida.";
             }
 

@@ -4,6 +4,9 @@ import red.ClienteSocket;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class Fachada {
     
@@ -388,6 +391,59 @@ public class Fachada {
         }
     }
     
+    public ArrayList<Operacion> mostrarHistorialOperacionesCliente() {
+
+        if (cliente == null) {
+            throw new IllegalStateException(
+                "Debes iniciar sesión para consultar el historial."
+            );
+        }
+
+        try {
+
+            ArrayList<CuentaBancaria> cuentas =
+                clienteSocket.mostrarCuentasCliente(
+                    cliente.getDocumento()
+                );
+
+            Map<String, Operacion> operacionesUnicas =
+                new LinkedHashMap<>();
+
+            for (CuentaBancaria cuenta : cuentas) {
+
+                ArrayList<Operacion> operacionesCuenta =
+                    clienteSocket.mostrarOperaciones(
+                        cuenta.getNumeroCuenta(),
+                        cliente.getDocumento()
+                    );
+
+                for (Operacion operacion : operacionesCuenta) {
+
+                    operacionesUnicas.putIfAbsent(
+                        operacion.getIdOperacion(),
+                        operacion
+                    );
+                }
+            }
+
+            ArrayList<Operacion> historial =
+                new ArrayList<>(operacionesUnicas.values());
+
+            historial.sort(
+                Comparator.comparing(Operacion::getFechaHora).reversed()
+            );
+
+            return historial;
+
+        } catch (IOException e) {
+
+            throw new RuntimeException(
+                "Error al obtener el historial de operaciones.",
+                e
+            );
+        }
+    }
+    
     
     public void eliminarCuenta(String numeroCuenta) {
 
@@ -451,6 +507,17 @@ public class Fachada {
                     e
             );
         }
+    }
+    
+    public Cliente getClienteActual() {
+
+        if (cliente == null) {
+            throw new IllegalStateException(
+                "No hay ningún cliente autenticado."
+            );
+        }
+
+        return cliente;
     }
     
     
@@ -532,7 +599,132 @@ public class Fachada {
         }
     }
 
+    //Operaciones
+    
+    public ArrayList<Operacion> mostrarOperaciones(
+            String numeroCuenta) {
 
+        if (cliente == null) {
+            throw new IllegalStateException(
+                "Debes iniciar sesión para consultar las operaciones."
+            );
+        }
+
+        try {
+            return clienteSocket.mostrarOperaciones(
+                numeroCuenta,
+                cliente.getDocumento()
+            );
+
+        } catch (IOException e) {
+            throw new RuntimeException(
+                "Error al consultar las operaciones de la cuenta.",
+                e
+            );
+        }
+    }
+
+
+    public Operacion buscarOperacion(String idOperacion) {
+
+        try {
+            return clienteSocket.buscarOperacion(idOperacion);
+
+        } catch (IOException e) {
+            throw new RuntimeException(
+                    "Error al buscar la operación.",
+                    e
+            );
+        }
+    }
+    
+    public void depositar(String numeroCuenta, double monto) {
+
+        if (cliente == null) {
+            throw new IllegalStateException(
+                    "Debes iniciar sesión para realizar un depósito."
+            );
+        }
+
+        try {
+
+            String respuesta = clienteSocket.depositar(
+                    numeroCuenta,
+                    monto,
+                    cliente.getDocumento()
+            );
+
+            comprobarRespuesta(respuesta);
+
+        } catch (IOException e) {
+
+            throw new RuntimeException(
+                    "Error de comunicación al realizar el depósito.",
+                    e
+            );
+        }
+    }
+
+
+    public void retirar(String numeroCuenta, double monto) {
+
+        if (cliente == null) {
+            throw new IllegalStateException(
+                    "Debes iniciar sesión para realizar un retiro."
+            );
+        }
+
+        try {
+
+            String respuesta = clienteSocket.retirar(
+                    numeroCuenta,
+                    monto,
+                    cliente.getDocumento()
+            );
+
+            comprobarRespuesta(respuesta);
+
+        } catch (IOException e) {
+
+            throw new RuntimeException(
+                    "Error de comunicación al realizar el retiro.",
+                    e
+            );
+        }
+    }
+
+
+    public void transferir(
+            String cuentaOrigen,
+            String cuentaDestino,
+            double monto) {
+
+        if (cliente == null) {
+            throw new IllegalStateException(
+                    "Debes iniciar sesión para realizar una transferencia."
+            );
+        }
+
+        try {
+
+            String respuesta = clienteSocket.transferir(
+                    cuentaOrigen,
+                    cuentaDestino,
+                    monto,
+                    cliente.getDocumento()
+            );
+
+            comprobarRespuesta(respuesta);
+
+        } catch (IOException e) {
+
+            throw new RuntimeException(
+                    "Error de comunicación al realizar la transferencia.",
+                    e
+            );
+        }
+    }
+    
 
 
     //utiles

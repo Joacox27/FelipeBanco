@@ -5,6 +5,7 @@
 package Presentacion;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import Logico.Fachada;
 
 /**
  *
@@ -71,8 +72,10 @@ public class Deposito extends javax.swing.JFrame {
         jLabel1_cuenta.setText("Cuenta");
 
         jTextField1_cuenta.setBackground(new java.awt.Color(245, 245, 245));
+        jTextField1_cuenta.setForeground(new java.awt.Color(0, 0, 0));
 
         jTextField1_monto.setBackground(new java.awt.Color(245, 245, 245));
+        jTextField1_monto.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel1_monto.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1_monto.setText("Monto");
@@ -113,20 +116,20 @@ public class Deposito extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(76, 76, 76)
-                        .addComponent(jButton1_depositar)))
+                .addContainerGap(29, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(33, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1_depositar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addContainerGap(23, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(jButton1_depositar)
                 .addContainerGap(23, Short.MAX_VALUE))
         );
@@ -162,7 +165,85 @@ public class Deposito extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu1_volverMouseClicked
 
     private void jButton1_depositarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1_depositarActionPerformed
-        // TODO add your handling code here:
+         
+    String numeroCuenta = jTextField1_cuenta.getText().trim();
+    String textoMonto = jTextField1_monto.getText().trim();
+    
+    if (numeroCuenta.isEmpty() || textoMonto.isEmpty()) {
+        javax.swing.JOptionPane.showMessageDialog(
+            this,
+            "Completá todos los campos porfa.",
+            "Campos incompletos",
+            javax.swing.JOptionPane.WARNING_MESSAGE
+        );
+        return;
+    }
+    
+    if (!numeroCuenta.matches("[A-Za-z0-9-]{1,20}")) {
+        javax.swing.JOptionPane.showMessageDialog(
+            this,
+            "El número de cuenta no es válido crack.",
+            "Cuenta inválida",
+            javax.swing.JOptionPane.WARNING_MESSAGE
+        );
+        return;
+    }
+    
+    if (!textoMonto.matches("[0-9]+([.,][0-9]{1,2})?")) {
+        javax.swing.JOptionPane.showMessageDialog(
+            this,
+            "Ingresá un monto numérico válido, con un máximo de dos decimales.",
+            "Monto inválido",
+            javax.swing.JOptionPane.WARNING_MESSAGE
+        );
+        return;
+    }
+
+    try {
+        double monto = Double.parseDouble(textoMonto.replace(',', '.'));
+
+        if (!Double.isFinite(monto) || monto <= 0) {
+            javax.swing.JOptionPane.showMessageDialog(
+                this,
+                "El monto debe ser mayor que cero.",
+                "Monto inválido",
+                javax.swing.JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
+
+        Fachada.getInstancia().depositar(numeroCuenta, monto);
+
+        javax.swing.JOptionPane.showMessageDialog(
+            this,
+            "Depósito realizado correctamente.",
+            "Depósito",
+            javax.swing.JOptionPane.INFORMATION_MESSAGE
+        );
+
+        jTextField1_cuenta.setText("");
+        jTextField1_monto.setText("");
+
+    } catch (NumberFormatException e) {
+        javax.swing.JOptionPane.showMessageDialog(
+            this,
+            "El monto ingresado no es válido.",
+            "Error",
+            javax.swing.JOptionPane.ERROR_MESSAGE
+        );
+    } catch (RuntimeException e) {
+        String mensaje = e.getMessage();
+
+        javax.swing.JOptionPane.showMessageDialog(
+            this,
+            mensaje == null || mensaje.isBlank()
+                ? "No se pudo realizar el depósito."
+                : mensaje,
+            "Error al depositar",
+            javax.swing.JOptionPane.ERROR_MESSAGE
+        );
+    }
+    
     }//GEN-LAST:event_jButton1_depositarActionPerformed
 
     /**

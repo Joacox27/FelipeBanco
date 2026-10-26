@@ -74,8 +74,7 @@ public class ServidorSocket {
                     System.out.println("Cliente desconectado.");
                     break;
                 }
-
-                String respuesta = procesarMensaje(mensaje);
+                String respuesta = Logico.Main.procesarMensaje(mensaje);
 
                 salida.println(respuesta);
 

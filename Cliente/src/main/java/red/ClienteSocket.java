@@ -7,7 +7,12 @@ import Logico.Sucursal;
 import Logico.CuentaAhorro;
 import Logico.CuentaBancaria;
 import Logico.CuentaCorriente;
+import Logico.Operacion;
+import Logico.Deposito;
+import Logico.Retiro;
+import Logico.Transferencia;
 
+import java.time.LocalDateTime;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -670,8 +675,222 @@ public class ClienteSocket {
 
         return entrada.readLine();
     }
-
     
+   public ArrayList<Operacion> mostrarOperaciones(
+            String numeroCuenta,
+            String documentoCliente) throws IOException {
+
+        salida.println(
+            "28;" + numeroCuenta + ":" + documentoCliente
+        );
+
+        String respuesta = entrada.readLine();
+
+        if (respuesta == null) {
+            throw new IOException(
+                "El servidor cerró la conexión."
+            );
+        }
+
+        if (respuesta.startsWith("ERROR|")) {
+            throw new IllegalArgumentException(
+                respuesta.substring(6)
+            );
+        }
+
+        ArrayList<Operacion> lista = new ArrayList<>();
+
+        if (respuesta.isEmpty()) {
+            return lista;
+        }
+
+        String[] registros = respuesta.split("\\|");
+
+        for (String registro : registros) {
+
+            if (registro.isEmpty()) {
+                continue;
+            }
+
+            String[] partes = registro.split(",", -1);
+
+            lista.add(convertirOperacion(partes));
+        }
+
+        return lista;
+    }
+
+
+    public Operacion buscarOperacion(
+            String idOperacion) throws IOException {
+
+        salida.println("29;" + idOperacion);
+
+        String respuesta = entrada.readLine();
+
+        if (respuesta == null) {
+            throw new IOException(
+                    "El servidor cerró la conexión."
+            );
+        }
+
+        if (respuesta.startsWith("ERROR|")) {
+            throw new IllegalArgumentException(
+                    respuesta.substring(6)
+            );
+        }
+
+        String[] partes = respuesta.split("\\|", -1);
+
+        if (partes.length != 7 || !partes[0].equals("OK")) {
+            throw new IOException(
+                    "Los datos recibidos de la operación son incorrectos."
+            );
+        }
+
+        String[] datos = new String[6];
+
+        System.arraycopy(
+                partes,
+                1,
+                datos,
+                0,
+                6
+        );
+
+        return convertirOperacion(datos);
+    }
+
+
+    private Operacion convertirOperacion(
+            String[] partes) throws IOException {
+
+        if (partes.length != 6) {
+            throw new IOException(
+                    "Los datos de la operación están incompletos."
+            );
+        }
+
+        String id = partes[0];
+        String tipo = partes[1];
+
+        LocalDateTime fechaHora =
+                LocalDateTime.parse(partes[2]);
+
+        double monto =
+                Double.parseDouble(partes[3]);
+
+        String numeroCuentaOrigen = partes[4];
+        String numeroCuentaDestino = partes[5];
+
+        CuentaBancaria cuentaOrigen =
+                buscarCuenta(numeroCuentaOrigen);
+
+        if (cuentaOrigen == null) {
+            throw new IOException(
+                    "No se encontró la cuenta de origen."
+            );
+        }
+
+        switch (tipo) {
+
+            case "DEPOSITO":
+                return new Deposito(
+                        id,
+                        fechaHora,
+                        monto,
+                        cuentaOrigen
+                );
+
+            case "RETIRO":
+                return new Retiro(
+                        id,
+                        fechaHora,
+                        monto,
+                        cuentaOrigen
+                );
+
+            case "TRANSFERENCIA":
+
+                if (numeroCuentaDestino.isBlank()) {
+                    throw new IOException(
+                            "La transferencia no tiene una cuenta de destino."
+                    );
+                }
+
+                CuentaBancaria cuentaDestino =
+                        buscarCuenta(numeroCuentaDestino);
+
+                if (cuentaDestino == null) {
+                    throw new IOException(
+                            "No se encontró la cuenta de destino."
+                    );
+                }
+
+                return new Transferencia(
+                        id,
+                        fechaHora,
+                        monto,
+                        cuentaOrigen,
+                        cuentaDestino
+                );
+
+            default:
+                throw new IOException(
+                        "Tipo de operación desconocido: " + tipo
+                );
+        }
+    }
+
+    public String depositar(
+            String numeroCuenta,
+            double monto,
+            String documentoCliente) throws IOException {
+
+        String mensaje =
+                "10;"
+                + numeroCuenta + ":"
+                + monto + ":"
+                + documentoCliente;
+
+        salida.println(mensaje);
+
+        return entrada.readLine();
+    }
+    
+    public String retirar(
+            String numeroCuenta,
+            double monto,
+            String documentoCliente) throws IOException {
+
+        String mensaje =
+                "11;"
+                + numeroCuenta + ":"
+                + monto + ":"
+                + documentoCliente;
+
+        salida.println(mensaje);
+
+        return entrada.readLine();
+    }
+    
+    public String transferir(
+            String cuentaOrigen,
+            String cuentaDestino,
+            double monto,
+            String documentoCliente) throws IOException {
+
+        String mensaje =
+                "12;"
+                + cuentaOrigen + ":"
+                + cuentaDestino + ":"
+                + monto + ":"
+                + documentoCliente;
+
+        salida.println(mensaje);
+
+        return entrada.readLine();
+    }
     
     
 

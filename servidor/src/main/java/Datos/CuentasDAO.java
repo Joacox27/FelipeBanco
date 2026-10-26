@@ -33,30 +33,28 @@ public class CuentasDAO {
                 "El documento del titular es obligatorio."
         );
     }
-
-    if (!Double.isFinite(tasaInteres) || tasaInteres < 0
-            || !Double.isFinite(limiteDescubierto)
-            || limiteDescubierto < 0) {
+    
+    if (!Double.isFinite(tasaInteres) || tasaInteres < 0 || !Double.isFinite(limiteDescubierto) || limiteDescubierto < 0) {
         throw new IllegalArgumentException(
                 "Los valores de la cuenta no son válidos."
         );
     }
-
+    
     try (Connection conexion = Conexion.getConexion()) {
-
+        
         conexion.setAutoCommit(false);
-
+        
         try {
             Sucursal sucursal = buscarSucursal(conexion, idSucursal);
-
+            
             if (sucursal == null) {
                 throw new IllegalArgumentException(
                         "La sucursal seleccionada no existe."
                 );
             }
-
+            
             String numeroCuenta;
-
+            
             do {
                 numeroCuenta = "CTA-"
                         + UUID.randomUUID()
@@ -65,73 +63,54 @@ public class CuentasDAO {
                                 .substring(0, 16)
                                 .toUpperCase();
             } while (existe(conexion, numeroCuenta));
-
+            
             LocalDate fechaApertura = LocalDate.now();
             double saldoInicial = 0.00;
-
+            
             String sqlCuenta = """
                     INSERT INTO cuentas
                     (numero_cuenta, tipo, fecha_apertura, saldo,
                      id_sucursal, tasa_interes, limite_descubierto)
                     VALUES (?, ?, ?, ?, ?, ?, ?)
                     """;
-
+            
             try (PreparedStatement ps =
                          conexion.prepareStatement(sqlCuenta)) {
-
+                
                 ps.setString(1, numeroCuenta);
                 ps.setString(2, tipo);
                 ps.setDate(3, java.sql.Date.valueOf(fechaApertura));
                 ps.setDouble(4, saldoInicial);
                 ps.setInt(5, idSucursal);
-                ps.setDouble(
-                        6,
-                        "Ahorro".equals(tipo) ? tasaInteres : 0.00
-                );
-                ps.setDouble(
-                        7,
-                        "Corriente".equals(tipo)
-                                ? limiteDescubierto : 0.00
-                );
-
+                ps.setDouble(6,"Ahorro".equals(tipo) ? tasaInteres : 0.00);
+                ps.setDouble(7,"Corriente".equals(tipo) ? limiteDescubierto : 0.00);
+                
                 ps.executeUpdate();
             }
-
+            
             String sqlTitular = """
                     INSERT INTO titulares_cuenta
                     (documento_cliente, numero_cuenta)
                     VALUES (?, ?)
                     """;
-
+            
             try (PreparedStatement ps =
-                         conexion.prepareStatement(sqlTitular)) {
-
+                        conexion.prepareStatement(sqlTitular)) {
+                
                 ps.setString(1, documentoCliente);
                 ps.setString(2, numeroCuenta);
-
+                
                 ps.executeUpdate();
             }
-
+            
             CuentaBancaria cuenta;
-
+            
             if ("Ahorro".equals(tipo)) {
-                cuenta = new CuentaAhorro(
-                        numeroCuenta,
-                        fechaApertura,
-                        saldoInicial,
-                        sucursal,
-                        tasaInteres
-                );
+                cuenta = new CuentaAhorro(numeroCuenta, fechaApertura, saldoInicial, sucursal, tasaInteres);
             } else {
-                cuenta = new CuentaCorriente(
-                        numeroCuenta,
-                        fechaApertura,
-                        saldoInicial,
-                        sucursal,
-                        limiteDescubierto
-                );
+                cuenta = new CuentaCorriente(numeroCuenta, fechaApertura, saldoInicial, sucursal, limiteDescubierto);
             }
-
+            
             conexion.commit();
 
             return cuenta;
@@ -152,33 +131,32 @@ public class CuentasDAO {
     }
     
     public void eliminar(String numeroCuenta) throws SQLException {
-
+        
         if (numeroCuenta == null || numeroCuenta.isBlank()) {
             throw new IllegalArgumentException(
                     "El número de cuenta es obligatorio."
             );
         }
-
+        
         try (Connection conexion = Conexion.getConexion()) {
-
+            
             conexion.setAutoCommit(false);
-
+            
             try {
-
+                
                 String sqlCuenta = """
                         SELECT numero_cuenta
                         FROM cuentas
                         WHERE numero_cuenta = ?
                         FOR UPDATE
                         """;
-
-                try (PreparedStatement ps =
-                             conexion.prepareStatement(sqlCuenta)) {
-
+                
+                try (PreparedStatement ps = conexion.prepareStatement(sqlCuenta)) {
+                    
                     ps.setString(1, numeroCuenta);
-
+                    
                     try (ResultSet rs = ps.executeQuery()) {
-
+                        
                         if (!rs.next()) {
                             throw new IllegalArgumentException(
                                     "La cuenta bancaria no existe."
@@ -186,7 +164,7 @@ public class CuentasDAO {
                         }
                     }
                 }
-
+                
                 String sqlOperaciones = """
                         SELECT 1
                         FROM operaciones
@@ -194,102 +172,96 @@ public class CuentasDAO {
                            OR numero_cuenta_destino = ?
                         LIMIT 1
                         """;
-
-                try (PreparedStatement ps =
-                             conexion.prepareStatement(sqlOperaciones)) {
-
+                
+                try (PreparedStatement ps = conexion.prepareStatement(sqlOperaciones)) {
+                    
                     ps.setString(1, numeroCuenta);
                     ps.setString(2, numeroCuenta);
-
+                    
                     try (ResultSet rs = ps.executeQuery()) {
-
+                        
                         if (rs.next()) {
                             throw new IllegalArgumentException(
-                                    "No se puede eliminar la cuenta porque "
-                                    + "tiene operaciones bancarias registradas."
+                                    "No se puede eliminar la cuenta porque tiene operaciones bancarias registradas."
                             );
                         }
                     }
                 }
-
+                
                 String sqlTitulares = """
                         DELETE FROM titulares_cuenta
                         WHERE numero_cuenta = ?
                         """;
-
+                
                 try (PreparedStatement ps =
                              conexion.prepareStatement(sqlTitulares)) {
-
+                    
                     ps.setString(1, numeroCuenta);
                     ps.executeUpdate();
                 }
-
+                
                 String sqlEliminar = """
                         DELETE FROM cuentas
                         WHERE numero_cuenta = ?
                         """;
-
-                try (PreparedStatement ps =
-                             conexion.prepareStatement(sqlEliminar)) {
-
+                
+                try (PreparedStatement ps = conexion.prepareStatement(sqlEliminar)) {
+                    
                     ps.setString(1, numeroCuenta);
-
+                    
                     int filas = ps.executeUpdate();
-
+                    
                     if (filas != 1) {
                         throw new SQLException(
                                 "No se pudo eliminar la cuenta bancaria."
                         );
                     }
                 }
-
+                
                 conexion.commit();
-
+                
             } catch (SQLException | RuntimeException e) {
-
+                
                 try {
                     conexion.rollback();
                 } catch (SQLException errorRollback) {
                     e.addSuppressed(errorRollback);
                 }
-
+                
                 throw e;
             }
         }
     }
     
-    public void asociarTitular(
-            String numeroCuenta,
-            String documentoCliente) throws SQLException {
-
-        if (numeroCuenta == null || numeroCuenta.isBlank()
-                || documentoCliente == null || documentoCliente.isBlank()) {
-
+    public void asociarTitular(String numeroCuenta, String documentoCliente) throws SQLException {
+        
+        if (numeroCuenta == null || numeroCuenta.isBlank() || documentoCliente == null || documentoCliente.isBlank()) {
+            
             throw new IllegalArgumentException(
+                    
                     "El número de cuenta y el documento son obligatorios."
             );
         }
-
+        
         try (Connection conexion = Conexion.getConexion()) {
-
+            
             conexion.setAutoCommit(false);
-
+            
             try {
-
+                
                 String sqlCuenta = """
                         SELECT 1
                         FROM cuentas
                         WHERE numero_cuenta = ?
                         FOR UPDATE
                         """;
-
-                try (PreparedStatement ps =
-                             conexion.prepareStatement(sqlCuenta)) {
-
+                
+                try (PreparedStatement ps = conexion.prepareStatement(sqlCuenta)) {
+                    
                     ps.setString(1, numeroCuenta);
-
+                    
                     try (ResultSet rs = ps.executeQuery()) {
-
+                        
                         if (!rs.next()) {
                             throw new IllegalArgumentException(
                                     "La cuenta bancaria no existe."
@@ -297,20 +269,19 @@ public class CuentasDAO {
                         }
                     }
                 }
-
+                
                 String sqlCliente = """
                         SELECT 1
                         FROM clientes
                         WHERE documento = ?
                         """;
-
-                try (PreparedStatement ps =
-                             conexion.prepareStatement(sqlCliente)) {
-
+                
+                try (PreparedStatement ps = conexion.prepareStatement(sqlCliente)) {
+                    
                     ps.setString(1, documentoCliente);
-
+                    
                     try (ResultSet rs = ps.executeQuery()) {
-
+                        
                         if (!rs.next()) {
                             throw new IllegalArgumentException(
                                     "El cliente no existe."
@@ -318,79 +289,71 @@ public class CuentasDAO {
                         }
                     }
                 }
-
-                if (perteneceACliente(
-                        conexion,
-                        numeroCuenta,
-                        documentoCliente)) {
-
+                
+                if (perteneceACliente(conexion, numeroCuenta, documentoCliente)) {
+                    
                     throw new IllegalArgumentException(
                             "El cliente ya es titular de esta cuenta."
                     );
                 }
-
+                
                 String sql = """
                         INSERT INTO titulares_cuenta
                         (documento_cliente, numero_cuenta)
                         VALUES (?, ?)
                         """;
-
-                try (PreparedStatement ps =
-                             conexion.prepareStatement(sql)) {
-
+                
+                try (PreparedStatement ps = conexion.prepareStatement(sql)) {
+                    
                     ps.setString(1, documentoCliente);
                     ps.setString(2, numeroCuenta);
-
+                    
                     ps.executeUpdate();
                 }
-
+                
                 conexion.commit();
-
+                
             } catch (SQLException | RuntimeException e) {
-
+                
                 try {
                     conexion.rollback();
                 } catch (SQLException errorRollback) {
                     e.addSuppressed(errorRollback);
                 }
-
+                
                 throw e;
             }
         }
     }
     
-    public void desasociarTitular(
-            String numeroCuenta,
-            String documentoCliente) throws SQLException {
-
-        if (numeroCuenta == null || numeroCuenta.isBlank()
-                || documentoCliente == null || documentoCliente.isBlank()) {
-
+    public void desasociarTitular(String numeroCuenta, String documentoCliente) throws SQLException {
+        
+        if (numeroCuenta == null || numeroCuenta.isBlank() || documentoCliente == null || documentoCliente.isBlank()) {
+            
             throw new IllegalArgumentException(
                     "El número de cuenta y el documento son obligatorios."
             );
         }
-
+        
         try (Connection conexion = Conexion.getConexion()) {
-
+            
             conexion.setAutoCommit(false);
-
+            
             try {
-
+                
                 String sqlCuenta = """
                         SELECT 1
                         FROM cuentas
                         WHERE numero_cuenta = ?
                         FOR UPDATE
                         """;
-
-                try (PreparedStatement ps =
-                             conexion.prepareStatement(sqlCuenta)) {
-
+                
+                try (PreparedStatement ps = conexion.prepareStatement(sqlCuenta)) {
+                    
                     ps.setString(1, numeroCuenta);
-
+                    
                     try (ResultSet rs = ps.executeQuery()) {
-
+                        
                         if (!rs.next()) {
                             throw new IllegalArgumentException(
                                     "La cuenta bancaria no existe."
@@ -398,34 +361,29 @@ public class CuentasDAO {
                         }
                     }
                 }
-
-                if (!perteneceACliente(
-                        conexion,
-                        numeroCuenta,
-                        documentoCliente)) {
-
+                
+                if (!perteneceACliente(conexion, numeroCuenta, documentoCliente)) {
+                    
                     throw new IllegalArgumentException(
                             "El cliente no es titular de esta cuenta."
                     );
                 }
-
+                
                 String sqlCantidad = """
                         SELECT COUNT(*) AS cantidad
                         FROM titulares_cuenta
                         WHERE numero_cuenta = ?
                         """;
 
-                try (PreparedStatement ps =
-                             conexion.prepareStatement(sqlCantidad)) {
-
+                try (PreparedStatement ps = conexion.prepareStatement(sqlCantidad)) {
+                    
                     ps.setString(1, numeroCuenta);
-
+                    
                     try (ResultSet rs = ps.executeQuery()) {
-
+                        
                         if (rs.next() && rs.getInt("cantidad") <= 1) {
                             throw new IllegalArgumentException(
-                                    "No se puede eliminar al último titular "
-                                    + "de una cuenta."
+                                    "No se puede eliminar al último titular de una cuenta."
                             );
                         }
                     }
@@ -543,7 +501,7 @@ public class CuentasDAO {
     }
     
     
-        public ArrayList<CuentaBancaria> listarPorCliente(
+    public ArrayList<CuentaBancaria> listarPorCliente(
             String documentoCliente) throws SQLException {
 
         ArrayList<CuentaBancaria> lista = new ArrayList<>();
@@ -588,6 +546,15 @@ public class CuentasDAO {
     public CuentaBancaria buscarPorNumero(
             String numeroCuenta) throws SQLException {
 
+        try (Connection conexion = Conexion.getConexion()) {
+            return buscarPorNumero(conexion, numeroCuenta);
+        }
+    }
+
+    public CuentaBancaria buscarPorNumero(
+            Connection conexion,
+            String numeroCuenta) throws SQLException {
+
         String sql = """
                 SELECT
                     c.numero_cuenta,
@@ -606,13 +573,11 @@ public class CuentasDAO {
                 WHERE c.numero_cuenta = ?
                 """;
 
-        try (Connection conexion = Conexion.getConexion();
-             PreparedStatement ps = conexion.prepareStatement(sql)) {
+        try (PreparedStatement ps = conexion.prepareStatement(sql)) {
 
             ps.setString(1, numeroCuenta);
 
             try (ResultSet rs = ps.executeQuery()) {
-
                 if (rs.next()) {
                     return mapearCuenta(rs);
                 }
