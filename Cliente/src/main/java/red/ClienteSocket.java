@@ -32,7 +32,7 @@ public class ClienteSocket {
 
     public void conectar() throws IOException {
 
-        cliente = new Socket("127.0.0.1", 2050);
+        cliente = new Socket("10.20.48.121", 2050);
 
         entrada = new BufferedReader(
                 new InputStreamReader(cliente.getInputStream())
