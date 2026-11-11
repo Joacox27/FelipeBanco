@@ -14,7 +14,7 @@ public class Prestamo {
     public Prestamo(String idPrestamo, double monto, double tasaInteres, LocalDate fechaOtorgamiento, int cuotas, Cliente cliente) {
         this.idPrestamo = idPrestamo;
         this.monto = monto;
-        this.tasaInteres = tasaInteres;
+        this.tasaInteres = tasaInteres; 
         this.fechaOtorgamiento = fechaOtorgamiento;
         this.cuotas = cuotas;
         this.cliente = cliente;

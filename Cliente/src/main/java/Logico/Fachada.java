@@ -27,10 +27,7 @@ public class Fachada {
             
         } catch (IOException e) {
 
-            throw new RuntimeException(
-                    "No se pudo conectar con el servidor felipe banco.",
-                    e
-            );
+            throw new RuntimeException("No se pudo conectar con el servidor felipe banco.", e);
         }
     }
     
@@ -46,10 +43,7 @@ public class Fachada {
     
     //Funcionariossss
     
-    public void nuevoFuncionario(
-            String nombre,
-            String nombreSucursal,
-            String rol) {
+    public void nuevoFuncionario(String nombre, String nombreSucursal, String rol) {
         
         try {
             
@@ -59,59 +53,41 @@ public class Fachada {
             
         } catch (IOException e) {
             
-            throw new RuntimeException(
-                    "Error de comunicación con el servidor.",
-                    e
-            );
+            throw new RuntimeException("Error de comunicación con el servidor.", e);
         }
     }
     
-    public void modificarFuncionario(
-            String idFuncionario,
-            String nombre,
-            String nombreSucursal,
-            String rol) {
+    public void modificarFuncionario(String idFuncionario, String nombre, String nombreSucursal, String rol) {
 
         try {
 
-            String respuesta = clienteSocket.modificarFuncionario(
-                    idFuncionario,
-                    nombre,
-                    nombreSucursal,
-                    rol
-            );
+            String respuesta = clienteSocket.modificarFuncionario(idFuncionario, nombre, nombreSucursal, rol);
 
+            
+            
             comprobarRespuesta(respuesta);
 
         } catch (IOException e) {
-
-            throw new RuntimeException(
-                    "Error de comunicación al modificar el funcionario.",
-                    e
-            );
+            
+            throw new RuntimeException("Error de comunicación al modificar el funcionario.", e);
         }
     }
-
-
+    
+    
     public void eliminarFuncionario(String idFuncionario) {
-
+        
         try {
-
-            String respuesta = clienteSocket.eliminarFuncionario(
-                    idFuncionario
-            );
-
+            
+            String respuesta = clienteSocket.eliminarFuncionario(idFuncionario);
+            
             comprobarRespuesta(respuesta);
-
+            
         } catch (IOException e) {
-
-            throw new RuntimeException(
-                    "Error de comunicación al eliminar el funcionario.",
-                    e
-            );
+            
+            throw new RuntimeException("Error de comunicación al eliminar el funcionario.", e);
         }
     }
-
+    
     
     public ArrayList<Funcionario> mostrarFuncionarios() {
         
@@ -121,10 +97,7 @@ public class Fachada {
             
         } catch (IOException e) {
             
-            throw new RuntimeException(
-                    "Error al obtener los funcionarios.",
-                    e
-            );
+            throw new RuntimeException("Error al obtener los funcionarios.", e);
         }
     }
     
@@ -137,19 +110,13 @@ public class Fachada {
         
         try {
             
-            String respuesta = clienteSocket.nuevoCliente(
-                    c,
-                    password
-            );
+            String respuesta = clienteSocket.nuevoCliente(c, password);
             
             comprobarRespuesta(respuesta);
             
         } catch (IOException e) {
             
-            throw new RuntimeException(
-                    "Error de comunicación con el servidor.",
-                    e
-            );
+            throw new RuntimeException("Error de comunicación con el servidor.", e);
         }
     }
     
@@ -162,10 +129,7 @@ public class Fachada {
             
         } catch (IOException e) {
             
-            throw new RuntimeException(
-                    "Error al obtener los clientes.",
-                    e
-            );
+            throw new RuntimeException("Error al obtener los clientes.", e);
         }
     }
     
@@ -182,8 +146,8 @@ public class Fachada {
             
         }
     }
-
-
+    
+    
     public void eliminarCliente(String documento) {
         
         try {
@@ -207,240 +171,161 @@ public class Fachada {
             
         } catch (IOException e) {
             
-            throw new RuntimeException(
-                    "Error al obtener las sucursales.", e
-            );
+            throw new RuntimeException("Error al obtener las sucursales.", e);
         }
     }
     
-    public void nuevaSucursal(
-            String nombre,
-            String direccion,
-            String ciudad) {
-
+    public void nuevaSucursal(String nombre, String direccion, String ciudad) {
+        
         try {
-
-            String respuesta = clienteSocket.nuevaSucursal(
-                    nombre,
-                    direccion,
-                    ciudad
-            );
-
+            
+            String respuesta = clienteSocket.nuevaSucursal(nombre, direccion, ciudad);
+            
             comprobarRespuesta(respuesta);
-
+            
         } catch (IOException e) {
-
-            throw new RuntimeException(
-                    "Error de comunicación al registrar la sucursal.",
-                    e
-            );
+            
+            throw new RuntimeException("Error de comunicación al registrar la sucursal.", e);
         }
     }
-
-
-    public void modificarSucursal(
-            int idSucursal,
-            String nombre,
-            String direccion,
-            String ciudad) {
-
+    
+    
+    public void modificarSucursal(int idSucursal, String nombre, String direccion, String ciudad) {
+        
         try {
-
-            String respuesta = clienteSocket.modificarSucursal(
-                    idSucursal,
-                    nombre,
-                    direccion,
-                    ciudad
-            );
-
+            
+            String respuesta = clienteSocket.modificarSucursal(idSucursal, nombre, direccion, ciudad);
+            
             comprobarRespuesta(respuesta);
-
+            
         } catch (IOException e) {
-
-            throw new RuntimeException(
-                    "Error de comunicación al modificar la sucursal.",
-                    e
-            );
+            
+            throw new RuntimeException("Error de comunicación al modificar la sucursal.", e);
         }
     }
-
-
+    
+    
     public void eliminarSucursal(int idSucursal) {
-
+        
         try {
-
-            String respuesta = clienteSocket.eliminarSucursal(
-                    idSucursal
-            );
-
+            
+            String respuesta = clienteSocket.eliminarSucursal(idSucursal);
+            
             comprobarRespuesta(respuesta);
-
+            
         } catch (IOException e) {
-
-            throw new RuntimeException(
-                    "Error de comunicación al eliminar la sucursal.",
-                    e
-            );
+            
+            throw new RuntimeException("Error de comunicación al eliminar la sucursal.", e);
         }
     }
     
     
     
-
+    
         //cuentasss
     
-    public String nuevaCuenta(
-            String tipo,
-            int idSucursal,
-            double tasaInteres,
-            double limiteDescubierto) {
+    public String nuevaCuenta(String tipo, int idSucursal, double tasaInteres, double limiteDescubierto) {
 
         try {
-
-            String respuesta = clienteSocket.nuevaCuenta(
-                    tipo,
-                    idSucursal,
-                    tasaInteres,
-                    limiteDescubierto
-            );
-
+            
+            String respuesta = clienteSocket.nuevaCuenta(tipo, idSucursal, tasaInteres, limiteDescubierto);
+            
             comprobarRespuesta(respuesta);
-
+            
             return respuesta;
-
+            
         } catch (IOException e) {
-
-            throw new RuntimeException(
-                    "Error de comunicación al crear la cuenta bancaria.",
-                    e
-            );
+            
+            throw new RuntimeException("Error de comunicación al crear la cuenta bancaria.", e);
         }
     }
-
+    
     public ArrayList<CuentaBancaria> mostrarCuentasCliente(
             String documentoCliente) {
-
+        
         try {
-
-            return clienteSocket.mostrarCuentasCliente(
-                    documentoCliente
-            );
-
+            
+            return clienteSocket.mostrarCuentasCliente(documentoCliente);
+            
         } catch (IOException e) {
 
-            throw new RuntimeException(
-                    "Error al obtener las cuentas del cliente.",
-                    e
-            );
+            throw new RuntimeException("Error al obtener las cuentas del cliente.", e);
         }
     }
-
+    
     public ArrayList<CuentaBancaria> mostrarCuentas() {
-
+        
         try {
-
+            
             return clienteSocket.mostrarCuentas();
-
+            
         } catch (IOException e) {
-
-            throw new RuntimeException(
-                    "Error al obtener las cuentas bancarias.",
-                    e
-            );
+            
+            throw new RuntimeException("Error al obtener las cuentas bancarias.", e);
         }
     }
     
     public CuentaBancaria buscarCuenta(String numeroCuenta) {
-
+        
         try {
-
+            
             return clienteSocket.buscarCuenta(numeroCuenta);
-
+            
         } catch (IOException e) {
-
-            throw new RuntimeException(
-                    "Error al buscar la cuenta bancaria.",
-                    e
-            );
+            
+            throw new RuntimeException("Error al buscar la cuenta bancaria.",e);
         }
     }
     
-    public void modificarCuenta(
-            String numeroCuenta,
-            int idSucursal,
-            double tasaInteres,
-            double limiteDescubierto) {
-
+    public void modificarCuenta(String numeroCuenta, int idSucursal, double tasaInteres, double limiteDescubierto) {
+        
         try {
-
-            String respuesta = clienteSocket.modificarCuenta(
-                    numeroCuenta,
-                    idSucursal,
-                    tasaInteres,
-                    limiteDescubierto
-            );
-
+            
+            String respuesta = clienteSocket.modificarCuenta(numeroCuenta, idSucursal, tasaInteres, limiteDescubierto);
+            
             comprobarRespuesta(respuesta);
-
+            
         } catch (IOException e) {
-
-            throw new RuntimeException(
-                    "Error de comunicación al modificar la cuenta.",
-                    e
-            );
+            
+            throw new RuntimeException("Error de comunicación al modificar la cuenta.", e);
         }
     }
     
     public ArrayList<Operacion> mostrarHistorialOperacionesCliente() {
-
+        
         if (cliente == null) {
-            throw new IllegalStateException(
-                "Debes iniciar sesión para consultar el historial."
-            );
+            throw new IllegalStateException("Debes iniciar sesión para consultar el historial.");
         }
-
+        
         try {
-
+            
             ArrayList<CuentaBancaria> cuentas =
-                clienteSocket.mostrarCuentasCliente(
-                    cliente.getDocumento()
-                );
-
+                clienteSocket.mostrarCuentasCliente(cliente.getDocumento());
+            
             Map<String, Operacion> operacionesUnicas =
                 new LinkedHashMap<>();
-
+            
             for (CuentaBancaria cuenta : cuentas) {
-
+                
                 ArrayList<Operacion> operacionesCuenta =
-                    clienteSocket.mostrarOperaciones(
-                        cuenta.getNumeroCuenta(),
-                        cliente.getDocumento()
-                    );
-
+                    clienteSocket.mostrarOperaciones(cuenta.getNumeroCuenta(), cliente.getDocumento());
+                
                 for (Operacion operacion : operacionesCuenta) {
-
-                    operacionesUnicas.putIfAbsent(
-                        operacion.getIdOperacion(),
-                        operacion
-                    );
+                    
+                    operacionesUnicas.putIfAbsent(operacion.getIdOperacion(), operacion);
                 }
             }
-
+            
             ArrayList<Operacion> historial =
                 new ArrayList<>(operacionesUnicas.values());
-
-            historial.sort(
-                Comparator.comparing(Operacion::getFechaHora).reversed()
-            );
-
+            
+            historial.sort(Comparator.comparing(Operacion::getFechaHora).reversed());
+            
             return historial;
-
+            
         } catch (IOException e) {
-
-            throw new RuntimeException(
-                "Error al obtener el historial de operaciones.",
-                e
-            );
+            
+            throw new RuntimeException("Error al obtener el historial de operaciones.", e);
         }
     }
     
@@ -449,74 +334,51 @@ public class Fachada {
 
         try {
 
-            String respuesta = clienteSocket.eliminarCuenta(
-                    numeroCuenta
-            );
-
+            String respuesta = clienteSocket.eliminarCuenta(numeroCuenta);
+            
             comprobarRespuesta(respuesta);
-
+            
         } catch (IOException e) {
 
-            throw new RuntimeException(
-                    "Error de comunicación al eliminar la cuenta bancaria.",
-                    e
-            );
+            throw new RuntimeException("Error de comunicación al eliminar la cuenta bancaria.", e);
         }
     }
     
-    public void asociarTitular(
-            String numeroCuenta,
-            String documentoCliente) {
-
+    public void asociarTitular(String numeroCuenta, String documentoCliente) {
+        
         try {
-
-            String respuesta = clienteSocket.asociarTitular(
-                    numeroCuenta,
-                    documentoCliente
-            );
-
+            
+            String respuesta = clienteSocket.asociarTitular(numeroCuenta, documentoCliente);
+            
             comprobarRespuesta(respuesta);
-
+            
         } catch (IOException e) {
-
-            throw new RuntimeException(
-                    "Error de comunicación al asociar el titular.",
-                    e
-            );
+            
+            throw new RuntimeException("Error de comunicación al asociar el titular.", e);
         }
     }
-
-
-    public void desasociarTitular(
-            String numeroCuenta,
-            String documentoCliente) {
-
+    
+    
+    public void desasociarTitular(String numeroCuenta, String documentoCliente) {
+        
         try {
-
-            String respuesta = clienteSocket.desasociarTitular(
-                    numeroCuenta,
-                    documentoCliente
-            );
-
+            
+            String respuesta = clienteSocket.desasociarTitular(numeroCuenta, documentoCliente);
+            
             comprobarRespuesta(respuesta);
-
+            
         } catch (IOException e) {
-
-            throw new RuntimeException(
-                    "Error de comunicación al desasociar el titular.",
-                    e
-            );
+            
+            throw new RuntimeException("Error de comunicación al desasociar el titular.", e);
         }
     }
     
     public Cliente getClienteActual() {
-
+        
         if (cliente == null) {
-            throw new IllegalStateException(
-                "No hay ningún cliente autenticado."
-            );
+            throw new IllegalStateException("No hay ningún cliente autenticado.");
         }
-
+        
         return cliente;
     }
     
@@ -536,10 +398,7 @@ public class Fachada {
             
         } catch (IOException e) {
             
-            throw new RuntimeException(
-                    "Error de comunicación con el servidor.",
-                    e
-            );
+            throw new RuntimeException("Error de comunicación con el servidor.", e);
         }
     }
     
@@ -549,15 +408,11 @@ public class Fachada {
     
     //Prestamossss
     
-    public void solicitarPrestamo(
-            double monto,
-            int cuotas) {
+    public void solicitarPrestamo(double monto, int cuotas) {
         
         if (cliente == null) {
-
-            throw new IllegalStateException(
-                    "No hay un cliente autenticado."
-            );
+            
+            throw new IllegalStateException("No hay un cliente autenticado.");
         }
         
         try {
@@ -567,23 +422,18 @@ public class Fachada {
             comprobarRespuesta(respuesta);
             
         } catch (IOException e) {
-
-            throw new RuntimeException(
-                    "Error al solicitar el préstamo.",
-                    e
-            );
+            
+            throw new RuntimeException("Error al solicitar el préstamo.", e);
         }
     }
-
-
+    
+    
     
     public ArrayList<Prestamo> mostrarPrestamos() {
 
         if (cliente == null) {
 
-            throw new IllegalStateException(
-                    "No hay un cliente autenticado."
-            );
+            throw new IllegalStateException("No hay un cliente autenticado.");
         }
 
         try {
@@ -592,29 +442,21 @@ public class Fachada {
 
         } catch (IOException e) {
 
-            throw new RuntimeException(
-                    "Error al obtener los préstamos.",
-                    e
-            );
+            throw new RuntimeException("Error al obtener los préstamos.", e);
         }
     }
-
+    
     //Operaciones
     
     public ArrayList<Operacion> mostrarOperaciones(
             String numeroCuenta) {
 
         if (cliente == null) {
-            throw new IllegalStateException(
-                "Debes iniciar sesión para consultar las operaciones."
-            );
+            throw new IllegalStateException("Debes iniciar sesión para consultar las operaciones.");
         }
-
+        
         try {
-            return clienteSocket.mostrarOperaciones(
-                numeroCuenta,
-                cliente.getDocumento()
-            );
+            return clienteSocket.mostrarOperaciones(numeroCuenta, cliente.getDocumento());
 
         } catch (IOException e) {
             throw new RuntimeException(
@@ -631,138 +473,100 @@ public class Fachada {
             return clienteSocket.buscarOperacion(idOperacion);
 
         } catch (IOException e) {
-            throw new RuntimeException(
-                    "Error al buscar la operación.",
-                    e
-            );
+            throw new RuntimeException("Error al buscar la operación.", e);
         }
     }
     
     public void depositar(String numeroCuenta, double monto) {
-
+        
         if (cliente == null) {
-            throw new IllegalStateException(
-                    "Debes iniciar sesión para realizar un depósito."
-            );
+            throw new IllegalStateException("Debes iniciar sesión para realizar un depósito.");
         }
-
+        
         try {
-
-            String respuesta = clienteSocket.depositar(
-                    numeroCuenta,
-                    monto,
-                    cliente.getDocumento()
-            );
-
+            
+            String respuesta = clienteSocket.depositar(numeroCuenta, monto, cliente.getDocumento());
+            
             comprobarRespuesta(respuesta);
-
+            
         } catch (IOException e) {
-
-            throw new RuntimeException(
-                    "Error de comunicación al realizar el depósito.",
-                    e
-            );
-        }
-    }
-
-
-    public void retirar(String numeroCuenta, double monto) {
-
-        if (cliente == null) {
-            throw new IllegalStateException(
-                    "Debes iniciar sesión para realizar un retiro."
-            );
-        }
-
-        try {
-
-            String respuesta = clienteSocket.retirar(
-                    numeroCuenta,
-                    monto,
-                    cliente.getDocumento()
-            );
-
-            comprobarRespuesta(respuesta);
-
-        } catch (IOException e) {
-
-            throw new RuntimeException(
-                    "Error de comunicación al realizar el retiro.",
-                    e
-            );
-        }
-    }
-
-
-    public void transferir(
-            String cuentaOrigen,
-            String cuentaDestino,
-            double monto) {
-
-        if (cliente == null) {
-            throw new IllegalStateException(
-                    "Debes iniciar sesión para realizar una transferencia."
-            );
-        }
-
-        try {
-
-            String respuesta = clienteSocket.transferir(
-                    cuentaOrigen,
-                    cuentaDestino,
-                    monto,
-                    cliente.getDocumento()
-            );
-
-            comprobarRespuesta(respuesta);
-
-        } catch (IOException e) {
-
-            throw new RuntimeException(
-                    "Error de comunicación al realizar la transferencia.",
-                    e
-            );
+            
+            throw new RuntimeException("Error de comunicación al realizar el depósito.", e);
         }
     }
     
-
-
+    
+    public void retirar(String numeroCuenta, double monto) {
+        
+        if (cliente == null) {
+            throw new IllegalStateException("Debes iniciar sesión para realizar un retiro.");
+        }
+        
+        try {
+            
+            String respuesta = clienteSocket.retirar(numeroCuenta, monto, cliente.getDocumento());
+            
+            comprobarRespuesta(respuesta);
+            
+        } catch (IOException e) {
+            
+            throw new RuntimeException("Error de comunicación al realizar el retiro.", e);
+        }
+    }
+    
+    
+    public void transferir(String cuentaOrigen, String cuentaDestino, double monto) {
+        
+        if (cliente == null) {
+            throw new IllegalStateException("Debes iniciar sesión para realizar una transferencia.");
+        }
+        
+        try {
+            
+            String respuesta = clienteSocket.transferir(cuentaOrigen, cuentaDestino, monto, cliente.getDocumento());
+            
+            comprobarRespuesta(respuesta);
+            
+        } catch (IOException e) {
+            
+            throw new RuntimeException("Error de comunicación al realizar la transferencia.", e);
+        }
+    }
+    
+    
+    
     //utiles
 
     public double calcularTasaInteres(int cuotas) {
-
+        
         if (cuotas <= 12) {
-
+            
             return 10;
-
+            
         } else if (cuotas <= 24) {
-
+            
             return 15;
-
+            
         } else {
-
+            
             return 20;
         }
     }
-
-
     
-
-
+    
+    
+    
+    
     private void comprobarRespuesta(String respuesta) {
-
+        
         if (respuesta == null) {
-
-            throw new RuntimeException(
-                    "El servidor cerró la conexión."
-            );
+            
+            throw new RuntimeException("El servidor cerró la conexión.");
         }
-
+        
         if (respuesta.startsWith("ERROR|")) {
-
-            throw new IllegalArgumentException(
-                    respuesta.substring(6)
-            );
+            
+            throw new IllegalArgumentException(respuesta.substring(6));
         }
     }
 }

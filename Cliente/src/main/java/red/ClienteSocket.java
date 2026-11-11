@@ -102,9 +102,7 @@ public class ClienteSocket {
      *
      * 2;12345678:1234:Joaquin:Salazar:2009-05-10:Montevideo:4750:Montevideo:099123456
      */
-    public String nuevoCliente(
-            Cliente c,
-            int password) throws IOException {
+    public String nuevoCliente(Cliente c, int password) throws IOException {
 
         String mensaje =
                 "2;"

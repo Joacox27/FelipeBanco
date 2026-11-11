@@ -121,13 +121,13 @@ public class SolicitarPrestamo extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(44, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(60, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1_solicitar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(52, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addComponent(jButton1_solicitar)))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -172,44 +172,44 @@ public class SolicitarPrestamo extends javax.swing.JFrame {
     private void jButton1_solicitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1_solicitarActionPerformed
 
 
-    String montoEnTexto = jTextField1_monto.getText().trim();
+            String montoEnTexto = jTextField1_monto.getText().trim();
 
-    if (montoEnTexto.isEmpty()) {
-        JOptionPane.showMessageDialog(rootPane,
-            "El monto es obligatorio"
-        );
-        return;
-    }
+            if (montoEnTexto.isEmpty()) {
+                JOptionPane.showMessageDialog(rootPane,
+                    "El monto es obligatorio"
+                );
+                return;
+            }
 
-     double monto;
+             double monto;
 
-    try {
-        
-        //prueba convertir el monto en texto a Double
-        monto = Double.parseDouble(montoEnTexto);
-        
-    } catch (NumberFormatException e) {
-        
-        JOptionPane.showMessageDialog(rootPane, "El monto debe ser un número valido.");
-        
-        return;
-        
-    }
+            try {
 
-    if (monto <= 0) {
-        JOptionPane.showMessageDialog(rootPane,"El monto debe ser mayor a 0.");
-         return;
-    }
+                //prueba convertir el monto en texto a Double
+                monto = Double.parseDouble(montoEnTexto);
 
-    int cuotas = Integer.parseInt(
-            
-         jComboBox1_cuotas.getSelectedItem().toString()
-    );
+            } catch (NumberFormatException e) {
 
-    ConfirmarPrestamo ventana = new ConfirmarPrestamo(monto, cuotas);
-    ventana.setVisible(true);
+                JOptionPane.showMessageDialog(rootPane, "El monto debe ser un número valido.");
 
-    this.dispose();
+                return;
+
+            }
+
+            if (monto <= 0) {
+                JOptionPane.showMessageDialog(rootPane,"El monto debe ser mayor a 0.");
+                 return;
+            }
+
+            int cuotas = Integer.parseInt(
+
+                 jComboBox1_cuotas.getSelectedItem().toString()
+            );
+
+            ConfirmarPrestamo ventana = new ConfirmarPrestamo(monto, cuotas);
+            ventana.setVisible(true);
+
+            this.dispose();
 
             
 

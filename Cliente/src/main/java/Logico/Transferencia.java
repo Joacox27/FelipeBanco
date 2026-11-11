@@ -11,15 +11,11 @@ public class Transferencia extends Operacion {
         super(idOperacion, fechaHora, monto, cuentaOrigen);
         
         if (cuentaDestino == null) {
-            throw new IllegalArgumentException(
-                    "La cuenta de destino es obligatoria."
-            );
+            throw new IllegalArgumentException("La cuenta de destino es obligatoria.");
         }
         
         if (cuentaOrigen == cuentaDestino) {
-            throw new IllegalArgumentException(
-                    "Una cuenta no se puede autotransferir"
-            );
+            throw new IllegalArgumentException("Una cuenta no se puede autotransferir");
         }
         
         this.cuentaDestino = cuentaDestino;
@@ -29,9 +25,7 @@ public class Transferencia extends Operacion {
     public void ejecutar() {
         
         if (cuenta.getSaldo() < monto) {
-            throw new IllegalArgumentException(
-                    "Saldo insuficiente."
-            );
+            throw new IllegalArgumentException("Saldo insuficiente.");
         }
         
         cuenta.retirar(monto);

@@ -5,8 +5,8 @@ public class ControlarCedula {
     private static final int[] MULTIPLICADORES = {
         
         2, 9, 8, 7, 6, 3, 4
-            
-            
+        
+        
     };
     
     public static boolean esCedulaValida(String cedula) {
@@ -19,7 +19,7 @@ public class ControlarCedula {
         
         if (!cedula.matches("\\d{8}")) {
             return false;
-            
+        
         }
         
         String numero = cedula.substring(0, 7);
@@ -45,9 +45,7 @@ public class ControlarCedula {
         
         if (numero == null || !numero.matches("\\d{7}")) {
             
-            throw new IllegalArgumentException(
-                "El número debe contener exactamente 7 dígitos"
-            );
+            throw new IllegalArgumentException("El número debe contener exactamente 7 dígitos");
             
         }
         

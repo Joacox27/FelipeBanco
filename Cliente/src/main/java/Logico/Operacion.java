@@ -12,27 +12,19 @@ public abstract class Operacion {
     public Operacion(String idOperacion, LocalDateTime fechaHora, double monto, CuentaBancaria cuenta) {
         
         if (idOperacion == null || idOperacion.isBlank()) {
-            throw new IllegalArgumentException(
-                    "El ID de la operación es obligatorio."
-            );
+            throw new IllegalArgumentException("El ID de la operación es obligatorio.");
         }
         
         if (fechaHora == null) {
-            throw new IllegalArgumentException(
-                    "La fecha y hora son obligatorias."
-            );
+            throw new IllegalArgumentException("La fecha y hora son obligatorias.");
         }
         
         if (!Double.isFinite(monto) || monto <= 0) {
-            throw new IllegalArgumentException(
-                    "El monto debe ser mayor a cero."
-            );
+            throw new IllegalArgumentException("El monto debe ser mayor a cero.");
         }
         
         if (cuenta == null) {
-            throw new IllegalArgumentException(
-                    "La cuenta es obligatoria."
-            );
+            throw new IllegalArgumentException("La cuenta es obligatoria.");
         }
         
         this.idOperacion = idOperacion;
